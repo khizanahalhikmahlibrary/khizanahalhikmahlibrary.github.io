@@ -3,79 +3,1231 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#07130f">
   <title>Khizanah Al Hikmah Library</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            emeraldx: '#064e3b',
+            goldx: '#d4a72c'
+          }
+        }
+      }
+    }
+  </script>
 
   <style>
-    * { box-sizing: border-box; }
-
+    * { box-sizing:border-box; }
     body {
-      margin: 0;
-      background:
-        radial-gradient(circle at top left, rgba(16,185,129,.12), transparent 30%),
-        radial-gradient(circle at bottom right, rgba(245,158,11,.08), transparent 30%),
-        #020807;
-      color: #ecfdf5;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      margin:0;
+      background:#07130f;
+      font-family:Arial, Helvetica, sans-serif;
     }
 
-    .font-arabic {
-      font-family: 'Amiri', serif;
-    }
+    ::-webkit-scrollbar { width:0; height:0; }
 
     .glass {
-      background: rgba(255,255,255,.045);
-      border: 1px solid rgba(255,255,255,.08);
-      backdrop-filter: blur(14px);
+      background:rgba(255,255,255,.055);
+      border:1px solid rgba(255,255,255,.08);
+      backdrop-filter:blur(12px);
     }
 
-    .glow {
-      box-shadow: 0 0 30px rgba(16,185,129,.08);
+    .active {
+      background:linear-gradient(135deg,#047857,#065f46);
+      color:white!important;
     }
 
-    .green-glow {
-      box-shadow: 0 0 25px rgba(16,185,129,.15);
+    .fade {
+      animation:fade .2s ease;
     }
 
-    .scrollbar::-webkit-scrollbar {
-      width: 5px;
-      height: 5px;
+    @keyframes fade {
+      from { opacity:0; transform:translateY(5px); }
+      to { opacity:1; transform:translateY(0); }
     }
+  </style>
+</head>
 
-    .scrollbar::-webkit-scrollbar-track {
-      background: transparent;
+<body class="text-white">
+
+<div id="app" class="min-h-screen">
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-50 bg-[#07130f]/95 backdrop-blur border-b border-white/10">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-emerald-700 flex items-center justify-center">
+          <i class="fa-solid fa-book-quran text-amber-300"></i>
+        </div>
+
+        <div>
+          <h1 class="font-black text-sm sm:text-base">
+            Khizanah Al Hikmah
+          </h1>
+          <p class="text-[10px] text-emerald-300">
+            PKBM Ibadurrahman Sidoarjo
+          </p>
+        </div>
+      </div>
+
+      <button onclick="toggleMenu()"
+              class="lg:hidden w-9 h-9 rounded-xl glass">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="max-w-6xl mx-auto flex">
+
+    <!-- SIDEBAR -->
+    <aside id="sidebar"
+           class="hidden lg:block w-60 min-h-[calc(100vh-65px)]
+                  border-r border-white/10 p-4">
+
+      <nav class="space-y-2 sticky top-20">
+
+        <button onclick="showPage('dashboard')"
+                data-nav="dashboard"
+                class="nav active w-full text-left px-4 py-3 rounded-xl text-sm">
+          <i class="fa-solid fa-house w-5"></i>
+          Dashboard
+        </button>
+
+        <button onclick="showPage('buku')"
+                data-nav="buku"
+                class="nav w-full text-left px-4 py-3 rounded-xl text-sm text-gray-400">
+          <i class="fa-solid fa-book w-5"></i>
+          Data Buku
+        </button>
+
+        <button onclick="showPage('pinjam')"
+                data-nav="pinjam"
+                class="nav w-full text-left px-4 py-3 rounded-xl text-sm text-gray-400">
+          <i class="fa-solid fa-hand-holding-book w-5"></i>
+          Peminjaman
+        </button>
+
+        <button onclick="showPage('kembali')"
+                data-nav="kembali"
+                class="nav w-full text-left px-4 py-3 rounded-xl text-sm text-gray-400">
+          <i class="fa-solid fa-rotate-left w-5"></i>
+          Pengembalian
+        </button>
+
+        <button onclick="showPage('riwayat')"
+                data-nav="riwayat"
+                class="nav w-full text-left px-4 py-3 rounded-xl text-sm text-gray-400">
+          <i class="fa-solid fa-clock-rotate-left w-5"></i>
+          Riwayat
+        </button>
+
+      </nav>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="flex-1 p-4 sm:p-6 pb-24">
+
+      <!-- DASHBOARD -->
+      <section id="dashboard" class="page fade">
+
+        <div class="rounded-2xl p-5 sm:p-7 mb-5
+                    bg-gradient-to-br from-emerald-900 to-[#06352a]
+                    border border-emerald-700/40">
+
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-[10px] px-2 py-1 rounded-full
+                         bg-amber-400/10 text-amber-300 border border-amber-300/20">
+              AHLAN WA SAHLAN
+            </span>
+          </div>
+
+          <h2 class="text-xl sm:text-2xl font-black">
+            Selamat Datang di Khizanah Al Hikmah
+          </h2>
+
+          <p class="text-sm text-emerald-100/70 mt-2">
+            Sistem perpustakaan PKBM Ibadurrahman Sidoarjo.
+          </p>
+        </div>
+
+        <!-- STAT -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
+
+          <div class="glass rounded-2xl p-4">
+            <p class="text-xs text-gray-400">Total Buku</p>
+            <p id="totalBuku"
+               class="text-2xl font-black text-emerald-300 mt-1">
+              0
+            </p>
+            <p class="text-[10px] text-gray-500">
+              seluruh eksemplar
+            </p>
+          </div>
+
+          <div class="glass rounded-2xl p-4">
+            <p class="text-xs text-gray-400">Judul Buku</p>
+            <p id="totalJudul"
+               class="text-2xl font-black text-blue-300 mt-1">
+              0
+            </p>
+            <p class="text-[10px] text-gray-500">
+              data tercatat
+            </p>
+          </div>
+
+          <div class="glass rounded-2xl p-4">
+            <p class="text-xs text-gray-400">Sedang Dipinjam</p>
+            <p id="totalDipinjam"
+               class="text-2xl font-black text-amber-300 mt-1">
+              0
+            </p>
+            <p class="text-[10px] text-gray-500">
+              transaksi aktif
+            </p>
+          </div>
+
+          <div class="glass rounded-2xl p-4">
+            <p class="text-xs text-gray-400">Terlambat</p>
+            <p id="totalTerlambat"
+               class="text-2xl font-black text-rose-300 mt-1">
+              0
+            </p>
+            <p class="text-[10px] text-gray-500">
+              perlu dikembalikan
+            </p>
+          </div>
+
+        </div>
+
+        <!-- GEDUNG -->
+        <div class="grid grid-cols-2 gap-3 mb-5">
+
+          <div class="glass rounded-2xl p-4">
+            <p class="text-xs text-gray-400">Gedung 2</p>
+            <p id="gedung2"
+               class="text-xl font-black text-emerald-300">
+              0
+            </p>
+            <p class="text-[10px] text-gray-500">
+              eksemplar tercatat
+            </p>
+          </div>
+
+          <div class="glass rounded-2xl p-4">
+            <p class="text-xs text-gray-400">Gedung 3</p>
+            <p id="gedung3"
+               class="text-xl font-black text-emerald-300">
+              0
+            </p>
+            <p class="text-[10px] text-gray-500">
+              eksemplar tercatat
+            </p>
+          </div>
+
+        </div>
+
+        <!-- QUICK ACTION -->
+        <div class="glass rounded-2xl p-4 mb-5">
+
+          <h3 class="font-bold text-sm mb-3">
+            Aksi Cepat
+          </h3>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+
+            <button onclick="showPage('pinjam')"
+                    class="rounded-xl bg-emerald-700 hover:bg-emerald-600 p-3 text-xs font-bold">
+              <i class="fa-solid fa-plus mr-1"></i>
+              Pinjam
+            </button>
+
+            <button onclick="showPage('kembali')"
+                    class="rounded-xl bg-amber-600 hover:bg-amber-500 p-3 text-xs font-bold">
+              <i class="fa-solid fa-rotate-left mr-1"></i>
+              Kembali
+            </button>
+
+            <button onclick="showPage('buku')"
+                    class="rounded-xl bg-blue-700 hover:bg-blue-600 p-3 text-xs font-bold">
+              <i class="fa-solid fa-book mr-1"></i>
+              Buku
+            </button>
+
+            <button onclick="showPage('riwayat')"
+                    class="rounded-xl bg-purple-700 hover:bg-purple-600 p-3 text-xs font-bold">
+              <i class="fa-solid fa-clock-rotate-left mr-1"></i>
+              Riwayat
+            </button>
+
+          </div>
+        </div>
+
+        <!-- AKTIF -->
+        <div class="glass rounded-2xl p-4">
+
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="font-bold text-sm">
+              Peminjaman Aktif
+            </h3>
+
+            <button onclick="showPage('pinjam')"
+                    class="text-xs text-emerald-300">
+              Lihat semua
+            </button>
+          </div>
+
+          <div id="dashboardLoans" class="space-y-2"></div>
+
+        </div>
+
+      </section>
+
+
+      <!-- BUKU -->
+      <section id="buku" class="page hidden fade">
+
+        <div class="flex flex-col sm:flex-row gap-3 justify-between mb-5">
+
+          <div>
+            <h2 class="text-xl font-black">
+              Data Buku
+            </h2>
+            <p class="text-xs text-gray-400">
+              Data buku Gedung 2 dan Gedung 3 dalam satu database.
+            </p>
+          </div>
+
+          <button onclick="openAddBook()"
+                  class="bg-emerald-700 px-4 py-3 rounded-xl text-xs font-bold">
+            <i class="fa-solid fa-plus mr-1"></i>
+            Tambah Buku
+          </button>
+
+        </div>
+
+        <div class="glass rounded-2xl p-4 mb-4">
+
+          <div class="grid sm:grid-cols-3 gap-2">
+
+            <input id="searchBook"
+                   oninput="renderBooks()"
+                   placeholder="Cari judul / pengarang..."
+                   class="bg-black/20 border border-white/10 rounded-xl px-3 py-3 text-sm outline-none">
+
+            <select id="filterGedung"
+                    onchange="renderBooks()"
+                    class="bg-[#10231d] border border-white/10 rounded-xl px-3 py-3 text-sm">
+              <option value="">Semua Gedung</option>
+              <option value="Gedung 2">Gedung 2</option>
+              <option value="Gedung 3">Gedung 3</option>
+            </select>
+
+            <button onclick="resetSearch()"
+                    class="rounded-xl bg-white/10 text-sm">
+              Reset
+            </button>
+
+          </div>
+
+        </div>
+
+        <div id="bookList" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+
+      </section>
+
+
+      <!-- PINJAM -->
+      <section id="pinjam" class="page hidden fade">
+
+        <h2 class="text-xl font-black mb-1">
+          Peminjaman
+        </h2>
+
+        <p class="text-xs text-gray-400 mb-5">
+          Data peminjaman yang sudah dicatat.
+        </p>
+
+        <div id="loanList" class="space-y-3"></div>
+
+      </section>
+
+
+      <!-- KEMBALI -->
+      <section id="kembali" class="page hidden fade">
+
+        <h2 class="text-xl font-black mb-1">
+          Pengembalian
+        </h2>
+
+        <p class="text-xs text-gray-400 mb-5">
+          Pilih transaksi aktif untuk menandai buku sudah kembali.
+        </p>
+
+        <div id="returnList" class="space-y-3"></div>
+
+      </section>
+
+
+      <!-- RIWAYAT -->
+      <section id="riwayat" class="page hidden fade">
+
+        <h2 class="text-xl font-black mb-1">
+          Riwayat Peminjaman
+        </h2>
+
+        <p class="text-xs text-gray-400 mb-5">
+          Seluruh transaksi yang sudah tercatat.
+        </p>
+
+        <div id="historyList" class="space-y-3"></div>
+
+      </section>
+
+    </main>
+  </div>
+
+
+  <!-- MOBILE NAV -->
+  <nav class="lg:hidden fixed bottom-0 left-0 right-0 z-50
+              bg-[#081711]/95 backdrop-blur
+              border-t border-white/10">
+
+    <div class="grid grid-cols-5 max-w-lg mx-auto">
+
+      <button onclick="showPage('dashboard')"
+              data-nav-mobile="dashboard"
+              class="mobile-nav active py-3 text-[10px]">
+        <i class="fa-solid fa-house block text-sm mb-1"></i>
+        Beranda
+      </button>
+
+      <button onclick="showPage('buku')"
+              data-nav-mobile="buku"
+              class="mobile-nav text-gray-500 py-3 text-[10px]">
+        <i class="fa-solid fa-book block text-sm mb-1"></i>
+        Buku
+      </button>
+
+      <button onclick="showPage('pinjam')"
+              data-nav-mobile="pinjam"
+              class="mobile-nav text-gray-500 py-3 text-[10px]">
+        <i class="fa-solid fa-hand-holding-book block text-sm mb-1"></i>
+        Pinjam
+      </button>
+
+      <button onclick="showPage('kembali')"
+              data-nav-mobile="kembali"
+              class="mobile-nav text-gray-500 py-3 text-[10px]">
+        <i class="fa-solid fa-rotate-left block text-sm mb-1"></i>
+        Kembali
+      </button>
+
+      <button onclick="showPage('riwayat')"
+              data-nav-mobile="riwayat"
+              class="mobile-nav text-gray-500 py-3 text-[10px]">
+        <i class="fa-solid fa-clock-rotate-left block text-sm mb-1"></i>
+        Riwayat
+      </button>
+
+    </div>
+  </nav>
+
+
+  <!-- MODAL TAMBAH BUKU -->
+  <div id="bookModal"
+       class="hidden fixed inset-0 z-[100] bg-black/70
+              items-center justify-center p-4">
+
+    <div class="w-full max-w-md glass rounded-2xl p-5">
+
+      <div class="flex justify-between mb-4">
+        <h3 class="font-black">
+          Tambah Buku
+        </h3>
+
+        <button onclick="closeBookModal()"
+                class="text-gray-400">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3">
+
+        <input id="newNo"
+               placeholder="No. Buku"
+               class="w-full bg-black/20 border border-white/10 rounded-xl p-3 text-sm">
+
+        <input id="newTitle"
+               placeholder="Judul Buku"
+               class="w-full bg-black/20 border border-white/10 rounded-xl p-3 text-sm">
+
+        <input id="newAuthor"
+               placeholder="Pengarang"
+               class="w-full bg-black/20 border border-white/10 rounded-xl p-3 text-sm">
+
+        <input id="newQty"
+               type="number"
+               min="1"
+               value="1"
+               placeholder="Jumlah"
+               class="w-full bg-black/20 border border-white/10 rounded-xl p-3 text-sm">
+
+        <select id="newGedung"
+                class="w-full bg-[#10231d] border border-white/10 rounded-xl p-3 text-sm">
+          <option>Gedung 2</option>
+          <option>Gedung 3</option>
+        </select>
+
+        <button onclick="saveBook()"
+                class="w-full bg-emerald-700 hover:bg-emerald-600 rounded-xl p-3 font-bold text-sm">
+          Simpan Buku
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   DATA BUKU
+   ========================================================= */
+
+/*
+  Data yang jumlahnya kosong sengaja memakai qty:null.
+  Tidak dihitung ke total sampai jumlah aslinya tersedia.
+*/
+
+const books = [
+
+  // GEDUNG 2 — bagian awal yang terbaca jelas dari PDF
+  {no:"001",title:"Ighatsul lahfan",author:"Ibnu Qayyim Al-Jauziyah",qty:1,gedung:"Gedung 2"},
+  {no:"002",title:"Minhajul muslim",author:"Abu Bakar Jabir",qty:1,gedung:"Gedung 2"},
+  {no:"003",title:"Sirah nabawiyah",author:"Syaikh shafiyyurrahman",qty:1,gedung:"Gedung 2"},
+  {no:"004",title:"",author:"",qty:null,gedung:"Gedung 2"},
+  {no:"005",title:"Fikih jumhur (1)",author:"Dr. Muhammad Na'im",qty:1,gedung:"Gedung 2"},
+  {no:"006",title:"Fikih jumhur (2)",author:"Dr. Muhammad Na'im",qty:1,gedung:"Gedung 2"},
+  {no:"007",title:"Sejarah peradaban islam",author:"Prof. Dr. H. J. Suyuthi Pulungan",qty:1,gedung:"Gedung 2"},
+  {no:"008",title:"Mekkah dan madinah",author:"Dr. Ahmad Ibrahim",qty:1,gedung:"Gedung 2"},
+  {no:"009",title:"Dahsyatnya hari kiamat",author:"Ibnu Kastir",qty:1,gedung:"Gedung 2"},
+  {no:"010",title:"Ensiklopedia islam",author:"Musdah Mulia",qty:null,gedung:"Gedung 2"},
+  {no:"011",title:"The khalifah",author:"Abdul Latip Thalib",qty:1,gedung:"Gedung 2"},
+  {no:"012",title:"100 dosa yang diremehkan wanita",author:"Abdul Lathif bin Hajis",qty:2,gedung:"Gedung 2"},
+  {no:"013",title:"Wanita'' tangguh",author:"Mahmud Mahdi Al",qty:null,gedung:"Gedung 2"},
+  {no:"014",title:"Kumpulan 101 kultum",author:"",qty:1,gedung:"Gedung 2"},
+  {no:"015",title:"Muhammad al-fatih",author:"DR. Ali Ash Shallabi",qty:1,gedung:"Gedung 2"},
+  {no:"016",title:"Majmu' syarif",author:"",qty:null,gedung:"Gedung 2"},
+  {no:"101",title:"Siroh Nabi Muhammad",author:"M. Quraish Shihab",qty:null,gedung:"Gedung 2"},
+  {no:"102",title:"Muhammad Sang Inspirator Dunia",author:"Dr. Aidh Al-Qarni",qty:1,gedung:"Gedung 2"},
+  {no:"103",title:"Muhammad The World Changer",author:"Mohammad Jebara",qty:1,gedung:"Gedung 2"},
+  {no:"104",title:"Sejarah Hidup Rasulullah",author:"Syaikh Shafiyurrahman",qty:1,gedung:"Gedung 2"},
+  {no:"105",title:"Biografi Istri, putri, cucu, dan pelayan nabi",author:"Ahmad Khalil Jum'ah",qty:1,gedung:"Gedung 2"},
+  {no:"106",title:"Biografi Umar",author:"Prof. Dr. Ali Muhammad",qty:1,gedung:"Gedung 2"},
+  {no:"107",title:"Biografi Abu Bakar",author:"Prof. Dr. Ali Muhammad",qty:1,gedung:"Gedung 2"},
+
+  {no:"201",title:"The ultimate guide dinosaurus",author:"Rupert Matthews, Steve Parker",qty:1,gedung:"Gedung 2"},
+  {no:"202",title:"The Ultimate Guide Hiu",author:"Barbara Taylor",qty:1,gedung:"Gedung 2"},
+  {no:"203",title:"The Ultimate Guide Antariksa",author:"Rupert Matthews, Steve Parker",qty:1,gedung:"Gedung 2"},
+  {no:"204",title:"Kamus bergambar tematik",author:"Rudy Paryudi",qty:1,gedung:"Gedung 2"},
+  {no:"205",title:"Ensiklopedia super seru halo bumi",author:"Jean - Michel Bargard",qty:1,gedung:"Gedung 2"},
+  {no:"206",title:"Ensiklopedia interaktif planet bumi",author:"Marcus Johnson",qty:1,gedung:"Gedung 2"},
+  {no:"207",title:"Ensiklopedia interaktif tubuh manusia",author:"Marcus Johnson",qty:1,gedung:"Gedung 2"},
+  {no:"",title:"Tubuh Pedia",author:"Christina Wilsdon",qty:1,gedung:"Gedung 2"},
+  {no:"209",title:"Antariksa pedia",author:"David A. Aguilar",qty:1,gedung:"Gedung 2"},
+  {no:"210",title:"Mengapa tidak?",author:"Crispin Boyer",qty:1,gedung:"Gedung 2"},
+  {no:"211",title:"Atlas Dunia",author:"Grace Hill",qty:1,gedung:"Gedung 2"},
+  {no:"212",title:"Ensiklopedia Saintis Sains",author:"Giles Sparrow",qty:1,gedung:"Gedung 2"},
+  {no:"213",title:"Ensiklopedia Saintis Matematika",author:"Tim Collins",qty:1,gedung:"Gedung 2"},
+  {no:"214",title:"Ensiklopedia Saintis Eksperimen Sains",author:"Thomas Canaran",qty:1,gedung:"Gedung 2"},
+  {no:"215",title:"Ensiklopedi Sains Teknologi",author:"Anita loughrey, Alex woolf",qty:1,gedung:"Gedung 2"},
+  {no:"216",title:"Ensiklopedia Saintis Atlas Dunia",author:"Claudia Martin",qty:1,gedung:"Gedung 2"},
+  {no:"217",title:"Potret Pendoedok di Djawa tempoe doeloe",author:"Oliver Johannes Raap",qty:1,gedung:"Gedung 2"},
+  {no:"218",title:"Ensiklopedia Alam semesta& Luar angkasa",author:"Taufik Hidayat",qty:1,gedung:"Gedung 2"},
+  {no:"219",title:"Why?Aliens dan UFO",author:"Lee Kwang Woong",qty:1,gedung:"Gedung 2"},
+  {no:"220",title:"Why?Komputer",author:"Youngsun CHD",qty:1,gedung:"Gedung 2"},
+  {no:"221",title:"Why?Energi masa depan",author:"Sangseon Yuun",qty:1,gedung:"Gedung 2"},
+  {no:"222",title:"Why?Nuklir dan Energi",author:"Lee Kwang Woong",qty:1,gedung:"Gedung 2"},
+  {no:"223",title:"Why?Sains Sulap",author:"PAPYRUS",qty:1,gedung:"Gedung 2"},
+  {no:"224",title:"Why?Parasit",author:"Yunkyeong CHEUN",qty:1,gedung:"Gedung 2"},
+  {no:"225",title:"Why?tubuh kita",author:"HEO, Suung Bong",qty:1,gedung:"Gedung 2"},
+  {no:"226",title:"Why?binatang",author:"Lee Kwang Woong",qty:1,gedung:"Gedung 2"},
+  {no:"227",title:"Kesehatan,olahraga,dan kinerja",author:"Prof. Dr. H. Y. S. Santoso Griwijoyo",qty:1,gedung:"Gedung 2"},
+  {no:"228-233",title:"Atlas lengkap Indonesia&Dunia",author:"Palito Media",qty:6,gedung:"Gedung 2"},
+  {no:"234-238",title:"RPAL&RPUL Global",author:"Drs. Prayitno Darmanto",qty:5,gedung:"Gedung 2"},
+  {no:"239",title:"Kamus lengkap biologi",author:"Santi Subrata",qty:1,gedung:"Gedung 2"},
+  {no:"240",title:"Kamus sinonim antonim B.Indo",author:"Drs. Nur Arifin Chaniago - Endang Sugriati",qty:1,gedung:"Gedung 2"},
+  {no:"241",title:"Kamus Kimia Lengkap",author:"Santi Subrata",qty:1,gedung:"Gedung 2"},
+  {no:"242",title:"Eksperimen menakjubkan",author:"Evita Swenesti",qty:1,gedung:"Gedung 2"},
+  {no:"243-244",title:"Rumus Kimia",author:"Evita Lievhie",qty:2,gedung:"Gedung 2"},
+
+  {no:"301",title:"Ensiklopedia teknologi komputer",author:"Purindaswari",qty:1,gedung:"Gedung 2"},
+  {no:"302",title:"The magic Dr.Blender 3D Modeling",author:"Hendi Hendramatwan",qty:1,gedung:"Gedung 2"},
+  {no:"313",title:"Islamic enterpreneurship",author:"Dr. Ika Yunia Fanzia, Lc.,M.E.I",qty:1,gedung:"Gedung 2"},
+  {no:"304",title:"DIPO",author:"Alam Nugroho Dewanto",qty:null,gedung:"Gedung 2"},
+  {no:"305",title:"The Inteligent Investor",author:"Benjamin Graham",qty:1,gedung:"Gedung 2"},
+  {no:"306",title:"Jangan pernah bekerja sendirian",author:"Keith Ferrazzi, Tahl Raz",qty:1,gedung:"Gedung 2"},
+
+  {no:"401",title:"Ensiklopedia sejarah dunia",author:"Lulu Fitri Rahman",qty:null,gedung:"Gedung 2"},
+  {no:"402",title:"Ensiklopedi Akhir Zaman",author:"Dr. Mahid Ahmad",qty:1,gedung:"Gedung 2"},
+  {no:"403",title:"Ensiklopedi sejarah islam",author:"Dr. Raghib As Sirjani",qty:1,gedung:"Gedung 2"},
+  {no:"404",title:"Sang pangeran dan janissary",author:"Salim A.Fillah",qty:null,gedung:"Gedung 2"},
+  {no:"405",title:"Adab Penghafal Al Qur'an",author:"Imam Abu Zakaria Yaya",qty:1,gedung:"Gedung 2"},
+  {no:"406",title:"Nusantaria sejarah",author:"Philip Bowring",qty:null,gedung:"Gedung 2"},
+  {no:"407",title:"Cahaya dijantung kemiskinan",author:"Herman Yoseph Sumanto",qty:1,gedung:"Gedung 2"},
+  {no:"408",title:"Ya'juj&Ma'juj",author:"Dr. As Syafii Al-Mahi",qty:null,gedung:"Gedung 2"},
+  {no:"409",title:"Mudah menghafal 100 hadits",author:"Said Yai bin Imanul",qty:1,gedung:"Gedung 2"},
+  {no:"410",title:"Yang muda yang bekerja",author:"Andika Hazrumi",qty:1,gedung:"Gedung 2"},
+  {no:"411",title:"Kiat Hidup Sehat Rasulullah",author:"Aba Ahmed Aga",qty:1,gedung:"Gedung 2"},
+
+  {no:"503",title:"Rumus Produktif ala muslim",author:"Zein Mukhlis",qty:1,gedung:"Gedung 2"},
+  {no:"504",title:"Menjadi muslimah yang",author:"Arum Faiza & Selizar",qty:1,gedung:"Gedung 2"},
+  {no:"505",title:"Episode yang sempat hilang",author:"Desti Anor",qty:null,gedung:"Gedung 2"},
+  {no:"506",title:"Obat malas dosis tinggi",author:"Khalifa Bisma Sanjaya",qty:null,gedung:"Gedung 2"},
+  {no:"507",title:"Menjadi wanita tangguh",author:"Sarah Ismi Kamilah",qty:1,gedung:"Gedung 2"},
+  {no:"",title:"Menjadi wanita cerdas sukses",author:"Arum Faiza",qty:null,gedung:"Gedung 2"},
+  {no:"509",title:"Sibuk Kerja Jangan Lupa Ibadah",author:"Mushofa",qty:1,gedung:"Gedung 2"},
+  {no:"",title:"Stop overthingking",author:"Nick Trenton",qty:1,gedung:"Gedung 2"},
+  {no:"",title:"AKM (asesmen kompetisi)",author:"Tim Tentor Anak Bangsa",qty:null,gedung:"Gedung 2"},
+  {no:"",title:"Ujian sekolah+AKM",author:"Tim Kompas Ilmu",qty:null,gedung:"Gedung 2"},
+  {no:"",title:"TOEFL",author:"Tim Master Eduka",qty:null,gedung:"Gedung 2"},
+  {no:"604",title:"OSN Matematika",author:"Swah Sembiring, Sukino",qty:null,gedung:"Gedung 2"},
+  {no:"605",title:"KSM Fisika",author:"Marthen Kanginan",qty:null,gedung:"Gedung 2"},
+  {no:"610",title:"Kamus lengkap bahasa jawa",author:"Ani Santoso",qty:null,gedung:"Gedung 2"},
+
+  {no:"801",title:"Atomic habits",author:"James Clear",qty:1,gedung:"Gedung 2"},
+  {no:"802",title:"Produktivitas sekolah",author:"Dr. H. Pendi Susanto M.Pd",qty:1,gedung:"Gedung 2"},
+  {no:"803",title:"59 detik",author:"Richard Wiseman",qty:null,gedung:"Gedung 2"},
+  {no:"804",title:"How to Win",author:"Dale Carnegie",qty:null,gedung:"Gedung 2"},
+  {no:"805",title:"Discovering my self",author:"Yohana Nessy Christiana",qty:null,gedung:"Gedung 2"},
+  {no:"806",title:"Public speaking for success",author:"Dale Carnegie",qty:1,gedung:"Gedung 2"},
+  {no:"807",title:"Semua orang butuh curhat",author:"Lorri Gott Lieb",qty:1,gedung:"Gedung 2"},
+  {no:"808",title:"Social Inteligence",author:"Daniel Goleman",qty:1,gedung:"Gedung 2"},
+  {no:"809",title:"Pahami Jenis otak anda",author:"Daniel G. Amen",qty:1,gedung:"Gedung 2"},
+  {no:"810",title:"The physicology of money",author:"Morgan Housel",qty:1,gedung:"Gedung 2"},
+  {no:"",title:"Filosofi teras",author:"",qty:null,gedung:"Gedung 2"},
+  {no:"812",title:"Good vibes Good life",author:"Vex King",qty:1,gedung:"Gedung 2"},
+  {no:"813",title:"Cara tepat berdebat",author:"Jonathan Herring",qty:null,gedung:"Gedung 2"},
+  {no:"814",title:"Cara bersikap tegas",author:"Sue Hadfield",qty:1,gedung:"Gedung 2"},
+  {no:"815",title:"Berani tidak disukai",author:"ICHIRO KISHIMI",qty:1,gedung:"Gedung 2"},
+  {no:"",title:"Better me",author:"Anna Silvia",qty:1,gedung:"Gedung 2"},
+  {no:"817",title:"Great leaders have no rules",author:"Kevin Kurse",qty:1,gedung:"Gedung 2"},
+  {no:"",title:"Maaf tuhan",author:"Alfiaghazi",qty:1,gedung:"Gedung 2"},
+  {no:"",title:"Maaf tuhan",author:"Alfiaghazi",qty:1,gedung:"Gedung 2"},
+  {no:"",title:"Berdamai dengan takdir",author:"Sony Adams",qty:1,gedung:"Gedung 2"},
+  {no:"",title:"Berdamai dengan rasa marah",author:"Era Findiani",qty:1,gedung:"Gedung 2"},
+  {no:"",title:"Keluar dari zona nyaman",author:"Amy New Mark",qty:1,gedung:"Gedung 2"},
+  {no:"",title:"Semua orang harus berubah",author:"Sony Adams",qty:null,gedung:"Gedung 2"},
+  {no:"",title:"Lepas dari pikiran negatif dan tekanan batin",author:"Dr. Ahmad Hijaz",qty:1,gedung:"Gedung 2"},
+  {no:"",title:"Kupikir segalanya akan berakhir",author:"Kim Haenam",qty:null,gedung:"Gedung 2"},
+  {no:"826",title:"Berdamai dengan masa lalu",author:"Asti Musman",qty:null,gedung:"Gedung 2"},
+  {no:"",title:"Berdamai dengan ketidak sempurnaan",author:"Annisah Athifah",qty:1,gedung:"Gedung 2"},
+  {no:"",title:"Nyaman tanpa beban",author:"Kim Suhyun",qty:1,gedung:"Gedung 2"},
+  {no:"",title:"Insecurity",author:"Alvi Syahrin",qty:1,gedung:"Gedung 2"},
+  {no:"830",title:"Setiap luka akan pulih",author:"Halimah",qty:1,gedung:"Gedung 2"},
+  {no:"831",title:"Bahagia sekarang",author:"Ardhina Nugraheni",qty:1,gedung:"Gedung 2"},
+  {no:"835",title:"365 jurus anti stres",author:"Adam Gordon",qty:1,gedung:"Gedung 2"},
+  {no:"",title:"Resep andalan",author:"Thomas Law",qty:null,gedung:"Gedung 2"},
+  {no:"",title:"Inspirational ideas for home",author:"Junita",qty:null,gedung:"Gedung 2"},
+  {no:"903",title:"Dapur susie",author:"Susie Agung",qty:null,gedung:"Gedung 2"},
+  {no:"904",title:"Cooking at home",author:"Linna ma",qty:null,gedung:"Gedung 2"},
+  {no:"905",title:"Bekal Organik anak sekolah",author:"Tuti Soenardi",qty:null,gedung:"Gedung 2"},
+  {no:"906",title:"Resep sehat JSR",author:"Dr. Zaidul Akbar",qty:1,gedung:"Gedung 2"},
+  {no:"907",title:"Ramadhan JSR",author:"Dr. Zaidul Akbar",qty:1,gedung:"Gedung 2"},
+
+  {no:"1001",title:"Mamalyre",author:"Rensia Sanvira",qty:null,gedung:"Gedung 2"},
+  {no:"",title:"Islamic Parenting",author:"Syaikh Jamal Abdurrahman",qty:null,gedung:"Gedung 2"},
+  {no:"1004",title:"Seni memahami perasaan anak",author:"Park Jae Yeon",qty:1,gedung:"Gedung 2"},
+  {no:"",title:"Seni bersikap pada anak",author:"Sal Severe, Ph. D.",qty:null,gedung:"Gedung 2"},
+  {no:"2001",title:"Bulan",author:"",qty:1,gedung:"Gedung 2"},
+  {no:"2003",title:"Le petit prince",author:"Amoine De Saint - Exupery",qty:1,gedung:"Gedung 2"},
+  {no:"2004",title:"Dompet ayah sepatu Ibu",author:"J.S. Khairen",qty:1,gedung:"Gedung 2"},
+  {no:"2005",title:"Mantappu jiwa",author:"Jerome Polin Sijabat",qty:1,gedung:"Gedung 2"},
+  {no:"2006",title:"Seluas langit biru",author:"Sitta Karina",qty:null,gedung:"Gedung 2"},
+  {no:"",title:"Kiai penggerak",author:"Haidar Musyafa",qty:null,gedung:"Gedung 2"},
+  {no:"",title:"Hobi main ponsel",author:"Faiza Akmalunnisa",qty:null,gedung:"Gedung 2"},
+
+  {no:"3001",title:"Bersama kemudian berpisah",author:"Amira Nuha Dzakiyah & Indha",qty:1,gedung:"Gedung 2"},
+  {no:"",title:"No bullying",author:"Faiza Valdaisyifa & Hendhy",qty:null,gedung:"Gedung 2"},
+  {no:"",title:"Me Vs Self",author:"Kalila Tyara Semarang",qty:null,gedung:"Gedung 2"},
+  {no:"",title:"The archer girl",author:"Khansa Humaira Dyfka",qty:null,gedung:"Gedung 2"},
+  {no:"",title:"Petaka jurit malam",author:"Nafisa Mahdiya",qty:null,gedung:"Gedung 2"},
+  {no:"",title:"Ketika Ibu sakit",author:"Nashwa Fazila & Malia",qty:null,gedung:"Gedung 2"},
+  {no:"",title:"Home alone",author:"Freya Alzena",qty:null,gedung:"Gedung 2"},
+  {no:"",title:"Komikus misterius",author:"Syifa Tsabita Wiangga",qty:null,gedung:"Gedung 2"},
+  {no:"",title:"Kamus Al Munawwir Arab-Indonesia Terlengkap",author:"Ahmad Warson Munawwir",qty:2,gedung:"Gedung 2"},
+  {no:"",title:"Adab & Akhlak Islami",author:"Majid Sa'ud Al Ausyan",qty:1,gedung:"Gedung 2"},
+  {no:"",title:"Bertumbuh dimulai disini",author:"senja rindiani",qty:null,gedung:"Gedung 2"},
+  {no:"",title:"The glory story of two umars",author:"Fuad abdurahman",qty:1,gedung:"Gedung 2"},
+  {no:"",title:"Kamus Inggris-Indonesia",author:"John M.Echols",qty:1,gedung:"Gedung 2"},
+
+  /* BAGIAN AKHIR GEDUNG 2 */
+  {no:"316",title:"Pulang",author:"Tereliye",qty:1,gedung:"Gedung 2"},
+  {no:"317",title:"Si Anak Savana",author:"Tereliye",qty:1,gedung:"Gedung 2"},
+  {no:"318",title:"Rahasia parenting nabi muhammad",author:"Abun nada",qty:1,gedung:"Gedung 2"},
+  {no:"319",title:"Pulang pergi",author:"Tereliye",qty:1,gedung:"Gedung 2"},
+  {no:"320",title:"Hafalan sholat delisa",author:"Tereliye",qty:1,gedung:"Gedung 2"},
+  {no:"321",title:"Si anak pemberani",author:"Tereliye",qty:1,gedung:"Gedung 2"},
+  {no:"322",title:"Dia adalah kakakku",author:"Tereliye",qty:1,gedung:"Gedung 2"},
+  {no:"323",title:"Pergi",author:"Tereliye",qty:1,gedung:"Gedung 2"},
+  {no:"324",title:"Teruslah bodoh jangan pintar",author:"Tereliye",qty:null,gedung:"Gedung 2"},
+  {no:"325",title:"",author:"Tereliye",qty:null,gedung:"Gedung 2"},
+  {no:"326",title:"Nak, dengarkanlah bapak",author:"Abunnada",qty:1,gedung:"Gedung 2"},
+  {no:"328",title:"Jalan golongan yang selamat",author:"Syaikh Muhammmad bin Jamil Zainu",qty:1,gedung:"Gedung 2"},
+  {no:"329",title:"Bandara,station dan tahun-tahun setelahnya",author:"Erina Delyere",qty:null,gedung:"Gedung 2"},
+  {no:"330",title:"Creative Teaching",author:"Robert Bala",qty:1,gedung:"Gedung 2"},
+  {no:"331",title:"Si Anak Pelangi",author:"Tereliye",qty:1,gedung:"Gedung 2"},
+  {no:"332",title:"The midnight library",author:"",qty:null,gedung:"Gedung 2"},
+  {no:"333",title:"Understanding why children bully",author:"Hanlie Muliani & Robert Pereira",qty:1,gedung:"Gedung 2"},
+  {no:"334",title:"Mengapa harus beribadah",author:"Jeffrey Lang",qty:1,gedung:"Gedung 2"},
+  {no:"335",title:"Kamus al Munawwir indonesia-arab terlengkap",author:"AW. Munawwir",qty:1,gedung:"Gedung 2"},
+  {no:"336",title:"Muhammad nabiku",author:"Aminah Ummu Tazkiya",qty:1,gedung:"Gedung 2"},
+  {no:"337",title:"Sebelum ayah tiada",author:"Muhammad Yasir, Lc",qty:1,gedung:"Gedung 2"},
+  {no:"338",title:"Ada surga di setiap wanita",author:"Muhammad Yasir, Lc",qty:1,gedung:"Gedung 2"},
+  {no:"339",title:"Sebelum bunda tiada",author:"Muhammad Yasir, Lc",qty:1,gedung:"Gedung 2"},
+  {no:"340",title:"Qaddarallah wa maasyaa-a fa'ala",author:"Ustadz Gigih Surya Nugraha",qty:1,gedung:"Gedung 2"},
+  {no:"341",title:"Fiqih sunnah wanita",author:"",qty:2,gedung:"Gedung 2"},
+  {no:"342",title:"Kamus arab-indonesia Al Azhar",author:"S. Askar",qty:1,gedung:"Gedung 2"},
+  {no:"343",title:"Toefl edisi lengkap 1890",author:"Tim Master Eduka",qty:1,gedung:"Gedung 2"},
+
+  /* GEDUNG 3 */
+  {no:"1",title:"muhammad al fatih 1-3",author:"Handri Satria",qty:3,gedung:"Gedung 3"},
+  {no:"2",title:"RPAL-RPUL",author:"DRS.prayitno darmanto dan ninik setyawati S.Pd",qty:4,gedung:"Gedung 3"},
+  {no:"3",title:"ATLAS LENGKAP",author:"palito media",qty:4,gedung:"Gedung 3"},
+  {no:"4",title:"KAMUS BAHASA INDONESIA",author:"Manda Putri E,S.PD",qty:1,gedung:"Gedung 3"},
+  {no:"5",title:"fiqih islam wa adillatuhu",author:"Proft,Doctor Wahba Atobali",qty:10,gedung:"Gedung 3"},
+  {no:"6",title:"ath Thabari",author:"",qty:25,gedung:"Gedung 3"},
+  {no:"7",title:"SHAHIH BUKHARI MUSLIM",author:"Muhammad Fu'ad Abdul Baqi",qty:1,gedung:"Gedung 3"},
+  {no:"8",title:"semua orang butuh curhat",author:"Lori gottlieb",qty:1,gedung:"Gedung 3"},
+  {no:"9",title:"21 WANITA PERKASA YANG DI TEMPA OLEH BUDAYA ACEH",author:"Qismullah Yusuf",qty:1,gedung:"Gedung 3"},
+  {no:"10",title:"TOP FOKUS ULANGAN DAN UJIAN",author:"tim maestro eduka",qty:1,gedung:"Gedung 3"},
+  {no:"11",title:"DISCOVERING MYSELF",author:"yohana nessy",qty:1,gedung:"Gedung 3"},
+  {no:"12",title:"Mekkah dan Madinah",author:"Dr.ahmad Ibrahim asy -Syarif",qty:1,gedung:"Gedung 3"},
+  {no:"13",title:"kitab tauhid",author:"DR.shalih bin fauzan",qty:1,gedung:"Gedung 3"},
+  {no:"14",title:"RAJIN SHALAT TAPI MASIH KELIRU",author:"Dr. Mahmud Abdurrahman Abdul Mun'im",qty:1,gedung:"Gedung 3"},
+  {no:"15",title:"Fithrah",author:"yayasan nidaul fithrah",qty:1,gedung:"Gedung 3"},
+  {no:"16",title:"tafsir al fatihah",author:"muhammad rasyid ridha",qty:1,gedung:"Gedung 3"},
+  {no:"17",title:"fiqih islam dari alkitab dan assunnah 1 - 4",author:"syaikh shiddiq",qty:4,gedung:"Gedung 3"},
+  {no:"18",title:"dunia ditanganku akherat dihatiku",author:"ustadz abdullah amim",qty:1,gedung:"Gedung 3"},
+  {no:"19",title:"pengobatan,perawatan dan kecantikan",author:"Agus ibnu IBAD",qty:1,gedung:"Gedung 3"},
+  {no:"20",title:"manajemen mareketing sekolah",author:"jamal ma'mur Asmani",qty:1,gedung:"Gedung 3"},
+  {no:"21",title:"belajar ilmu waris praktis",author:"Ustadz Muhammad Nur Yasin Zain",qty:1,gedung:"Gedung 3"},
+  {no:"22",title:"125 PAHLAWAN DAN PEJUANG NUSANTARA",author:"GAMAL KOMANDOKO",qty:1,gedung:"Gedung 3"},
+  {no:"23",title:"KIAT SHOLAT KHUSYU",author:"MUHAMMAD AL-MUNAJJID",qty:1,gedung:"Gedung 3"},
+  {no:"24",title:"ARAB INDONESIA",author:"PROF.DR.H,.MAHMUD YUNUS",qty:1,gedung:"Gedung 3"},
+  {no:"25",title:"TUNTUNAN KURBAN",author:"SYAIKH DR ABDULLAH BIN ABDURRAHMAN",qty:1,gedung:"Gedung 3"},
+  {no:"26",title:"risalah qow aidul fikih",author:"ustadz abdullah amim",qty:1,gedung:"Gedung 3"},
+  {no:"27",title:"KAMUS INGGRIS INDONESIA",author:"JOHN M. ECHOLS",qty:1,gedung:"Gedung 3"},
+  {no:"28",title:"kultum kuliah 7 menit",author:"ahmad sunarto",qty:1,gedung:"Gedung 3"},
+  {no:"29",title:"BELAJAR DARI ILMU FARAIDH 1 - 12",author:"ABU MALIK AMRIL FATONI AL FADHALI",qty:12,gedung:"Gedung 3"},
+  {no:"30",title:"majalah as sunnah",author:"yayasan lajnah istiqomah",qty:10,gedung:"Gedung 3"},
+  {no:"31",title:"amalan sunnah setahun",author:"YAZID BIN ABDUL QODIR JAWAS",qty:1,gedung:"Gedung 3"},
+  {no:"32",title:"SUKSES MENDIDIK ANAK",author:"KUSUMASTUTI risa",qty:1,gedung:"Gedung 3"},
+  {no:"33",title:"PALESTINA YG TERLUPAKAN",author:"USTADZ. KHALID BASALAMAH",qty:1,gedung:"Gedung 3"},
+  {no:"34",title:"STUDI KELAYAKAN BISNIS",author:"Dr. KASMIR S.E M.M & JAKFAR S.E M.M",qty:1,gedung:"Gedung 3"},
+  {no:"37",title:"QONITAH",author:"MAJALAH KREATIF",qty:1,gedung:"Gedung 3"},
+  {no:"40",title:"MUTIARA HADIST SHAHIH BUKHARI",author:"Ust maftuh ahnan",qty:1,gedung:"Gedung 3"},
+  {no:"41",title:"al-mawaddah",author:"lajnah dakwah",qty:4,gedung:"Gedung 3"},
+  {no:"44",title:"as-sunnah",author:"yayasan lajnah istiqomah",qty:19,gedung:"Gedung 3"},
+  {no:"45",title:"al furqan",author:"lajnah mahad al furqan al islami",qty:3,gedung:"Gedung 3"},
+  {no:"46",title:"sains",author:"",qty:1,gedung:"Gedung 3"},
+  {no:"47",title:"shalat yang menangis",author:"khalid ibn muhamad al rasyid sholeh ahmad syami",qty:null,gedung:"Gedung 3"},
+  {no:"48",title:"sifat shalat nabi",author:"syaikh muhammad nashiruddin al bani",qty:1,gedung:"Gedung 3"},
+  {no:"49",title:"kumpulan pribahasa majas dan ungkapan bahasa indonesia",author:"yettik wulandari",qty:2,gedung:"Gedung 3"},
+  {no:"50",title:"easy to love",author:"PT gramedia pustaka utama",qty:1,gedung:"Gedung 3"},
+  {no:"51",title:"metode penelitian",author:"mohammad nazir",qty:1,gedung:"Gedung 3"},
+  {no:"52",title:"resep sehat",author:"dr zaidul akbar",qty:1,gedung:"Gedung 3"},
+  {no:"53",title:"perjalanan haji nabi dan salafus shalih",author:"dr badr bin nashir al badr",qty:1,gedung:"Gedung 3"},
+  {no:"54",title:"bittersweet",author:"PT gramedia pustaka utama",qty:1,gedung:"Gedung 3"},
+  {no:"55",title:"mukjizat hadist lalat",author:"ma`had ali al irsyad as salafiy",qty:1,gedung:"Gedung 3"},
+  {no:"56",title:"burung besi monika",author:"monika anggreini",qty:1,gedung:"Gedung 3"},
+  {no:"57",title:"ayat ayat berkhasiat",author:"muhammad tharhuni",qty:1,gedung:"Gedung 3"},
+  {no:"58",title:"menggambar arsitektur",author:"tecky hendrarto",qty:1,gedung:"Gedung 3"},
+  {no:"59",title:"kitab tauhid",author:"syekh muhammad at tamimi",qty:2,gedung:"Gedung 3"},
+  {no:"60",title:"haji dan umroh",author:"iwan gayo",qty:1,gedung:"Gedung 3"},
+  {no:"61",title:"risalah shalat lengkap",author:"bintang usaha jaya",qty:1,gedung:"Gedung 3"},
+  {no:"62",title:"al fatih pilar peradaban modul kuttab",author:"budi ashari",qty:1,gedung:"Gedung 3"},
+  {no:"63",title:"karantina hafal al quran sebulan",author:"saied al makhtum al hafizh",qty:1,gedung:"Gedung 3"},
+  {no:"64",title:"lancar berbicara dalam bahasa inggris",author:"goridus sukur",qty:1,gedung:"Gedung 3"},
+  {no:"65",title:"buku pintar mengelola sekolah swasta",author:"muhammad arifin",qty:1,gedung:"Gedung 3"},
+  {no:"66",title:"muhammad sebagai pedagang",author:"ippho santosa",qty:1,gedung:"Gedung 3"},
+  {no:"67",title:"ringkasan kaidah kaidah bahasa arab",author:"ustadz aunur rofiq bin ghufron",qty:1,gedung:"Gedung 3"},
+  {no:"68",title:"desain pembelajaran tahfidz al quran",author:"rifqi hidayat",qty:1,gedung:"Gedung 3"},
+  {no:"69",title:"kupikir segalanya akan beres saat aku dewasa",author:"kim hae nam dan park jong seok",qty:1,gedung:"Gedung 3"},
+  {no:"70",title:"kesalahan kesalahan fatal pengusaha",author:"masyarakat tanpa riba",qty:1,gedung:"Gedung 3"},
+  {no:"71",title:"ilmu waris peraktis",author:"ustadz muhammad nur yasin zain",qty:1,gedung:"Gedung 3"},
+  {no:"72",title:"modul laboratorium bank syariah",author:"nisful laila",qty:1,gedung:"Gedung 3"},
+  {no:"73",title:"himpunan hadist qudsi",author:"achmad sunarto",qty:1,gedung:"Gedung 3"},
+  {no:"74",title:"mantappu jiwa",author:"jerome polin sijabat",qty:1,gedung:"Gedung 3"},
+  {no:"75",title:"asurasi syariah",author:"abdullah amrin",qty:1,gedung:"Gedung 3"},
+  {no:"76",title:"pelajaran bahasa arab",author:"abdurrahman",qty:1,gedung:"Gedung 3"},
+  {no:"77",title:"tahajjud nabi",author:"said bin ali bin wahf al qahthani",qty:1,gedung:"Gedung 3"},
+  {no:"78",title:"bekal untuk setiap pendidik",author:"abu malik al fadholi",qty:5,gedung:"Gedung 3"},
+  {no:"79",title:"metode as syafi i",author:"nizar jabal",qty:1,gedung:"Gedung 3"},
+  {no:"80",title:"modernisasi pendidikan islam",author:"",qty:1,gedung:"Gedung 3"},
+  {no:"81",title:"tingkatan iq anak anda 3-6 tahun",author:"yul iskandar",qty:1,gedung:"Gedung 3"},
+  {no:"82",title:"cahaya jantung kemiskinan",author:"herman yoseph",qty:1,gedung:"Gedung 3"},
+  {no:"83",title:"ilmu tajwid",author:"saadah",qty:1,gedung:"Gedung 3"},
+  {no:"84",title:"hadiah istimewa menuju keluarga sakinah",author:"yazid bin abdul qodir jawas",qty:1,gedung:"Gedung 3"}
+];
+
+
+/* =========================================================
+   DATA PEMINJAMAN
+   ========================================================= */
+
+const loans = [
+  {id:1,nama:"Aina",buku:"Pulang",pinjam:"2026-08-21",kembali:"2026-09-01",tempo:"2026-09-01",status:"Kembali",gedung:"Gedung 2"},
+  {id:2,nama:"Khodijah",buku:"The midnight library",pinjam:"2026-08-21",kembali:"2026-08-26",tempo:"2026-08-26",status:"Kembali",gedung:"Gedung 2"},
+  {id:3,nama:"Khodijah",buku:"Tiga malam bersama penghuni surga",pinjam:"2026-08-28",kembali:"2026-09-03",tempo:"2026-09-03",status:"Kembali",gedung:"Gedung 2"},
+  {id:4,nama:"Sausan",buku:"Loneliness",pinjam:"2026-08-27",kembali:"2026-09-02",tempo:"2026-09-02",status:"Kembali",gedung:"Gedung 2"},
+  {id:5,nama:"Aulia",buku:"Rumah untuk Alie",pinjam:"2026-08-27",kembali:"2026-08-28",tempo:"2026-08-28",status:"Kembali",gedung:"Gedung 2"},
+  {id:6,nama:"Diana",buku:"Si putih",pinjam:"2026-08-27",kembali:"2026-09-04",tempo:"2026-09-04",status:"Kembali",gedung:"Gedung 2"},
+  {id:7,nama:"Meta",buku:"Atlas dunia",pinjam:"2026-08-27",kembali:"2026-08-31",tempo:"2026-08-31",status:"Kembali",gedung:"Gedung 2"},
+  {id:8,nama:"Mutia",buku:"Dia adalah kakakku",pinjam:"2026-08-27",kembali:"2026-09-03",tempo:"2026-09-03",status:"Kembali",gedung:"Gedung 2"},
+  {id:9,nama:"Almira",buku:"Bibi Gill",pinjam:"2026-08-28",kembali:"2026-09-03",tempo:"2026-09-03",status:"Kembali",gedung:"Gedung 2"},
+  {id:10,nama:"Aulia",buku:"Bumi",pinjam:"2026-08-28",kembali:"2026-09-03",tempo:"2026-09-03",status:"Kembali",gedung:"Gedung 2"},
+  {id:11,nama:"Medina",buku:"Pulang - Pergi",pinjam:"2026-08-28",kembali:"2026-09-04",tempo:"2026-09-04",status:"Kembali",gedung:"Gedung 2"},
+  {id:12,nama:"Aina",buku:"Pulang",pinjam:"2026-09-02",kembali:"2026-09-07",tempo:"2026-09-07",status:"Kembali",gedung:"Gedung 2"},
+  {id:13,nama:"Alita",buku:"Berdamai dengan masa lalu",pinjam:"2026-09-03",kembali:"2026-09-11",tempo:"2026-09-11",status:"Kembali",gedung:"Gedung 2"},
+  {id:14,nama:"Almira",buku:"Bibi Gill",pinjam:"2026-09-03",kembali:"2026-09-11",tempo:"2026-09-11",status:"Kembali",gedung:"Gedung 2"},
+  {id:15,nama:"Mutia",buku:"Rumah untuk Alie",pinjam:"2026-09-03",kembali:"2026-09-09",tempo:"2026-09-09",status:"Kembali",gedung:"Gedung 2"},
+  {id:16,nama:"Khodijah",buku:"Tiga malam bersama penghuni surga",pinjam:"2026-09-04",kembali:"2026-09-11",tempo:"2026-09-11",status:"Kembali",gedung:"Gedung 2"},
+  {id:17,nama:"Aulia",buku:"Bumi",pinjam:"2026-09-04",kembali:"2026-09-11",tempo:"2026-09-11",status:"Kembali",gedung:"Gedung 2"},
+  {id:18,nama:"Meta",buku:"Ensiklopedia Saintis Junior Teknologi",pinjam:"2026-09-04",kembali:"2026-09-11",tempo:"2026-09-11",status:"Kembali",gedung:"Gedung 2"},
+  {id:19,nama:"Diana",buku:"Kisah teladan para nabi",pinjam:"2026-09-04",kembali:"2026-09-09",tempo:"2026-09-09",status:"Kembali",gedung:"Gedung 2"},
+  {id:20,nama:"Mutia",buku:"Pulang",pinjam:"2026-09-09",kembali:"2026-09-11",tempo:"2026-09-11",status:"Kembali",gedung:"Gedung 2"},
+  {id:21,nama:"Sausan",buku:"Rumah untuk Alie",pinjam:"2026-09-11",kembali:"",tempo:"2026-09-18",status:"Dipinjam",gedung:"Gedung 2"},
+  {id:22,nama:"Salwah",buku:"Kado Terbaik",pinjam:"2026-09-11",kembali:"",tempo:"2026-09-18",status:"Dipinjam",gedung:"Gedung 2"},
+  {id:23,nama:"Meta",buku:"Kepribadian MBTI",pinjam:"2026-09-11",kembali:"",tempo:"2026-09-18",status:"Dipinjam",gedung:"Gedung 2"},
+  {id:24,nama:"Prita",buku:"Bandara - Stasiun dan tahun setelahnya",pinjam:"2026-09-11",kembali:"",tempo:"2026-09-18",status:"Dipinjam",gedung:"Gedung 2"}
+];
+
+
+/* =========================================================
+   LOCAL STORAGE
+   ========================================================= */
+
+const savedBooks = localStorage.getItem("khizanah_books");
+
+if (savedBooks) {
+  try {
+    const parsed = JSON.parse(savedBooks);
+
+    if (Array.isArray(parsed) && parsed.length) {
+      books.length = 0;
+      books.push(...parsed);
     }
+  } catch(e) {}
+}
 
-    .scrollbar::-webkit-scrollbar-thumb {
-      background: #14532d;
-      border-radius: 20px;
-    }
 
-    button, input, select {
-      font-family: inherit;
-    }
+/* =========================================================
+   HELPERS
+   ========================================================= */
 
-    .fade-enter-active,
-    .fade-leave-active {
-      transition: opacity .2s ease;
-    }
+function rupiahNumber(n) {
+  return Number(n || 0).toLocaleString("id-ID");
+}
 
-    .fade-enter-from,
-    .fade-leave-to {
-      opacity: 0;
-    }
+function escapeHtml(text) {
+  return String(text ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
 
-    @media (min-width: 900px) {
-      .app-shell {
-        max-width: 1400px;
-        margin: 0 auto;
-      }
+
+/* =========================================================
+   STATISTIK
+   ========================================================= */
+
+function calculateStats() {
+
+  const total = books.reduce((sum,b) => {
+    return sum + (Number.isFinite(Number(b.qty)) ? Number(b.qty) : 0);
+  },0);
+
+  const g2 = books
+    .filter(b => b.gedung === "Gedung 2")
+    .reduce((sum,b) => sum + (Number.isFinite(Number(b.qty)) ? Number(b.qty) : 0),0);
+
+  const g3 = books
+    .filter(b => b.gedung === "Gedung 3")
+    .reduce((sum,b) => sum + (Number.isFinite(Number(b.qty)) ? Number(b.qty) : 0),0);
+
+  const active = loans.filter(x => x.status === "Dipinjam").length;
+
+  document.getElementById("totalBuku").textContent = rupiahNumber(total);
+  document.getElementById("totalJudul").textContent = rupiahNumber(books.length);
+  document.getElementById("totalDipinjam").textContent = rupiahNumber(active);
+  document.getElementById("totalTerlambat").textContent = "0";
+
+  document.getElementById("gedung2").textContent = rupiahNumber(g2);
+  document.getElementById("gedung3").textContent = rupiahNumber(g3);
+}
+
+
+/* =========================================================
+   NAVIGASI
+   ========================================================= */
+
+function showPage(page) {
+
+  document.querySelectorAll(".page").forEach(el => {
+    el.classList.add("hidden");
+  });
+
+  const target = document.getElementById(page);
+
+  if (target) {
+    target.classList.remove("hidden");
+  }
+
+  document.querySelectorAll(".nav").forEach(btn => {
+    btn.classList.remove("active");
+    btn.classList.add("text-gray-400");
+  });
+
+  document.querySelectorAll(`[data-nav="${page}"]`).forEach(btn => {
+    btn.classList.add("active");
+    btn.classList.remove("text-gray-400");
+  });
+
+  document.querySelectorAll(".mobile-nav").forEach(btn => {
+    btn.classList.remove("active");
+    btn.classList.add("text-gray-500");
+  });
+
+  document.querySelectorAll(`[data-nav-mobile="${page}"]`).forEach(btn => {
+    btn.classList.add("active");
+    btn.classList.remove("text-gray-500");
+  });
+
+  document.getElementById("sidebar").classList.add("hidden");
+
+  if (page === "buku") renderBooks();
+  if (page === "pinjam") renderLoans();
+  if (page === "kembali") renderReturns();
+  if (page === "riwayat") renderHistory();
+
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+
+function toggleMenu() {
+  document.getElementById("sidebar").classList.toggle("hidden");
+}
+
+
+/* =========================================================
+   DATA BUKU
+   ========================================================= */
+
+function renderBooks() {
+
+  const q = (document.getElementById("searchBook")?.value || "")
+    .toLowerCase()
+    .trim();
+
+  const gedung = document.getElementById("filterGedung")?.value || "";
+
+  const filtered = books.filter(b => {
+
+    const text = `${b.no} ${b.title} ${b.author}`.toLowerCase();
+
+    const matchSearch = !q || text.includes(q);
+    const matchGedung = !gedung || b.gedung === gedung;
+
+    return matchSearch && matchGedung;
+  });
+
+  const container = document.getElementById("bookList");
+
+  if (!filtered.length) {
+    container.innerHTML = `
+      <div class="sm:col-span-2 lg:col-span-3 glass rounded-2xl p-8 text-center">
+        <i class="fa-solid fa-book-open text-3xl text-gray-600"></i>
+        <p class="text-sm text-gray-400 mt-3">
+          Buku tidak ditemukan.
+        </p>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = filtered.map((b,index) => {
+
+    const qtyText =
+      b.qty === null || b.qty === undefined || b.qty === ""
+      ? "Jumlah belum tercatat"
+      : `${rupiahNumber(b.qty)} eksemplar`;
+
+    return `
+      <div class="glass rounded-2xl p-4">
+
+        <div class="flex justify-between gap-3">
+
+          <div class="w-10 h-10 rounded-xl bg-emerald-900
+                      flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-book text-emerald-300"></i>
+          </div>
+
+          <span class="text-[9px] px-2 py-1 h-fit rounded-full
+                       bg-white/10 text-gray-300">
+            ${escapeHtml(b.gedung)}
+          </span>
+
+        </div>
+
+        <p class="text-[10px] text-emerald-300 mt-3">
+          No. ${escapeHtml(b.no || "-")}
+        </p>
+
+        <h3 class="font-bold text-sm mt-1 leading-snug">
+          ${escapeHtml(b.title || "Judul belum tercatat")}
+        </h3>
+
+        <p class="text-xs text-gray-400 mt-2">
+          ${escapeHtml(b.author || "Pengarang belum tercatat")}
+        </p>
+
+        <div class="mt-4 pt-3 border-t border-white/10
+                    text-[10px] text-gray-500">
+          ${qtyText}
+        </div>
+
+      </div>
+    `;
+  }).join("");
+}
+
+
+function resetSearch() {
+  document.getElementById("searchBook").value = "";
+  document.getElementById("filterGedung").value = "";
+  renderBooks();
+}
+
+
+/* =========================================================
+   MODAL BUKU
+   ========================================================= */
+
+function openAddBook() {
+  const modal = document.getElementById("bookModal");
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+}
+
+function closeBookModal() {
+  const modal = document.getElementById("bookModal");
+  modal.classList.add("hidden");
+  modal.classList.remove("flex");
+}
+
+function saveBook() {
+
+  const no = document.getElementById("newNo").value.trim();
+  const title = document.getElementById("newTitle").value.trim();
+  const author = document.getElementById("newAuthor").value.trim();
+  const qty = Number(document.getElementById("newQty").value || 1);
+  const gedung = document.getElementById("newGedung").value;
+
+  if (!title) {
+    alert("Judul buku wajib diisi.");
+    return;
+  }
+
+  books.push({
+    no,
+    title,
+    author,
+    qty: qty > 0 ? qty : 1,
+    gedung
+  });
+
+  localStorage.setItem(
+    "khizanah_books",
+    JSON.stringify(books)
+  );
+
+  document.getElementById("newNo").value = "";
+  document.getElementById("newTitle").value = "";
+  document.getElementById("newAuthor").value = "";
+  document.getElementById("newQty").value = "1";
+
+  closeBookModal();
+
+  calculateStats();
+  renderBooks();
+
+  alert("Buku berhasil ditambahkan.");
+}
+
+
+/* =========================================================
+   PEMINJAMAN
+   ========================================================= */
+
+function loanCard(item,showReturn=false) {
+
+  const statusColor =
+    item.status === "Dipinjam"
+    ? "text-amber-300 bg-amber-400/10"
+    : "text-emerald-300 bg-emerald-400/10";
+
+  return `
+    <div class="glass rounded-2xl p-4">
+
+      <div class="flex gap-3">
+
+        <div class="w-10 h-10 rounded-xl bg-emerald-900
+                    flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-book text-emerald-300"></i>
+        </div>
+
+        <div class="flex-1 min-w-0">
+
+          <div class="flex justify-between gap-2">
+
+            <div>
+              <p class="font-bold text-sm">
+                ${escapeHtml(item.nama)}
+              </p>
+
+              <p class="text-xs text-gray-400 mt-1">
+                ${escapeHtml(item.buku)}
+              </p>
+            </div>
+
+            <span class="text-[9px] h-fit px-2 py-1 rounded-full ${statusColor}">
+              ${escapeHtml(item.status)}
+            </span>
+
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 mt-3 text-[10px]">
+
+            <div class="bg-black/20 rounded-lg p-2">
+              <span class="text-gray-500 block">Tanggal pinjam</span>
+              ${escapeHtml(item.pinjam)}
+            </div>
+
+            <div class="bg-black/20 rounded-lg p-2">
+              <span class="text-gray-500 block">Jatuh tempo</span>
+              ${escapeHtml(item.tempo)}
+            </div>
+
+          </div>
+
+          ${
+            showReturn && item.status === "Dipinjam"
+            ? `
+              <button onclick="returnLoan(${item.id})"
+                      class="mt-3 w-full bg-amber-600 hover:bg-amber-500
+                             rounded-xl py-2 text-xs font-bold">
+                <i class="fa-solid fa-rotate-left mr-1"></i>
+                Tandai Sudah Kembali
+              </button>
+            `
+            : ""
+          }
+
+        </div>
+      </div>
+
+    </div>
+  `;
+}
+
+
+function renderDashboardLoans() {
+
+  const active = loans.filter(x => x.status === "Dipinjam");
+
+  document.getElementById("dashboardLoans").innerHTML =
+    active.slice(0,4).map(x => loanCard(x)).join("")
+    ||
+    `
+      <div class="text-center py-6 text-gray-500 text-xs">
+        Tidak ada peminjaman aktif.
+      </div>
+    `;
+}
+
+
+function renderLoans() {
+
+  document.getElementById("loanList").innerHTML =
+    loans.map(x => loanCard(x)).join("");
+}
+
+
+function renderReturns() {
+
+  const active = loans.filter(x => x.status === "Dipinjam");
+
+  document.getElementById("returnList").innerHTML =
+    active.map(x => loanCard(x,true)).join("")
+    ||
+    `
+      <div class="glass rounded-2xl p-8 text-center text-gray-500 text-xs">
+        Tidak ada buku yang sedang dipinjam.
+      </div>
+    `;
+}
+
+
+function renderHistory() {
+
+  document.getElementById("historyList").innerHTML =
+    loans.map(x => loanCard(x)).join("");
+}
+
+
+function returnLoan(id) {
+
+  const item = loans.find(x => x.id === id);
+
+  if (!item) return;
+
+  item.status = "Kembali";
+  item.kembali = new Date().toISOString().slice(0,10);
+
+  calculateStats();
+  renderDashboardLoans();
+  renderReturns();
+  renderLoans();
+  renderHistory();
+
+  alert("Buku berhasil ditandai sudah kembali.");
+}
+
+
+/* =========================================================
+   INIT
+   ========================================================= */
+
+calculateStats();
+renderDashboardLoans();
+
+</script>
+
+</body>
+</html>      }
     }
   </style>
 </head>
