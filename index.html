@@ -7,24 +7,25 @@
   <title>Khizanah Al Hikmah Library</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
   <style>
     * {
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
-      background: #111827;
+      background: #f5f7f3;
+      color: #17352d;
       font-family: "Plus Jakarta Sans", sans-serif;
     }
 
@@ -32,53 +33,2141 @@
       font-family: "Amiri", serif;
     }
 
-    ::-webkit-scrollbar {
-      width: 5px;
-      height: 5px;
+    .sidebar {
+      width: 260px;
     }
 
-    ::-webkit-scrollbar-thumb {
-      background: #047857;
-      border-radius: 20px;
-    }
-
-    .phone {
-      max-width: 430px;
+    .main-content {
+      margin-left: 260px;
       min-height: 100vh;
-      background: #fdfbf7;
-      margin: auto;
-      position: relative;
-      overflow: hidden;
     }
 
-    @media (min-width: 640px) {
-      body {
-        padding: 20px;
+    .nav-active {
+      background: #08624e;
+      color: white !important;
+      box-shadow: 0 8px 20px rgba(8, 98, 78, .15);
+    }
+
+    .card {
+      background: white;
+      border: 1px solid #e5eee9;
+      border-radius: 18px;
+      box-shadow: 0 6px 24px rgba(21, 67, 54, .05);
+    }
+
+    .stat-card {
+      transition: .2s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(21, 67, 54, .08);
+    }
+
+    .green-gradient {
+      background:
+        radial-gradient(circle at top right, rgba(255,255,255,.13), transparent 35%),
+        linear-gradient(135deg, #075d49, #08745a);
+    }
+
+    .mobile-menu {
+      transform: translateX(-110%);
+      transition: transform .25s ease;
+    }
+
+    .mobile-menu.show {
+      transform: translateX(0);
+    }
+
+    .overlay {
+      display: none;
+    }
+
+    .overlay.show {
+      display: block;
+    }
+
+    @media (max-width: 1023px) {
+      .sidebar {
+        display: none;
       }
 
-      .phone {
-        min-height: 760px;
-        height: calc(100vh - 40px);
-        max-height: 900px;
-        border: 8px solid #1f2937;
-        border-radius: 38px;
-        box-shadow: 0 25px 70px rgba(0,0,0,.55);
+      .main-content {
+        margin-left: 0;
+      }
+
+      .mobile-header {
+        display: flex !important;
       }
     }
 
-    .screen {
-      height: 100vh;
-      max-height: 900px;
-      overflow-y: auto;
-      padding-bottom: 82px;
-    }
-
-    @media (min-width: 640px) {
-      .screen {
-        height: 100%;
+    @media (min-width: 1024px) {
+      .mobile-header {
+        display: none !important;
       }
     }
+  </style>
+</head>
 
+<body>
+
+<!-- =========================================================
+     MOBILE HEADER
+========================================================= -->
+<header class="mobile-header hidden sticky top-0 z-40 bg-white border-b border-slate-200 px-4 py-3 items-center justify-between">
+  <div class="flex items-center gap-3">
+    <button onclick="openMobileMenu()"
+            class="w-10 h-10 rounded-xl bg-green-50 text-green-800">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <div>
+      <div class="font-extrabold text-sm text-green-900">
+        Khizanah Al Hikmah
+      </div>
+      <div class="text-[10px] text-slate-500">
+        PKBM Ibadurrahman Sidoarjo
+      </div>
+    </div>
+  </div>
+
+  <div class="w-10 h-10 rounded-full bg-amber-400 flex items-center justify-center font-bold text-green-950">
+    K
+  </div>
+</header>
+
+
+<!-- =========================================================
+     SIDEBAR DESKTOP
+========================================================= -->
+<aside class="sidebar fixed left-0 top-0 bottom-0 bg-white border-r border-slate-200 z-50 flex flex-col">
+
+  <div class="px-6 py-6 border-b border-slate-100">
+    <div class="flex items-center gap-3">
+      <div class="w-12 h-12 rounded-2xl bg-green-800 flex items-center justify-center text-amber-300 text-xl">
+        <i class="fa-solid fa-book-open"></i>
+      </div>
+
+      <div>
+        <div class="font-extrabold text-green-900 leading-tight">
+          Khizanah Al Hikmah
+        </div>
+        <div class="text-xs text-slate-500 mt-1">
+          LIBRARY
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="px-4 py-5 flex-1">
+
+    <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider px-3 mb-3">
+      Menu Utama
+    </div>
+
+    <nav class="space-y-1">
+
+      <button onclick="showPage('dashboard')"
+              id="nav-dashboard"
+              class="nav-item nav-active w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold">
+        <i class="fa-solid fa-house w-5"></i>
+        Dashboard
+      </button>
+
+      <button onclick="showPage('books')"
+              id="nav-books"
+              class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-green-50">
+        <i class="fa-solid fa-book w-5"></i>
+        Data Buku
+      </button>
+
+      <button onclick="showPage('borrow')"
+              id="nav-borrow"
+              class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-green-50">
+        <i class="fa-solid fa-arrow-right-from-bracket w-5"></i>
+        Peminjaman
+      </button>
+
+      <button onclick="showPage('return')"
+              id="nav-return"
+              class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-green-50">
+        <i class="fa-solid fa-arrow-right-to-bracket w-5"></i>
+        Pengembalian
+      </button>
+
+      <button onclick="showPage('history')"
+              id="nav-history"
+              class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-green-50">
+        <i class="fa-solid fa-clock-rotate-left w-5"></i>
+        Riwayat
+      </button>
+
+    </nav>
+
+    <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider px-3 mt-8 mb-3">
+      Sistem
+    </div>
+
+    <nav class="space-y-1">
+
+      <button onclick="showPage('profile')"
+              id="nav-profile"
+              class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-green-50">
+        <i class="fa-solid fa-user w-5"></i>
+        Profil Perpustakaan
+      </button>
+
+    </nav>
+  </div>
+
+  <div class="p-4 border-t border-slate-100">
+    <div class="bg-green-50 rounded-2xl p-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-amber-400 flex items-center justify-center font-bold text-green-950">
+          K
+        </div>
+
+        <div class="min-w-0">
+          <div class="font-bold text-sm text-green-900">
+            Khodijah
+          </div>
+          <div class="text-xs text-slate-500 truncate">
+            Pengelola Perpustakaan
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</aside>
+
+
+<!-- =========================================================
+     MOBILE MENU
+========================================================= -->
+<div id="mobileOverlay"
+     class="overlay fixed inset-0 bg-black/40 z-50"
+     onclick="closeMobileMenu()">
+</div>
+
+<aside id="mobileMenu"
+       class="mobile-menu fixed left-0 top-0 bottom-0 w-[280px] bg-white z-[60] shadow-2xl">
+
+  <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+
+    <div>
+      <div class="font-extrabold text-green-900">
+        Khizanah Al Hikmah
+      </div>
+
+      <div class="text-xs text-slate-500">
+        Library
+      </div>
+    </div>
+
+    <button onclick="closeMobileMenu()"
+            class="w-9 h-9 rounded-xl bg-slate-100">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+  </div>
+
+  <div class="p-4 space-y-1">
+
+    <button onclick="mobilePage('dashboard')"
+            class="w-full text-left px-4 py-3 rounded-xl hover:bg-green-50">
+      <i class="fa-solid fa-house w-6"></i>
+      Dashboard
+    </button>
+
+    <button onclick="mobilePage('books')"
+            class="w-full text-left px-4 py-3 rounded-xl hover:bg-green-50">
+      <i class="fa-solid fa-book w-6"></i>
+      Data Buku
+    </button>
+
+    <button onclick="mobilePage('borrow')"
+            class="w-full text-left px-4 py-3 rounded-xl hover:bg-green-50">
+      <i class="fa-solid fa-arrow-right-from-bracket w-6"></i>
+      Peminjaman
+    </button>
+
+    <button onclick="mobilePage('return')"
+            class="w-full text-left px-4 py-3 rounded-xl hover:bg-green-50">
+      <i class="fa-solid fa-arrow-right-to-bracket w-6"></i>
+      Pengembalian
+    </button>
+
+    <button onclick="mobilePage('history')"
+            class="w-full text-left px-4 py-3 rounded-xl hover:bg-green-50">
+      <i class="fa-solid fa-clock-rotate-left w-6"></i>
+      Riwayat
+    </button>
+
+    <button onclick="mobilePage('profile')"
+            class="w-full text-left px-4 py-3 rounded-xl hover:bg-green-50">
+      <i class="fa-solid fa-user w-6"></i>
+      Profil
+    </button>
+
+  </div>
+</aside>
+
+
+<!-- =========================================================
+     MAIN CONTENT
+========================================================= -->
+<main class="main-content">
+
+  <!-- TOPBAR -->
+  <div class="bg-white border-b border-slate-200 px-5 sm:px-8 lg:px-10 py-4">
+
+    <div class="max-w-[1600px] mx-auto flex items-center justify-between gap-4">
+
+      <div>
+        <div class="text-xs text-slate-400">
+          PKBM Ibadurrahman Sidoarjo
+        </div>
+
+        <h1 id="pageTitle"
+            class="text-xl sm:text-2xl font-extrabold text-green-950 mt-1">
+          Dashboard
+        </h1>
+      </div>
+
+      <div class="hidden sm:flex items-center gap-3">
+
+        <div class="text-right">
+          <div class="font-bold text-sm text-green-900">
+            Khodijah
+          </div>
+
+          <div class="text-xs text-slate-400">
+            Pengelola Perpustakaan
+          </div>
+        </div>
+
+        <div class="w-11 h-11 rounded-full bg-amber-400 flex items-center justify-center font-bold text-green-950">
+          K
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- CONTENT -->
+  <div class="max-w-[1600px] mx-auto p-5 sm:p-8 lg:p-10">
+
+    <!-- =====================================================
+         DASHBOARD
+    ====================================================== -->
+    <section id="page-dashboard" class="page">
+
+      <div class="green-gradient rounded-3xl p-6 sm:p-8 text-white mb-7">
+
+        <div class="max-w-3xl">
+
+          <div class="inline-flex items-center gap-2 bg-white/10 border border-white/10 rounded-full px-3 py-1 text-xs mb-4">
+            <span class="w-2 h-2 bg-amber-300 rounded-full"></span>
+            Sistem Perpustakaan Aktif
+          </div>
+
+          <h2 class="text-2xl sm:text-4xl font-extrabold">
+            Selamat datang, Khodijah 👋
+          </h2>
+
+          <p class="mt-3 text-green-50 text-sm sm:text-base leading-relaxed">
+            Kelola koleksi buku, peminjaman, pengembalian, dan riwayat
+            perpustakaan Khizanah Al Hikmah dalam satu tempat.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- STATISTICS -->
+      <div class="grid grid-cols-2 xl:grid-cols-4 gap-4 mb-7">
+
+        <div class="card stat-card p-5">
+
+          <div class="flex items-start justify-between">
+
+            <div>
+              <div class="text-sm text-slate-500">
+                Total Buku
+              </div>
+
+              <div id="totalBooks"
+                   class="text-3xl font-extrabold text-green-900 mt-2">
+                0
+              </div>
+            </div>
+
+            <div class="w-11 h-11 rounded-xl bg-green-50 text-green-700 flex items-center justify-center">
+              <i class="fa-solid fa-book"></i>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="card stat-card p-5">
+
+          <div class="flex items-start justify-between">
+
+            <div>
+              <div class="text-sm text-slate-500">
+                Sedang Dipinjam
+              </div>
+
+              <div id="borrowedBooks"
+                   class="text-3xl font-extrabold text-blue-700 mt-2">
+                0
+              </div>
+            </div>
+
+            <div class="w-11 h-11 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center">
+              <i class="fa-solid fa-book-open"></i>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="card stat-card p-5">
+
+          <div class="flex items-start justify-between">
+
+            <div>
+              <div class="text-sm text-slate-500">
+                Buku Tersedia
+              </div>
+
+              <div id="availableBooks"
+                   class="text-3xl font-extrabold text-emerald-700 mt-2">
+                0
+              </div>
+            </div>
+
+            <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
+              <i class="fa-solid fa-circle-check"></i>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="card stat-card p-5">
+
+          <div class="flex items-start justify-between">
+
+            <div>
+              <div class="text-sm text-slate-500">
+                Terlambat
+              </div>
+
+              <div id="lateBooks"
+                   class="text-3xl font-extrabold text-red-600 mt-2">
+                0
+              </div>
+            </div>
+
+            <div class="w-11 h-11 rounded-xl bg-red-50 text-red-600 flex items-center justify-center">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- QUICK ACTION -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-7">
+
+        <button onclick="showPage('borrow')"
+                class="card p-5 text-left hover:border-green-300 transition">
+
+          <div class="w-11 h-11 rounded-xl bg-green-100 text-green-700 flex items-center justify-center mb-4">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          </div>
+
+          <div class="font-bold text-green-950">
+            Peminjaman
+          </div>
+
+          <div class="text-xs text-slate-500 mt-1">
+            Catat buku yang sedang dipinjam.
+          </div>
+
+        </button>
+
+
+        <button onclick="showPage('return')"
+                class="card p-5 text-left hover:border-blue-300 transition">
+
+          <div class="w-11 h-11 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center mb-4">
+            <i class="fa-solid fa-arrow-right-to-bracket"></i>
+          </div>
+
+          <div class="font-bold text-green-950">
+            Pengembalian
+          </div>
+
+          <div class="text-xs text-slate-500 mt-1">
+            Catat buku yang sudah dikembalikan.
+          </div>
+
+        </button>
+
+
+        <button onclick="showPage('books')"
+                class="card p-5 text-left hover:border-amber-300 transition">
+
+          <div class="w-11 h-11 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center mb-4">
+            <i class="fa-solid fa-book"></i>
+          </div>
+
+          <div class="font-bold text-green-950">
+            Data Buku
+          </div>
+
+          <div class="text-xs text-slate-500 mt-1">
+            Cari dan lihat koleksi perpustakaan.
+          </div>
+
+        </button>
+
+
+        <button onclick="showPage('history')"
+                class="card p-5 text-left hover:border-purple-300 transition">
+
+          <div class="w-11 h-11 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center mb-4">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+          </div>
+
+          <div class="font-bold text-green-950">
+            Riwayat
+          </div>
+
+          <div class="text-xs text-slate-500 mt-1">
+            Lihat seluruh aktivitas peminjaman.
+          </div>
+
+        </button>
+
+      </div>
+
+
+      <!-- RECENT LOANS -->
+      <div class="card overflow-hidden">
+
+        <div class="p-5 sm:p-6 border-b border-slate-100 flex items-center justify-between">
+
+          <div>
+            <h2 class="font-extrabold text-green-950">
+              Peminjaman Terbaru
+            </h2>
+
+            <p class="text-xs text-slate-400 mt-1">
+              Data peminjaman yang tercatat
+            </p>
+          </div>
+
+          <button onclick="showPage('borrow')"
+                  class="text-sm font-bold text-green-700 hover:text-green-900">
+            Lihat semua →
+          </button>
+
+        </div>
+
+        <div class="overflow-x-auto">
+
+          <table class="w-full text-sm">
+
+            <thead class="bg-slate-50 text-slate-500">
+              <tr>
+                <th class="text-left px-5 py-3 font-semibold">Nama</th>
+                <th class="text-left px-5 py-3 font-semibold">Buku</th>
+                <th class="text-left px-5 py-3 font-semibold">Tanggal</th>
+                <th class="text-left px-5 py-3 font-semibold">Status</th>
+              </tr>
+            </thead>
+
+            <tbody id="recentLoans"></tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         BOOKS
+    ====================================================== -->
+    <section id="page-books" class="page hidden">
+
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+
+        <div>
+          <h2 class="text-2xl font-extrabold text-green-950">
+            Data Buku
+          </h2>
+
+          <p class="text-sm text-slate-500 mt-1">
+            Koleksi perpustakaan Gedung 2 dan Gedung 3
+          </p>
+        </div>
+
+        <button onclick="openAddBook()"
+                class="bg-green-800 hover:bg-green-900 text-white px-5 py-3 rounded-xl font-bold text-sm">
+          <i class="fa-solid fa-plus mr-2"></i>
+          Tambah Buku
+        </button>
+
+      </div>
+
+
+      <div class="card p-4 mb-5">
+
+        <div class="grid md:grid-cols-3 gap-3">
+
+          <div class="md:col-span-2 relative">
+
+            <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+
+            <input id="bookSearch"
+                   oninput="renderBooks()"
+                   type="text"
+                   placeholder="Cari judul buku atau pengarang..."
+                   class="w-full border border-slate-200 rounded-xl py-3 pl-11 pr-4 outline-none focus:border-green-600">
+
+          </div>
+
+          <select id="buildingFilter"
+                  onchange="renderBooks()"
+                  class="border border-slate-200 rounded-xl px-4 py-3 outline-none focus:border-green-600">
+
+            <option value="all">Semua Gedung</option>
+            <option value="Gedung 2">Gedung 2</option>
+            <option value="Gedung 3">Gedung 3</option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+
+      <div class="card overflow-hidden">
+
+        <div class="overflow-x-auto">
+
+          <table class="w-full text-sm">
+
+            <thead class="bg-green-50 text-green-900">
+
+              <tr>
+                <th class="text-left px-5 py-4">No. Buku</th>
+                <th class="text-left px-5 py-4">Judul Buku</th>
+                <th class="text-left px-5 py-4">Pengarang</th>
+                <th class="text-left px-5 py-4">Jumlah</th>
+                <th class="text-left px-5 py-4">Gedung</th>
+              </tr>
+
+            </thead>
+
+            <tbody id="booksTable"></tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         BORROW
+    ====================================================== -->
+    <section id="page-borrow" class="page hidden">
+
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+
+        <div>
+          <h2 class="text-2xl font-extrabold text-green-950">
+            Peminjaman
+          </h2>
+
+          <p class="text-sm text-slate-500 mt-1">
+            Data buku yang sedang dipinjam.
+          </p>
+        </div>
+
+        <button onclick="openBorrowForm()"
+                class="bg-green-800 hover:bg-green-900 text-white px-5 py-3 rounded-xl font-bold">
+          <i class="fa-solid fa-plus mr-2"></i>
+          Catat Peminjaman
+        </button>
+
+      </div>
+
+
+      <div class="card overflow-hidden">
+
+        <div class="overflow-x-auto">
+
+          <table class="w-full text-sm">
+
+            <thead class="bg-green-50 text-green-900">
+
+              <tr>
+                <th class="px-4 py-4 text-left">Nama</th>
+                <th class="px-4 py-4 text-left">Buku</th>
+                <th class="px-4 py-4 text-left">Tgl Pinjam</th>
+                <th class="px-4 py-4 text-left">Jatuh Tempo</th>
+                <th class="px-4 py-4 text-left">Gedung</th>
+                <th class="px-4 py-4 text-left">Status</th>
+              </tr>
+
+            </thead>
+
+            <tbody id="borrowTable"></tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         RETURN
+    ====================================================== -->
+    <section id="page-return" class="page hidden">
+
+      <div class="mb-6">
+
+        <h2 class="text-2xl font-extrabold text-green-950">
+          Pengembalian
+        </h2>
+
+        <p class="text-sm text-slate-500 mt-1">
+          Pilih transaksi yang ingin dicatat sebagai sudah kembali.
+        </p>
+
+      </div>
+
+
+      <div class="card overflow-hidden">
+
+        <div class="overflow-x-auto">
+
+          <table class="w-full text-sm">
+
+            <thead class="bg-blue-50 text-blue-900">
+
+              <tr>
+                <th class="px-4 py-4 text-left">Nama</th>
+                <th class="px-4 py-4 text-left">Buku</th>
+                <th class="px-4 py-4 text-left">Jatuh Tempo</th>
+                <th class="px-4 py-4 text-left">Status</th>
+                <th class="px-4 py-4 text-left">Aksi</th>
+              </tr>
+
+            </thead>
+
+            <tbody id="returnTable"></tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         HISTORY
+    ====================================================== -->
+    <section id="page-history" class="page hidden">
+
+      <div class="mb-6">
+
+        <h2 class="text-2xl font-extrabold text-green-950">
+          Riwayat Peminjaman
+        </h2>
+
+        <p class="text-sm text-slate-500 mt-1">
+          Seluruh riwayat peminjaman dan pengembalian.
+        </p>
+
+      </div>
+
+
+      <div class="card p-4 mb-5">
+
+        <div class="relative">
+
+          <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+
+          <input id="historySearch"
+                 oninput="renderHistory()"
+                 type="text"
+                 placeholder="Cari nama atau judul buku..."
+                 class="w-full border border-slate-200 rounded-xl py-3 pl-11 pr-4 outline-none focus:border-green-600">
+
+        </div>
+
+      </div>
+
+
+      <div class="card overflow-hidden">
+
+        <div class="overflow-x-auto">
+
+          <table class="w-full text-sm">
+
+            <thead class="bg-purple-50 text-purple-900">
+
+              <tr>
+                <th class="px-4 py-4 text-left">Nama</th>
+                <th class="px-4 py-4 text-left">Buku</th>
+                <th class="px-4 py-4 text-left">Pinjam</th>
+                <th class="px-4 py-4 text-left">Kembali</th>
+                <th class="px-4 py-4 text-left">Status</th>
+              </tr>
+
+            </thead>
+
+            <tbody id="historyTable"></tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PROFILE
+    ====================================================== -->
+    <section id="page-profile" class="page hidden">
+
+      <div class="mb-6">
+
+        <h2 class="text-2xl font-extrabold text-green-950">
+          Profil Perpustakaan
+        </h2>
+
+        <p class="text-sm text-slate-500 mt-1">
+          Informasi sistem perpustakaan.
+        </p>
+
+      </div>
+
+
+      <div class="grid lg:grid-cols-2 gap-5">
+
+        <div class="card p-6">
+
+          <div class="flex items-center gap-4 mb-6">
+
+            <div class="w-16 h-16 rounded-2xl bg-green-800 text-amber-300 flex items-center justify-center text-2xl">
+              <i class="fa-solid fa-book-open"></i>
+            </div>
+
+            <div>
+              <h3 class="font-extrabold text-xl text-green-950">
+                Khizanah Al Hikmah Library
+              </h3>
+
+              <p class="text-sm text-slate-500">
+                PKBM Ibadurrahman Sidoarjo
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="space-y-4">
+
+            <div class="flex justify-between gap-4 border-b border-slate-100 pb-3">
+              <span class="text-slate-400">Nama</span>
+              <strong>Khizanah Al Hikmah Library</strong>
+            </div>
+
+            <div class="flex justify-between gap-4 border-b border-slate-100 pb-3">
+              <span class="text-slate-400">Sekolah</span>
+              <strong>PKBM Ibadurrahman Sidoarjo</strong>
+            </div>
+
+            <div class="flex justify-between gap-4 border-b border-slate-100 pb-3">
+              <span class="text-slate-400">Tahun Data</span>
+              <strong>2025/2026</strong>
+            </div>
+
+            <div class="flex justify-between gap-4">
+              <span class="text-slate-400">Database</span>
+              <strong class="text-green-700">Gedung 2 + Gedung 3</strong>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="card p-6">
+
+          <h3 class="font-extrabold text-green-950 mb-5">
+            Pengelola
+          </h3>
+
+          <div class="flex items-center gap-4 bg-green-50 rounded-2xl p-5">
+
+            <div class="w-14 h-14 rounded-full bg-amber-400 flex items-center justify-center text-green-950 font-extrabold text-xl">
+              K
+            </div>
+
+            <div>
+              <div class="font-extrabold text-green-950">
+                Khodijah
+              </div>
+
+              <div class="text-sm text-slate-500">
+                Pengelola Khizanah Al Hikmah Library
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
+
+  <!-- FOOTER -->
+  <footer class="border-t border-slate-200 bg-white px-5 sm:px-8 lg:px-10 py-5">
+
+    <div class="max-w-[1600px] mx-auto flex flex-col sm:flex-row justify-between gap-2 text-xs text-slate-400">
+
+      <span>
+        © <span id="year"></span> Khizanah Al Hikmah Library
+      </span>
+
+      <span>
+        PKBM Ibadurrahman Sidoarjo
+      </span>
+
+    </div>
+
+  </footer>
+
+</main>
+
+
+<!-- =========================================================
+     MODAL TAMBAH BUKU
+========================================================= -->
+<div id="bookModal"
+     class="hidden fixed inset-0 z-[100] bg-black/50 p-4 flex items-center justify-center">
+
+  <div class="bg-white rounded-3xl w-full max-w-lg shadow-2xl">
+
+    <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+
+      <div>
+        <h3 class="font-extrabold text-lg text-green-950">
+          Tambah Buku
+        </h3>
+
+        <p class="text-xs text-slate-400 mt-1">
+          Masukkan data buku baru.
+        </p>
+      </div>
+
+      <button onclick="closeBookModal()"
+              class="w-9 h-9 rounded-xl bg-slate-100">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+    </div>
+
+
+    <form onsubmit="saveBook(event)" class="p-5 space-y-4">
+
+      <input id="bookNumber"
+             required
+             placeholder="No. Buku"
+             class="w-full border border-slate-200 rounded-xl px-4 py-3">
+
+      <input id="bookTitle"
+             required
+             placeholder="Judul Buku"
+             class="w-full border border-slate-200 rounded-xl px-4 py-3">
+
+      <input id="bookAuthor"
+             placeholder="Pengarang"
+             class="w-full border border-slate-200 rounded-xl px-4 py-3">
+
+      <input id="bookQty"
+             type="number"
+             min="1"
+             value="1"
+             required
+             placeholder="Jumlah"
+             class="w-full border border-slate-200 rounded-xl px-4 py-3">
+
+      <select id="bookBuilding"
+              class="w-full border border-slate-200 rounded-xl px-4 py-3">
+
+        <option>Gedung 2</option>
+        <option>Gedung 3</option>
+
+      </select>
+
+      <button type="submit"
+              class="w-full bg-green-800 hover:bg-green-900 text-white py-3 rounded-xl font-bold">
+        Simpan Buku
+      </button>
+
+    </form>
+
+  </div>
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+<script>
+
+  /* =========================================================
+     DATA BUKU
+     Data ini dapat ditambah lagi tanpa mengubah tampilan.
+  ========================================================= */
+
+  let books = [
+
+    /* GEDUNG 2 */
+
+    {no:"001", title:"Ighatsul lahfan", author:"Ibnu Qayyim Al-Jauziyah", qty:1, building:"Gedung 2"},
+    {no:"002", title:"Minhajul muslim", author:"Abu Bakar Jabir", qty:1, building:"Gedung 2"},
+    {no:"003", title:"Sirah nabawiyah", author:"Syaikh shafiyyurrahman", qty:1, building:"Gedung 2"},
+    {no:"005", title:"Fikih jumhur (1)", author:"Dr. Muhammad Na'im", qty:1, building:"Gedung 2"},
+    {no:"006", title:"Fikih jumhur (2)", author:"Dr. Muhammad Na'im", qty:1, building:"Gedung 2"},
+    {no:"007", title:"Sejarah peradaban islam", author:"Prof. Dr. H. J. Suyuthi Pulungan", qty:1, building:"Gedung 2"},
+    {no:"008", title:"Mekkah dan madinah", author:"Dr. Ahmad Ibrahim", qty:1, building:"Gedung 2"},
+    {no:"009", title:"Dahsyatnya hari kiamat", author:"Ibnu Kastir", qty:1, building:"Gedung 2"},
+    {no:"010", title:"Ensiklopedia islam", author:"Musdah Mulia", qty:1, building:"Gedung 2"},
+    {no:"011", title:"The khalifah", author:"Abdul Latip Thalib", qty:1, building:"Gedung 2"},
+    {no:"012", title:"100 dosa yang diremehkan wanita", author:"Abdul Lathif bin Hajis", qty:2, building:"Gedung 2"},
+    {no:"014", title:"Kumpulan 101 kultum", author:"", qty:1, building:"Gedung 2"},
+    {no:"015", title:"Muhammad al-fatih", author:"DR. Ali Ash Shallabi", qty:1, building:"Gedung 2"},
+    {no:"016", title:"Majmu' syarif", author:"", qty:1, building:"Gedung 2"},
+
+    {no:"101", title:"Siroh Nabi Muhammad", author:"M. Quraish Shihab", qty:1, building:"Gedung 2"},
+    {no:"102", title:"Muhammad Sang Inspirator Dunia", author:"Dr. Aidh Al-Qarni", qty:1, building:"Gedung 2"},
+    {no:"103", title:"Muhammad The World Changer", author:"Mohammad Jebara", qty:1, building:"Gedung 2"},
+    {no:"104", title:"Sejarah Hidup Rasulullah", author:"Syaikh Shafiyurrahman", qty:1, building:"Gedung 2"},
+    {no:"105", title:"Biografi Istri, putri, cucu, dan pelayan nabi", author:"Ahmad Khalil Jum'ah", qty:1, building:"Gedung 2"},
+    {no:"106", title:"Biografi Umar", author:"Prof. Dr. Ali Muhammad", qty:1, building:"Gedung 2"},
+    {no:"107", title:"Biografi Abu Bakar", author:"Prof. Dr. Ali Muhammad", qty:1, building:"Gedung 2"},
+
+    {no:"201", title:"The ultimate guide dinosaurus", author:"Rupert Matthews, Steve Parker", qty:1, building:"Gedung 2"},
+    {no:"202", title:"The Ultimate Guide Hiu", author:"Barbara Taylor", qty:1, building:"Gedung 2"},
+    {no:"203", title:"The Ultimate Guide Antariksa", author:"Rupert Matthews, Steve Parker", qty:1, building:"Gedung 2"},
+
+    {no:"228-233", title:"Atlas lengkap Indonesia&Dunia", author:"Palito Media", qty:6, building:"Gedung 2"},
+    {no:"234-238", title:"RPAL&RPUL Global", author:"Drs. Prayitno Darmanto", qty:5, building:"Gedung 2"},
+
+    {no:"301", title:"Ensiklopedia teknologi komputer", author:"Purindaswari", qty:1, building:"Gedung 2"},
+    {no:"302", title:"The magic Dr.Blender 3D Modeling", author:"Hendi Hendramatwan", qty:1, building:"Gedung 2"},
+    {no:"305", title:"The Inteligent Investor", author:"Benjamin Graham", qty:1, building:"Gedung 2"},
+
+    {no:"401", title:"Ensiklopedia sejarah dunia", author:"Lulu Fitri Rahman", qty:1, building:"Gedung 2"},
+    {no:"402", title:"Ensiklopedi Akhir Zaman", author:"Dr. Mahid Ahmad", qty:1, building:"Gedung 2"},
+    {no:"403", title:"Ensiklopedi sejarah islam", author:"Dr. Raghib As Sirjani", qty:1, building:"Gedung 2"},
+    {no:"404", title:"Sang pangeran dan janissary", author:"Salim A.Fillah", qty:1, building:"Gedung 2"},
+    {no:"405", title:"Adab Penghafal Al Qur'an", author:"Imam Abu Zakaria Yaya", qty:1, building:"Gedung 2"},
+    {no:"406", title:"Nusantaria sejarah", author:"Philip Bowring", qty:1, building:"Gedung 2"},
+
+    {no:"503", title:"Rumus Produktif ala muslim", author:"", qty:1, building:"Gedung 2"},
+    {no:"504", title:"Menjadi muslimah yang", author:"", qty:1, building:"Gedung 2"},
+    {no:"506", title:"Obat malas dosis tinggi", author:"", qty:1, building:"Gedung 2"},
+    {no:"507", title:"Menjadi wanita tangguh", author:"", qty:1, building:"Gedung 2"},
+    {no:"509", title:"Sibuk Kerja Jangan Lupa Ibadah", author:"", qty:1, building:"Gedung 2"},
+
+    {no:"604", title:"OSN Matematika", author:"", qty:1, building:"Gedung 2"},
+    {no:"605", title:"KSM Fisika", author:"", qty:1, building:"Gedung 2"},
+    {no:"610", title:"Kamus lengkap bahasa jawa", author:"", qty:1, building:"Gedung 2"},
+
+    {no:"801", title:"Atomic habits", author:"", qty:1, building:"Gedung 2"},
+    {no:"802", title:"Produktivitas sekolah", author:"", qty:1, building:"Gedung 2"},
+    {no:"806", title:"Public speaking for success", author:"", qty:1, building:"Gedung 2"},
+    {no:"808", title:"Social Inteligence", author:"", qty:1, building:"Gedung 2"},
+    {no:"810", title:"The physicology of money", author:"", qty:1, building:"Gedung 2"},
+    {no:"812", title:"Good vibes Good life", author:"", qty:1, building:"Gedung 2"},
+    {no:"813", title:"Cara tepat berdebat", author:"", qty:1, building:"Gedung 2"},
+    {no:"815", title:"Berani tidak disukai", author:"", qty:1, building:"Gedung 2"},
+    {no:"817", title:"Great leaders have no rules", author:"", qty:1, building:"Gedung 2"},
+    {no:"826", title:"Berdamai dengan masa lalu", author:"", qty:1, building:"Gedung 2"},
+    {no:"830", title:"Setiap luka akan pulih", author:"", qty:1, building:"Gedung 2"},
+    {no:"835", title:"365 jurus anti stres", author:"", qty:1, building:"Gedung 2"},
+
+    {no:"903", title:"Dapur susie", author:"", qty:1, building:"Gedung 2"},
+    {no:"904", title:"Cooking at home", author:"", qty:1, building:"Gedung 2"},
+    {no:"905", title:"Bekal Organik anak sekolah", author:"", qty:1, building:"Gedung 2"},
+    {no:"906", title:"Resep sehat JSR", author:"", qty:1, building:"Gedung 2"},
+    {no:"907", title:"Ramadhan JSR", author:"", qty:1, building:"Gedung 2"},
+
+
+    /* GEDUNG 3 */
+
+    {no:"", title:"muhammad al fatih 1-3", author:"Handri Satria", qty:3, building:"Gedung 3"},
+    {no:"", title:"RPAL-RPUL", author:"DRS.prayitno darmanto dan ninik setyawati S.Pd", qty:4, building:"Gedung 3"},
+    {no:"", title:"ATLAS LENGKAP", author:"palito media", qty:4, building:"Gedung 3"},
+    {no:"", title:"KAMUS BAHASA INDONESIA", author:"Manda Putri E,S.PD", qty:1, building:"Gedung 3"},
+    {no:"", title:"fiqih islam wa adillatuhu", author:"Proft,Doctor Wahba Atobali", qty:10, building:"Gedung 3"},
+    {no:"", title:"ath Thabari", author:"", qty:25, building:"Gedung 3"},
+    {no:"", title:"SHAHIH BUKHARI MUSLIM", author:"Muhammad Fu'ad Abdul Baqi", qty:1, building:"Gedung 3"},
+    {no:"", title:"semua orang butuh curhat", author:"Lori gottlieb", qty:1, building:"Gedung 3"},
+    {no:"", title:"21 WANITA PERKASA YANG DI TEMPA OLEH BUDAYA ACEH", author:"Qismullah Yusuf", qty:1, building:"Gedung 3"},
+    {no:"", title:"TOP FOKUS ULANGAN DAN UJIAN", author:"tim maestro eduka", qty:1, building:"Gedung 3"},
+    {no:"", title:"DISCOVERING MYSELF", author:"yohana nessy", qty:1, building:"Gedung 3"},
+    {no:"", title:"Mekkah dan Madinah", author:"Dr.ahmad Ibrahim asy -Syarif", qty:1, building:"Gedung 3"},
+    {no:"", title:"kitab tauhid", author:"DR.shalih bin fauzan", qty:1, building:"Gedung 3"},
+    {no:"", title:"RAJIN SHALAT TAPI MASIH KELIRU", author:"Dr. Mahmud Abdurrahman Abdul Mun'im", qty:1, building:"Gedung 3"},
+    {no:"", title:"Fithrah", author:"yayasan nidaul fithrah", qty:1, building:"Gedung 3"},
+    {no:"", title:"tafsir al fatihah", author:"muhammad rasyid ridha", qty:1, building:"Gedung 3"},
+    {no:"", title:"fiqih islam dari alkitab dan assunnah 1 - 4", author:"syaikh shiddiq", qty:4, building:"Gedung 3"},
+    {no:"", title:"dunia ditanganku akherat dihatiku", author:"ustadz abdullah amim", qty:1, building:"Gedung 3"},
+    {no:"", title:"pengobatan,perawatan dan kecantikan", author:"Agus ibnu IBAD", qty:1, building:"Gedung 3"},
+    {no:"", title:"manajemen mareketing sekolah", author:"jamal ma'mur Asmani", qty:1, building:"Gedung 3"},
+    {no:"", title:"belajar ilmu waris praktis", author:"Ustadz Muhammad Nur Yasin Zain", qty:1, building:"Gedung 3"},
+    {no:"", title:"125 PAHLAWAN DAN PEJUANG NUSANTARA", author:"GAMAL KOMANDOKO", qty:1, building:"Gedung 3"},
+    {no:"", title:"KIAT SHOLAT KHUSYU", author:"MUHAMMAD AL-MUNAJJID", qty:1, building:"Gedung 3"},
+    {no:"", title:"ARAB INDONESIA", author:"PROF.DR.H,.MAHMUD YUNUS", qty:1, building:"Gedung 3"},
+    {no:"", title:"TUNTUNAN KURBAN", author:"", qty:1, building:"Gedung 3"},
+    {no:"", title:"risalah qow aidul fikih", author:"", qty:1, building:"Gedung 3"},
+    {no:"", title:"KAMUS INGGRIS INDONESIA", author:"", qty:1, building:"Gedung 3"},
+    {no:"", title:"kultum kuliah 7 menit", author:"", qty:1, building:"Gedung 3"},
+    {no:"", title:"BELAJAR DARI ILMU FARAIDH 1-12", author:"", qty:12, building:"Gedung 3"},
+    {no:"", title:"majalah as sunnah", author:"", qty:10, building:"Gedung 3"},
+    {no:"", title:"amalan sunnah setahun", author:"", qty:1, building:"Gedung 3"},
+    {no:"", title:"SUKSES MENDIDIK ANAK", author:"", qty:1, building:"Gedung 3"},
+    {no:"", title:"PALESTINA YG TERLUPAKAN", author:"", qty:1, building:"Gedung 3"},
+    {no:"", title:"STUDI KELAYAKAN BISNIS", author:"", qty:1, building:"Gedung 3"}
+
+  ];
+
+
+  /* =========================================================
+     DATA PEMINJAMAN
+  ========================================================= */
+
+  let transactions = [
+
+    {
+      name:"Aina",
+      book:"Pulang",
+      borrow:"2026-08-21",
+      returnDate:"2026-09-01",
+      due:"2026-09-01",
+      building:"Gedung 2",
+      status:"Kembali"
+    },
+
+    {
+      name:"Khodijah",
+      book:"The midnight library",
+      borrow:"2026-08-21",
+      returnDate:"2026-08-26",
+      due:"2026-08-26",
+      building:"Gedung 2",
+      status:"Kembali"
+    },
+
+    {
+      name:"Khodijah",
+      book:"Tiga malam bersama penghuni surga",
+      borrow:"2026-08-28",
+      returnDate:"2026-09-03",
+      due:"2026-09-03",
+      building:"Gedung 2",
+      status:"Kembali"
+    },
+
+    {
+      name:"Sausan",
+      book:"Loneliness",
+      borrow:"2026-08-27",
+      returnDate:"2026-09-02",
+      due:"2026-09-02",
+      building:"Gedung 2",
+      status:"Kembali"
+    },
+
+    {
+      name:"Aulia",
+      book:"Rumah untuk Alie",
+      borrow:"2026-08-27",
+      returnDate:"2026-08-28",
+      due:"2026-08-28",
+      building:"Gedung 2",
+      status:"Kembali"
+    },
+
+    {
+      name:"Diana",
+      book:"Si putih",
+      borrow:"2026-08-27",
+      returnDate:"2026-09-04",
+      due:"2026-09-04",
+      building:"Gedung 2",
+      status:"Kembali"
+    },
+
+    {
+      name:"Meta",
+      book:"Atlas dunia",
+      borrow:"2026-08-27",
+      returnDate:"2026-08-31",
+      due:"2026-08-31",
+      building:"Gedung 2",
+      status:"Kembali"
+    },
+
+    {
+      name:"Mutia",
+      book:"Dia adalah kakakku",
+      borrow:"2026-08-27",
+      returnDate:"2026-09-03",
+      due:"2026-09-03",
+      building:"Gedung 2",
+      status:"Kembali"
+    },
+
+    {
+      name:"Almira",
+      book:"Bibi Gill",
+      borrow:"2026-08-28",
+      returnDate:"2026-09-03",
+      due:"2026-09-03",
+      building:"Gedung 2",
+      status:"Kembali"
+    },
+
+    {
+      name:"Aulia",
+      book:"Bumi",
+      borrow:"2026-08-28",
+      returnDate:"2026-09-03",
+      due:"2026-09-03",
+      building:"Gedung 2",
+      status:"Kembali"
+    },
+
+    {
+      name:"Medina",
+      book:"Pulang - Pergi",
+      borrow:"2026-08-28",
+      returnDate:"2026-09-04",
+      due:"2026-09-04",
+      building:"Gedung 2",
+      status:"Kembali"
+    },
+
+    {
+      name:"Aina",
+      book:"Pulang",
+      borrow:"2026-09-02",
+      returnDate:"2026-09-07",
+      due:"2026-09-07",
+      building:"Gedung 2",
+      status:"Kembali"
+    },
+
+    {
+      name:"Alita",
+      book:"Berdamai dengan masa lalu",
+      borrow:"2026-09-03",
+      returnDate:"2026-09-11",
+      due:"2026-09-11",
+      building:"Gedung 2",
+      status:"Kembali"
+    },
+
+    {
+      name:"Almira",
+      book:"Bibi Gill",
+      borrow:"2026-09-03",
+      returnDate:"2026-09-11",
+      due:"2026-09-11",
+      building:"Gedung 2",
+      status:"Kembali"
+    },
+
+    {
+      name:"Mutia",
+      book:"Rumah untuk Alie",
+      borrow:"2026-09-03",
+      returnDate:"2026-09-09",
+      due:"2026-09-09",
+      building:"Gedung 2",
+      status:"Kembali"
+    },
+
+    {
+      name:"Khodijah",
+      book:"Tiga malam bersama penghuni surga",
+      borrow:"2026-09-04",
+      returnDate:"2026-09-11",
+      due:"2026-09-11",
+      building:"Gedung 2",
+      status:"Kembali"
+    },
+
+    {
+      name:"Aulia",
+      book:"Bumi",
+      borrow:"2026-09-04",
+      returnDate:"2026-09-11",
+      due:"2026-09-11",
+      building:"Gedung 2",
+      status:"Kembali"
+    },
+
+    {
+      name:"Meta",
+      book:"Ensiklopedia Saintis Junior Teknologi",
+      borrow:"2026-09-04",
+      returnDate:"2026-09-11",
+      due:"2026-09-11",
+      building:"Gedung 2",
+      status:"Kembali"
+    },
+
+    {
+      name:"Diana",
+      book:"Kisah teladan para nabi",
+      borrow:"2026-09-04",
+      returnDate:"2026-09-09",
+      due:"2026-09-09",
+      building:"Gedung 2",
+      status:"Kembali"
+    },
+
+    {
+      name:"Mutia",
+      book:"Pulang",
+      borrow:"2026-09-09",
+      returnDate:"2026-09-11",
+      due:"2026-09-11",
+      building:"Gedung 2",
+      status:"Kembali"
+    },
+
+    {
+      name:"Sausan",
+      book:"Rumah untuk Alie",
+      borrow:"2026-09-11",
+      returnDate:"",
+      due:"2026-09-18",
+      building:"Gedung 2",
+      status:"Dipinjam"
+    },
+
+    {
+      name:"Salwah",
+      book:"Kado Terbaik",
+      borrow:"2026-09-11",
+      returnDate:"",
+      due:"2026-09-18",
+      building:"Gedung 2",
+      status:"Dipinjam"
+    },
+
+    {
+      name:"Meta",
+      book:"Kepribadian MBTI",
+      borrow:"2026-09-11",
+      returnDate:"",
+      due:"2026-09-18",
+      building:"Gedung 2",
+      status:"Dipinjam"
+    },
+
+    {
+      name:"Prita",
+      book:"Bandara - Stasiun dan tahun setelahnya",
+      borrow:"2026-09-11",
+      returnDate:"",
+      due:"2026-09-18",
+      building:"Gedung 2",
+      status:"Dipinjam"
+    }
+
+  ];
+
+
+  /* =========================================================
+     LOCAL STORAGE
+  ========================================================= */
+
+  const savedBooks = localStorage.getItem("khizanah_books");
+
+  if (savedBooks) {
+    try {
+      books = JSON.parse(savedBooks);
+    } catch(e) {}
+  }
+
+  const savedTransactions = localStorage.getItem("khizanah_transactions");
+
+  if (savedTransactions) {
+    try {
+      transactions = JSON.parse(savedTransactions);
+    } catch(e) {}
+  }
+
+
+  function saveLocalData() {
+
+    localStorage.setItem(
+      "khizanah_books",
+      JSON.stringify(books)
+    );
+
+    localStorage.setItem(
+      "khizanah_transactions",
+      JSON.stringify(transactions)
+    );
+
+  }
+
+
+  /* =========================================================
+     NAVIGATION
+  ========================================================= */
+
+  const pageTitles = {
+    dashboard:"Dashboard",
+    books:"Data Buku",
+    borrow:"Peminjaman",
+    return:"Pengembalian",
+    history:"Riwayat",
+    profile:"Profil Perpustakaan"
+  };
+
+
+  function showPage(page) {
+
+    document.querySelectorAll(".page").forEach(el => {
+      el.classList.add("hidden");
+    });
+
+    const target = document.getElementById("page-" + page);
+
+    if (target) {
+      target.classList.remove("hidden");
+    }
+
+    document.getElementById("pageTitle").textContent =
+      pageTitles[page] || "Dashboard";
+
+
+    document.querySelectorAll(".nav-item").forEach(el => {
+      el.classList.remove("nav-active");
+      el.classList.add("text-slate-600");
+    });
+
+    const active = document.getElementById("nav-" + page);
+
+    if (active) {
+      active.classList.add("nav-active");
+      active.classList.remove("text-slate-600");
+    }
+
+
+    if (page === "dashboard") {
+      renderDashboard();
+    }
+
+    if (page === "books") {
+      renderBooks();
+    }
+
+    if (page === "borrow") {
+      renderBorrow();
+    }
+
+    if (page === "return") {
+      renderReturn();
+    }
+
+    if (page === "history") {
+      renderHistory();
+    }
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+
+  }
+
+
+  function openMobileMenu() {
+
+    document
+      .getElementById("mobileMenu")
+      .classList.add("show");
+
+    document
+      .getElementById("mobileOverlay")
+      .classList.add("show");
+
+  }
+
+
+  function closeMobileMenu() {
+
+    document
+      .getElementById("mobileMenu")
+      .classList.remove("show");
+
+    document
+      .getElementById("mobileOverlay")
+      .classList.remove("show");
+
+  }
+
+
+  function mobilePage(page) {
+
+    closeMobileMenu();
+    showPage(page);
+
+  }
+
+
+  /* =========================================================
+     DASHBOARD
+  ========================================================= */
+
+  function totalBookCopies() {
+
+    return books.reduce(
+      (total, book) => total + Number(book.qty || 0),
+      0
+    );
+
+  }
+
+
+  function renderDashboard() {
+
+    const total = totalBookCopies();
+
+    const borrowed = transactions.filter(
+      t => t.status === "Dipinjam"
+    ).length;
+
+    const available = Math.max(
+      0,
+      total - borrowed
+    );
+
+    const late = transactions.filter(
+      t => t.status === "Dipinjam" && isLate(t.due)
+    ).length;
+
+
+    document.getElementById("totalBooks").textContent = total;
+
+    document.getElementById("borrowedBooks").textContent =
+      borrowed;
+
+    document.getElementById("availableBooks").textContent =
+      available;
+
+    document.getElementById("lateBooks").textContent =
+      late;
+
+
+    const recent =
+      transactions.slice(-6).reverse();
+
+    document.getElementById("recentLoans").innerHTML =
+      recent.map(t => `
+
+        <tr class="border-t border-slate-100">
+
+          <td class="px-5 py-4 font-semibold text-green-950">
+            ${escapeHTML(t.name)}
+          </td>
+
+          <td class="px-5 py-4">
+            ${escapeHTML(t.book)}
+          </td>
+
+          <td class="px-5 py-4 text-slate-500">
+            ${formatDate(t.borrow)}
+          </td>
+
+          <td class="px-5 py-4">
+            ${statusBadge(t.status, t.due)}
+          </td>
+
+        </tr>
+
+      `).join("");
+
+  }
+
+
+  /* =========================================================
+     BOOKS
+  ========================================================= */
+
+  function renderBooks() {
+
+    const search =
+      (document.getElementById("bookSearch")?.value || "")
+      .toLowerCase();
+
+    const building =
+      document.getElementById("buildingFilter")?.value || "all";
+
+
+    const filtered = books.filter(book => {
+
+      const matchesSearch =
+        book.title.toLowerCase().includes(search) ||
+        book.author.toLowerCase().includes(search) ||
+        book.no.toLowerCase().includes(search);
+
+      const matchesBuilding =
+        building === "all" ||
+        book.building === building;
+
+      return matchesSearch && matchesBuilding;
+
+    });
+
+
+    document.getElementById("booksTable").innerHTML =
+      filtered.map(book => `
+
+        <tr class="border-t border-slate-100 hover:bg-slate-50">
+
+          <td class="px-5 py-4 font-bold text-green-800">
+            ${escapeHTML(book.no || "-")}
+          </td>
+
+          <td class="px-5 py-4 font-semibold text-green-950">
+            ${escapeHTML(book.title)}
+          </td>
+
+          <td class="px-5 py-4 text-slate-500">
+            ${escapeHTML(book.author || "-")}
+          </td>
+
+          <td class="px-5 py-4">
+            ${book.qty}
+          </td>
+
+          <td class="px-5 py-4">
+            <span class="inline-flex px-3 py-1 rounded-full bg-green-50 text-green-700 text-xs font-bold">
+              ${escapeHTML(book.building)}
+            </span>
+          </td>
+
+        </tr>
+
+      `).join("");
+
+
+    if (!filtered.length) {
+
+      document.getElementById("booksTable").innerHTML = `
+
+        <tr>
+          <td colspan="5"
+              class="px-5 py-12 text-center text-slate-400">
+            Buku tidak ditemukan.
+          </td>
+        </tr>
+
+      `;
+
+    }
+
+  }
+
+
+  function openAddBook() {
+
+    document.getElementById("bookModal")
+      .classList.remove("hidden");
+
+  }
+
+
+  function closeBookModal() {
+
+    document.getElementById("bookModal")
+      .classList.add("hidden");
+
+  }
+
+
+  function saveBook(event) {
+
+    event.preventDefault();
+
+
+    books.push({
+
+      no:document.getElementById("bookNumber").value.trim(),
+
+      title:document.getElementById("bookTitle").value.trim(),
+
+      author:document.getElementById("bookAuthor").value.trim(),
+
+      qty:Number(
+        document.getElementById("bookQty").value
+      ),
+
+      building:
+        document.getElementById("bookBuilding").value
+
+    });
+
+
+    saveLocalData();
+
+    event.target.reset();
+
+    closeBookModal();
+
+    renderBooks();
+
+    renderDashboard();
+
+  }
+
+
+  /* =========================================================
+     BORROW
+  ========================================================= */
+
+  function renderBorrow() {
+
+    const active =
+      transactions.filter(
+        t => t.status === "Dipinjam"
+      );
+
+
+    document.getElementById("borrowTable").innerHTML =
+      active.map(t => `
+
+        <tr class="border-t border-slate-100">
+
+          <td class="px-4 py-4 font-semibold">
+            ${escapeHTML(t.name)}
+          </td>
+
+          <td class="px-4 py-4">
+            ${escapeHTML(t.book)}
+          </td>
+
+          <td class="px-4 py-4">
+            ${formatDate(t.borrow)}
+          </td>
+
+          <td class="px-4 py-4">
+            ${formatDate(t.due)}
+          </td>
+
+          <td class="px-4 py-4">
+            ${escapeHTML(t.building)}
+          </td>
+
+          <td class="px-4 py-4">
+            ${statusBadge(t.status, t.due)}
+          </td>
+
+        </tr>
+
+      `).join("");
+
+
+    if (!active.length) {
+
+      document.getElementById("borrowTable").innerHTML = `
+
+        <tr>
+          <td colspan="6"
+              class="px-5 py-12 text-center text-slate-400">
+            Tidak ada buku yang sedang dipinjam.
+          </td>
+        </tr>
+
+      `;
+
+    }
+
+  }
+
+
+  function openBorrowForm() {
+
+    const name =
+      prompt("Nama peminjam:");
+
+    if (!name) return;
+
+
+    const book =
+      prompt("Judul buku:");
+
+    if (!book) return;
+
+
+    const building =
+      prompt("Gedung (Gedung 2 / Gedung 3):", "Gedung 2");
+
+    if (!building) return;
+
+
+    const due =
+      prompt("Jatuh tempo (YYYY-MM-DD):");
+
+    if (!due) return;
+
+
+    transactions.push({
+
+      name:name.trim(),
+
+      book:book.trim(),
+
+      borrow:new Date()
+        .toISOString()
+        .slice(0,10),
+
+      returnDate:"",
+
+      due:due.trim(),
+
+      building:building.trim(),
+
+      status:"Dipinjam"
+
+    });
+
+
+    saveLocalData();
+
+    renderDashboard();
+
+    renderBorrow();
+
+    renderReturn();
+
+    alert("Peminjaman berhasil dicatat.");
+
+  }
+
+
+  /* =========================================================
+     RETURN
+  ========================================================= */
+
+  function renderReturn() {
+
+    const active =
+      transactions
+        .map((t,index) => ({...t,index}))
+        .filter(t => t.status === "Dipinjam");
+
+
+    document.getElementById("returnTable").innerHTML =
+      active.map(t => `
+
+        <tr class="border-t border-slate-100">
+
+          <td class="px-4 py-4 font-semibold">
+            ${escapeHTML(t.name)}
+          </td>
+
+          <td class="px-4 py-4">
+            ${escapeHTML(t.book)}
+          </td>
+
+          <td class="px-4 py-4">
+            ${formatDate(t.due)}
+          </td>
+
+          <td class="px-4 py-4">
+            ${statusBadge(t.status, t.due)}
+          </td>
+
+          <td class="px-4 py-4">
+
+            <button
+              onclick="returnBook(${t.index})"
+              class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-xs font-bold">
+
+              <i class="fa-solid fa-check mr-1"></i>
+              Kembalikan
+
+            </button>
+
+          </td>
+
+        </tr>
+
+      `).join("");
+
+
+    if (!active.length) {
+
+      document.getElementById("returnTable").innerHTML = `
+
+        <tr>
+          <td colspan="5"
+              class="px-5 py-12 text-center text-slate-400">
+            Tidak ada buku yang menunggu pengembalian.
+          </td>
+        </tr>
+
+      `;
+
+    }
+
+  }
+
+
+  function returnBook(index) {
+
+    if (!confirm("Tandai buku ini sudah dikembalikan?")) {
+      return;
+    }
+
+
+    transactions[index].status = "Kembali";
+
+    transactions[index].returnDate =
+      new Date()
+        .toISOString()
+        .slice(0,10);
+
+
+    saveLocalData();
+
+    renderDashboard();
+
+    renderBorrow();
+
+    renderReturn();
+
+    renderHistory();
+
+  }
+
+
+  /* =========================================================
+     HISTORY
+  ========================================================= */
+
+  function renderHistory() {
+
+    const search =
+      (document.getElementById("historySearch")?.value || "")
+      .toLowerCase();
+
+
+    const filtered =
+      transactions
+        .map((t,index) => ({...t,index}))
+        .reverse()
+        .filter(t =>
+
+          t.name.toLowerCase().includes(search) ||
+
+          t.book.toLowerCase().includes(search)
+
+        );
+
+
+    document.getElementById("historyTable").innerHTML =
+      filtered.map(t => `
+
+        <tr class="border-t border-slate-100">
+
+          <td class="px-4 py-4 font-semibold">
+            ${escapeHTML(t.name)}
+          </td>
+
+          <td class="px-4 py-4">
+            ${escapeHTML(t.book)}
+          </td>
+
+          <td class="px-4 py-4">
+            ${formatDate(t.borrow)}
+          </td>
+
+          <td class="px-4 py-4">
+            ${formatDate(t.returnDate)}
+          </td>
+
+          <td class="px-4 py-4">
+            ${statusBadge(t.status, t.due)}
+          </td>
+
+        </tr>
+
+      `).join("");
+
+
+    if (!filtered.length) {
+
+      document.getElementById("historyTable").innerHTML = `
+
+        <tr>
+          <td colspan="5"
+              class="px-5 py-12 text-center text-slate-400">
+            Riwayat tidak ditemukan.
+          </td>
+        </tr>
+
+      `;
+
+    }
+
+  }
+
+
+  /* =========================================================
+     HELPER
+  ========================================================= */
+
+  function formatDate(date) {
+
+    if (!date) return "-";
+
+    const d = new Date(date + "T00:00:00");
+
+    if (isNaN(d)) return date;
+
+    return d.toLocaleDateString(
+      "id-ID",
+      {
+        day:"2-digit",
+        month:"short",
+        year:"numeric"
+      }
+    );
+
+  }
+
+
+  function isLate(due) {
+
+    if (!due) return false;
+
+    const today =
+      new Date()
+        .toISOString()
+        .slice(0,10);
+
+    return due < today;
+
+  }
+
+
+  function statusBadge(status, due) {
+
+    if (status === "Kembali") {
+
+      return `
+        <span class="inline-flex px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold">
+          Kembali
+        </span>
+      `;
+
+    }
+
+
+    if (isLate(due)) {
+
+      return `
+        <span class="inline-flex px-3 py-1 rounded-full bg-red-50 text-red-700 text-xs font-bold">
+          Terlambat
+        </span>
+      `;
+
+    }
+
+
+    return `
+      <span class="inline-flex px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-bold">
+        Dipinjam
+      </span>
+    `;
+
+  }
+
+
+  function escapeHTML(value) {
+
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  /* =========================================================
+     INIT
+  ========================================================= */
+
+  document.getElementById("year").textContent =
+    new Date().getFullYear();
+
+  renderDashboard();
+
+</script>
+
+</body>
+</html>
     .nav-active {
       color: #064e3b;
       font-weight: 800;
