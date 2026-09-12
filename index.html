@@ -1,0 +1,2475 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#07130f">
+  <title>Khizanah Al Hikmah Library</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(16,185,129,.12), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(245,158,11,.08), transparent 30%),
+        #020807;
+      color: #ecfdf5;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .font-arabic {
+      font-family: 'Amiri', serif;
+    }
+
+    .glass {
+      background: rgba(255,255,255,.045);
+      border: 1px solid rgba(255,255,255,.08);
+      backdrop-filter: blur(14px);
+    }
+
+    .glow {
+      box-shadow: 0 0 30px rgba(16,185,129,.08);
+    }
+
+    .green-glow {
+      box-shadow: 0 0 25px rgba(16,185,129,.15);
+    }
+
+    .scrollbar::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+
+    .scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .scrollbar::-webkit-scrollbar-thumb {
+      background: #14532d;
+      border-radius: 20px;
+    }
+
+    button, input, select {
+      font-family: inherit;
+    }
+
+    .fade-enter-active,
+    .fade-leave-active {
+      transition: opacity .2s ease;
+    }
+
+    .fade-enter-from,
+    .fade-leave-to {
+      opacity: 0;
+    }
+
+    @media (min-width: 900px) {
+      .app-shell {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<div id="app" class="min-h-screen">
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-40 border-b border-white/5 bg-[#030b08]/90 backdrop-blur-xl">
+    <div class="app-shell px-4 py-3 flex items-center justify-between">
+
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-400 to-green-700 flex items-center justify-center shadow-lg shadow-emerald-900/30">
+          <span class="text-xl">📚</span>
+        </div>
+
+        <div>
+          <h1 class="font-bold text-sm sm:text-base text-emerald-100">
+            Khizanah Al Hikmah
+          </h1>
+          <p class="text-[10px] sm:text-xs text-slate-400">
+            Library • PKBM Ibadurrahman Sidoarjo
+          </p>
+        </div>
+      </div>
+
+      <button
+        @click="showSearch = !showSearch"
+        class="w-10 h-10 rounded-xl glass flex items-center justify-center text-slate-300 hover:text-white">
+        🔍
+      </button>
+    </div>
+
+    <div v-if="showSearch" class="app-shell px-4 pb-3">
+      <div class="relative">
+        <input
+          v-model="globalSearch"
+          type="text"
+          placeholder="Cari buku, peminjam, judul..."
+          class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 pl-11 outline-none focus:border-emerald-500/50 text-sm">
+        <span class="absolute left-4 top-3.5">🔎</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-shell px-4 pb-28">
+
+    <!-- DASHBOARD -->
+    <section v-if="activePage === 'dashboard'" class="pt-5">
+
+      <div class="mb-5">
+        <p class="text-emerald-400 text-xs font-semibold uppercase tracking-widest">
+          Maktabah Digital
+        </p>
+
+        <h2 class="text-2xl sm:text-3xl font-extrabold mt-1">
+          Dashboard Perpustakaan
+        </h2>
+
+        <p class="text-slate-400 text-sm mt-1">
+          Kelola koleksi dan peminjaman dalam satu tempat.
+        </p>
+      </div>
+
+      <!-- STATS -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+
+        <div class="glass glow rounded-2xl p-4">
+          <div class="text-2xl mb-2">📚</div>
+          <p class="text-xs text-slate-400">Total Buku</p>
+          <p class="text-2xl font-bold mt-1">{{ totalBooks }}</p>
+        </div>
+
+        <div class="glass rounded-2xl p-4">
+          <div class="text-2xl mb-2">📖</div>
+          <p class="text-xs text-slate-400">Tersedia</p>
+          <p class="text-2xl font-bold mt-1 text-emerald-400">{{ availableBooks }}</p>
+        </div>
+
+        <div class="glass rounded-2xl p-4">
+          <div class="text-2xl mb-2">📥</div>
+          <p class="text-xs text-slate-400">Sedang Dipinjam</p>
+          <p class="text-2xl font-bold mt-1 text-amber-400">{{ borrowedCount }}</p>
+        </div>
+
+        <div class="glass rounded-2xl p-4">
+          <div class="text-2xl mb-2">⏰</div>
+          <p class="text-xs text-slate-400">Terlambat</p>
+          <p class="text-2xl font-bold mt-1 text-red-400">{{ overdueCount }}</p>
+        </div>
+
+      </div>
+
+      <!-- QUICK ACTION -->
+      <div class="mt-5">
+        <h3 class="font-bold text-base mb-3">Aksi Cepat</h3>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+
+          <button @click="openBorrow"
+            class="glass rounded-2xl p-4 text-left hover:bg-emerald-500/10 transition">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/15 flex items-center justify-center mb-3">
+              📥
+            </div>
+            <p class="font-semibold text-sm">Pinjam Buku</p>
+            <p class="text-xs text-slate-500 mt-1">Catat peminjaman</p>
+          </button>
+
+          <button @click="openReturn"
+            class="glass rounded-2xl p-4 text-left hover:bg-amber-500/10 transition">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/15 flex items-center justify-center mb-3">
+              📤
+            </div>
+            <p class="font-semibold text-sm">Kembalikan</p>
+            <p class="text-xs text-slate-500 mt-1">Proses pengembalian</p>
+          </button>
+
+          <button @click="openBookModal()"
+            class="glass rounded-2xl p-4 text-left hover:bg-blue-500/10 transition">
+            <div class="w-10 h-10 rounded-xl bg-blue-500/15 flex items-center justify-center mb-3">
+              ➕
+            </div>
+            <p class="font-semibold text-sm">Tambah Buku</p>
+            <p class="text-xs text-slate-500 mt-1">Masukkan koleksi</p>
+          </button>
+
+          <button @click="activePage='history'"
+            class="glass rounded-2xl p-4 text-left hover:bg-purple-500/10 transition">
+            <div class="w-10 h-10 rounded-xl bg-purple-500/15 flex items-center justify-center mb-3">
+              📊
+            </div>
+            <p class="font-semibold text-sm">Riwayat</p>
+            <p class="text-xs text-slate-500 mt-1">Lihat transaksi</p>
+          </button>
+
+        </div>
+      </div>
+
+      <!-- RECENT -->
+      <div class="mt-6 glass rounded-2xl overflow-hidden">
+
+        <div class="p-4 border-b border-white/5 flex items-center justify-between">
+          <div>
+            <h3 class="font-bold">Peminjaman Terbaru</h3>
+            <p class="text-xs text-slate-500 mt-1">Aktivitas perpustakaan</p>
+          </div>
+
+          <button
+            @click="activePage='history'"
+            class="text-xs text-emerald-400">
+            Lihat semua →
+          </button>
+        </div>
+
+        <div v-if="recentTransactions.length">
+          <div
+            v-for="item in recentTransactions"
+            :key="item.id"
+            class="p-4 border-b border-white/5 last:border-0 flex items-center gap-3">
+
+            <div class="w-10 h-10 shrink-0 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+              📖
+            </div>
+
+            <div class="min-w-0 flex-1">
+              <p class="font-semibold text-sm truncate">{{ item.member }}</p>
+              <p class="text-xs text-slate-400 truncate">{{ item.title }}</p>
+            </div>
+
+            <div class="text-right">
+              <span
+                class="text-[10px] px-2 py-1 rounded-full"
+                :class="item.returnDate ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400'">
+                {{ item.returnDate ? 'Kembali' : 'Dipinjam' }}
+              </span>
+            </div>
+
+          </div>
+        </div>
+
+        <div v-else class="p-8 text-center text-slate-500 text-sm">
+          Belum ada transaksi.
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- BOOKS -->
+    <section v-if="activePage === 'books'" class="pt-5">
+
+      <div class="flex items-start justify-between gap-3 mb-5">
+        <div>
+          <p class="text-emerald-400 text-xs font-semibold uppercase tracking-widest">
+            Koleksi
+          </p>
+          <h2 class="text-2xl font-extrabold">Data Buku</h2>
+          <p class="text-slate-400 text-sm mt-1">
+            Gedung 2 dan Gedung 3 dalam satu database.
+          </p>
+        </div>
+
+        <button
+          @click="openBookModal()"
+          class="bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded-xl px-4 py-3 text-sm">
+          + Buku
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+
+        <input
+          v-model="bookSearch"
+          placeholder="🔍 Cari judul / pengarang / nomor..."
+          class="sm:col-span-2 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-emerald-500/50">
+
+        <select
+          v-model="buildingFilter"
+          class="bg-[#08120f] border border-white/10 rounded-xl px-4 py-3 text-sm outline-none">
+          <option value="">Semua Gedung</option>
+          <option value="Gedung 2">Gedung 2</option>
+          <option value="Gedung 3">Gedung 3</option>
+        </select>
+
+      </div>
+
+      <div class="space-y-3">
+
+        <div
+          v-for="book in filteredBooks"
+          :key="book.id"
+          class="glass rounded-2xl p-4">
+
+          <div class="flex gap-3">
+
+            <div class="w-12 h-12 shrink-0 rounded-xl bg-emerald-500/10 flex items-center justify-center text-xl">
+              📕
+            </div>
+
+            <div class="min-w-0 flex-1">
+
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <h3 class="font-bold text-sm leading-snug">{{ book.title }}</h3>
+                  <p class="text-xs text-slate-500 mt-1">
+                    {{ book.author || 'Pengarang belum diisi' }}
+                  </p>
+                </div>
+
+                <button
+                  @click="openBookModal(book)"
+                  class="text-xs text-slate-400 hover:text-emerald-400">
+                  ✏️
+                </button>
+              </div>
+
+              <div class="flex flex-wrap gap-2 mt-3">
+
+                <span class="text-[10px] px-2 py-1 rounded-lg bg-white/5 text-slate-400">
+                  No. {{ book.number || '-' }}
+                </span>
+
+                <span class="text-[10px] px-2 py-1 rounded-lg bg-blue-500/10 text-blue-400">
+                  {{ book.building || 'Belum diisi' }}
+                </span>
+
+                <span class="text-[10px] px-2 py-1 rounded-lg bg-emerald-500/10 text-emerald-400">
+                  {{ book.qty }} eksemplar
+                </span>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div v-if="!filteredBooks.length"
+          class="glass rounded-2xl p-10 text-center text-slate-500">
+          Buku tidak ditemukan.
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- BORROW -->
+    <section v-if="activePage === 'borrow'" class="pt-5">
+
+      <div class="mb-5">
+        <p class="text-emerald-400 text-xs font-semibold uppercase tracking-widest">
+          Transaksi
+        </p>
+        <h2 class="text-2xl font-extrabold">Peminjaman Buku</h2>
+        <p class="text-slate-400 text-sm mt-1">
+          Catat buku yang sedang dipinjam.
+        </p>
+      </div>
+
+      <div class="glass rounded-2xl p-5">
+
+        <div class="space-y-4">
+
+          <div>
+            <label class="text-xs text-slate-400">Nama Peminjam</label>
+            <input
+              v-model="borrowForm.member"
+              placeholder="Contoh: Khodijah"
+              class="mt-2 w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-emerald-500/50">
+          </div>
+
+          <div>
+            <label class="text-xs text-slate-400">Judul Buku</label>
+            <input
+              v-model="borrowForm.title"
+              placeholder="Masukkan judul buku"
+              class="mt-2 w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-emerald-500/50">
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+
+            <div>
+              <label class="text-xs text-slate-400">Tanggal Pinjam</label>
+              <input
+                v-model="borrowForm.borrowDate"
+                type="date"
+                class="mt-2 w-full bg-white/5 border border-white/10 rounded-xl px-3 py-3 outline-none">
+            </div>
+
+            <div>
+              <label class="text-xs text-slate-400">Jatuh Tempo</label>
+              <input
+                v-model="borrowForm.dueDate"
+                type="date"
+                class="mt-2 w-full bg-white/5 border border-white/10 rounded-xl px-3 py-3 outline-none">
+            </div>
+
+          </div>
+
+          <div>
+            <label class="text-xs text-slate-400">Gedung</label>
+            <select
+              v-model="borrowForm.building"
+              class="mt-2 w-full bg-[#08120f] border border-white/10 rounded-xl px-4 py-3 outline-none">
+              <option>Gedung 2</option>
+              <option>Gedung 3</option>
+            </select>
+          </div>
+
+          <button
+            @click="saveBorrow"
+            class="w-full bg-emerald-500 hover:bg-emerald-400 text-black font-bold py-3.5 rounded-xl">
+            Simpan Peminjaman
+          </button>
+
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- RETURN -->
+    <section v-if="activePage === 'return'" class="pt-5">
+
+      <div class="mb-5">
+        <p class="text-amber-400 text-xs font-semibold uppercase tracking-widest">
+          Transaksi
+        </p>
+        <h2 class="text-2xl font-extrabold">Pengembalian Buku</h2>
+        <p class="text-slate-400 text-sm mt-1">
+          Pilih transaksi yang ingin dikembalikan.
+        </p>
+      </div>
+
+      <div class="space-y-3">
+
+        <div
+          v-for="item in activeLoans"
+          :key="item.id"
+          class="glass rounded-2xl p-4">
+
+          <div class="flex gap-3">
+
+            <div class="w-11 h-11 shrink-0 rounded-xl bg-amber-500/10 flex items-center justify-center">
+              📖
+            </div>
+
+            <div class="flex-1 min-w-0">
+              <p class="font-bold text-sm">{{ item.member }}</p>
+              <p class="text-xs text-slate-400 truncate mt-1">
+                {{ item.title }}
+              </p>
+              <p class="text-[10px] text-slate-500 mt-2">
+                Jatuh tempo: {{ formatDate(item.dueDate) }}
+              </p>
+            </div>
+
+            <button
+              @click="returnBook(item.id)"
+              class="self-center bg-amber-500 text-black text-xs font-bold px-3 py-2 rounded-xl">
+              Kembali
+            </button>
+
+          </div>
+        </div>
+
+        <div
+          v-if="!activeLoans.length"
+          class="glass rounded-2xl p-10 text-center">
+          <div class="text-4xl mb-3">✅</div>
+          <p class="font-semibold">Tidak ada buku yang sedang dipinjam.</p>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- HISTORY -->
+    <section v-if="activePage === 'history'" class="pt-5">
+
+      <div class="mb-5">
+        <p class="text-purple-400 text-xs font-semibold uppercase tracking-widest">
+          Arsip
+        </p>
+        <h2 class="text-2xl font-extrabold">Riwayat Peminjaman</h2>
+        <p class="text-slate-400 text-sm mt-1">
+          Semua transaksi tersimpan di sini.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+
+        <input
+          v-model="historySearch"
+          placeholder="🔍 Cari nama / buku..."
+          class="sm:col-span-2 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm outline-none">
+
+        <select
+          v-model="historyFilter"
+          class="bg-[#08120f] border border-white/10 rounded-xl px-4 py-3 text-sm">
+          <option value="">Semua</option>
+          <option value="active">Sedang Dipinjam</option>
+          <option value="returned">Sudah Kembali</option>
+        </select>
+
+      </div>
+
+      <div class="space-y-3">
+
+        <div
+          v-for="item in filteredHistory"
+          :key="item.id"
+          class="glass rounded-2xl p-4">
+
+          <div class="flex items-start gap-3">
+
+            <div class="w-10 h-10 shrink-0 rounded-xl bg-purple-500/10 flex items-center justify-center">
+              📚
+            </div>
+
+            <div class="flex-1 min-w-0">
+
+              <div class="flex justify-between gap-3">
+                <div>
+                  <p class="font-bold text-sm">{{ item.member }}</p>
+                  <p class="text-xs text-slate-400 mt-1">{{ item.title }}</p>
+                </div>
+
+                <span
+                  class="h-fit whitespace-nowrap text-[10px] px-2 py-1 rounded-full"
+                  :class="item.returnDate
+                    ? 'bg-emerald-500/10 text-emerald-400'
+                    : 'bg-amber-500/10 text-amber-400'">
+                  {{ item.returnDate ? 'Kembali' : 'Dipinjam' }}
+                </span>
+              </div>
+
+              <div class="mt-3 grid grid-cols-3 gap-2 text-[10px]">
+                <div class="bg-white/5 rounded-lg p-2">
+                  <span class="text-slate-500 block">Pinjam</span>
+                  {{ formatDate(item.borrowDate) }}
+                </div>
+
+                <div class="bg-white/5 rounded-lg p-2">
+                  <span class="text-slate-500 block">Tempo</span>
+                  {{ formatDate(item.dueDate) }}
+                </div>
+
+                <div class="bg-white/5 rounded-lg p-2">
+                  <span class="text-slate-500 block">Kembali</span>
+                  {{ item.returnDate ? formatDate(item.returnDate) : '-' }}
+                </div>
+              </div>
+
+              <div class="mt-2 text-[10px] text-slate-500">
+                {{ item.building }} • {{ item.program || 'Perpustakaan' }}
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- SETTINGS -->
+    <section v-if="activePage === 'settings'" class="pt-5">
+
+      <div class="mb-5">
+        <p class="text-slate-400 text-xs font-semibold uppercase tracking-widest">
+          Sistem
+        </p>
+        <h2 class="text-2xl font-extrabold">Pengaturan</h2>
+      </div>
+
+      <div class="space-y-4">
+
+        <div class="glass rounded-2xl p-5">
+          <h3 class="font-bold">Identitas Perpustakaan</h3>
+
+          <div class="space-y-3 mt-4">
+
+            <div>
+              <label class="text-xs text-slate-400">Nama Perpustakaan</label>
+              <input
+                v-model="settings.libraryName"
+                class="mt-2 w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm">
+            </div>
+
+            <div>
+              <label class="text-xs text-slate-400">Nama Sekolah</label>
+              <input
+                v-model="settings.schoolName"
+                class="mt-2 w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm">
+            </div>
+
+            <button
+              @click="saveSettings"
+              class="w-full bg-emerald-500 text-black font-bold rounded-xl py-3">
+              Simpan Pengaturan
+            </button>
+
+          </div>
+        </div>
+
+
+        <div class="glass rounded-2xl p-5">
+
+          <h3 class="font-bold">Data</h3>
+          <p class="text-xs text-slate-500 mt-1">
+            Backup data perpustakaan dari perangkat ini.
+          </p>
+
+          <div class="grid grid-cols-2 gap-3 mt-4">
+
+            <button
+              @click="backupData"
+              class="bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-xl py-3 text-sm font-semibold">
+              ⬇️ Backup
+            </button>
+
+            <label
+              class="bg-purple-500/10 text-purple-400 border border-purple-500/20 rounded-xl py-3 text-sm font-semibold text-center cursor-pointer">
+              ⬆️ Import
+              <input
+                type="file"
+                accept=".json"
+                @change="importData"
+                class="hidden">
+            </label>
+
+          </div>
+
+        </div>
+
+
+        <div class="glass rounded-2xl p-5 border-red-500/10">
+
+          <h3 class="font-bold text-red-300">Reset Data</h3>
+          <p class="text-xs text-slate-500 mt-1">
+            Hati-hati. Data lokal akan dikembalikan ke data awal.
+          </p>
+
+          <button
+            @click="resetData"
+            class="mt-4 w-full border border-red-500/20 text-red-400 rounded-xl py-3 text-sm">
+            Reset Data Lokal
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- BOTTOM NAV -->
+  <nav class="fixed bottom-0 left-0 right-0 z-50 border-t border-white/5 bg-[#030b08]/95 backdrop-blur-xl">
+
+    <div class="app-shell grid grid-cols-5 px-2 py-2">
+
+      <button
+        @click="activePage='dashboard'"
+        class="py-2 flex flex-col items-center gap-1"
+        :class="activePage==='dashboard' ? 'text-emerald-400' : 'text-slate-500'">
+        <span>🏠</span>
+        <span class="text-[9px] font-semibold">Dashboard</span>
+      </button>
+
+      <button
+        @click="activePage='books'"
+        class="py-2 flex flex-col items-center gap-1"
+        :class="activePage==='books' ? 'text-emerald-400' : 'text-slate-500'">
+        <span>📚</span>
+        <span class="text-[9px] font-semibold">Buku</span>
+      </button>
+
+      <button
+        @click="activePage='borrow'"
+        class="py-2 flex flex-col items-center gap-1"
+        :class="activePage==='borrow' ? 'text-emerald-400' : 'text-slate-500'">
+        <span>📥</span>
+        <span class="text-[9px] font-semibold">Pinjam</span>
+      </button>
+
+      <button
+        @click="activePage='return'"
+        class="py-2 flex flex-col items-center gap-1"
+        :class="activePage==='return' ? 'text-emerald-400' : 'text-slate-500'">
+        <span>📤</span>
+        <span class="text-[9px] font-semibold">Kembali</span>
+      </button>
+
+      <button
+        @click="activePage='settings'"
+        class="py-2 flex flex-col items-center gap-1"
+        :class="activePage==='settings' ? 'text-emerald-400' : 'text-slate-500'">
+        <span>⚙️</span>
+        <span class="text-[9px] font-semibold">Pengaturan</span>
+      </button>
+
+    </div>
+
+  </nav>
+
+
+  <!-- BOOK MODAL -->
+  <div
+    v-if="bookModal"
+    class="fixed inset-0 z-[60] bg-black/70 backdrop-blur-sm flex items-end sm:items-center justify-center p-3">
+
+    <div class="w-full max-w-lg glass rounded-3xl p-5 bg-[#07120e]">
+
+      <div class="flex items-center justify-between mb-5">
+        <div>
+          <h3 class="font-bold text-lg">
+            {{ editingBook ? 'Edit Buku' : 'Tambah Buku' }}
+          </h3>
+          <p class="text-xs text-slate-500 mt-1">
+            Isi data koleksi perpustakaan.
+          </p>
+        </div>
+
+        <button
+          @click="bookModal=false"
+          class="w-9 h-9 rounded-xl bg-white/5">
+          ✕
+        </button>
+      </div>
+
+      <div class="space-y-3">
+
+        <input
+          v-model="bookForm.number"
+          placeholder="Nomor buku"
+          class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm">
+
+        <input
+          v-model="bookForm.title"
+          placeholder="Judul buku"
+          class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm">
+
+        <input
+          v-model="bookForm.author"
+          placeholder="Pengarang"
+          class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm">
+
+        <div class="grid grid-cols-2 gap-3">
+
+          <input
+            v-model.number="bookForm.qty"
+            type="number"
+            min="1"
+            placeholder="Jumlah"
+            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm">
+
+          <select
+            v-model="bookForm.building"
+            class="w-full bg-[#08120f] border border-white/10 rounded-xl px-4 py-3 text-sm">
+            <option>Gedung 2</option>
+            <option>Gedung 3</option>
+          </select>
+
+        </div>
+
+        <button
+          @click="saveBook"
+          class="w-full bg-emerald-500 text-black font-bold rounded-xl py-3.5 mt-2">
+          {{ editingBook ? 'Simpan Perubahan' : 'Tambah Buku' }}
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- TOAST -->
+  <transition name="fade">
+    <div
+      v-if="toast"
+      class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[100] bg-emerald-500 text-black font-semibold px-5 py-3 rounded-2xl shadow-xl text-sm whitespace-nowrap">
+      {{ toast }}
+    </div>
+  </transition>
+
+</div>
+
+
+<script>
+const { createApp, ref, computed, onMounted } = Vue;
+
+createApp({
+
+  setup() {
+
+    const activePage = ref('dashboard');
+    const showSearch = ref(false);
+    const globalSearch = ref('');
+
+    const bookSearch = ref('');
+    const buildingFilter = ref('');
+
+    const historySearch = ref('');
+    const historyFilter = ref('');
+
+    const toast = ref('');
+
+    const bookModal = ref(false);
+    const editingBook = ref(null);
+
+    const settings = ref({
+      libraryName: 'Khizanah Al Hikmah Library',
+      schoolName: 'PKBM Ibadurrahman Sidoarjo'
+    });
+
+
+    /*
+     * =========================
+     * DATA BUKU
+     * =========================
+     */
+
+    const defaultBooks = [
+
+      {
+        id: 1,
+        number: '001',
+        title: 'Ighatsul lahfan',
+        author: 'Ibnu Qayyim Al-Jauziyah',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 2,
+        number: '002',
+        title: 'Minhajul muslim',
+        author: 'Abu Bakar Jabir',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 3,
+        number: '003',
+        title: 'Sirah nabawiyah',
+        author: 'Syaikh shafiyyurrahman',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 4,
+        number: '005',
+        title: 'Fikih jumhur (1)',
+        author: "Dr. Muhammad Na'im",
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 5,
+        number: '006',
+        title: 'Fikih jumhur (2)',
+        author: "Dr. Muhammad Na'im",
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 6,
+        number: '007',
+        title: 'Sejarah peradaban islam',
+        author: 'Prof. Dr. H. J. Suyuthi Pulungan',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 7,
+        number: '008',
+        title: 'Mekkah dan madinah',
+        author: 'Dr. Ahmad Ibrahim',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 8,
+        number: '009',
+        title: 'Dahsyatnya hari kiamat',
+        author: 'Ibnu Kastir',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 9,
+        number: '010',
+        title: 'Ensiklopedia islam',
+        author: 'Musdah Mulia',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 10,
+        number: '011',
+        title: 'The khalifah',
+        author: 'Abdul Latip Thalib',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 11,
+        number: '012',
+        title: '100 dosa yang diremehkan wanita',
+        author: 'Abdul Lathif bin Hajis',
+        qty: 2,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 12,
+        number: '015',
+        title: 'Muhammad al-fatih',
+        author: 'DR. Ali Ash Shallabi',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 13,
+        number: '101',
+        title: 'Siroh Nabi Muhammad',
+        author: 'M. Quraish Shihab',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 14,
+        number: '102',
+        title: 'Muhammad Sang Inspirator Dunia',
+        author: 'Dr. Aidh Al-Qarni',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 15,
+        number: '103',
+        title: 'Muhammad The World Changer',
+        author: 'Mohammad Jebara',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 16,
+        number: '104',
+        title: 'Sejarah Hidup Rasulullah',
+        author: 'Syaikh Shafiyurrahman',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 17,
+        number: '105',
+        title: 'Biografi Istri, putri, cucu, dan pelayan nabi',
+        author: "Ahmad Khalil Jum'ah",
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 18,
+        number: '106',
+        title: 'Biografi Umar',
+        author: 'Prof. Dr. Ali Muhammad',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 19,
+        number: '107',
+        title: 'Biografi Abu Bakar',
+        author: 'Prof. Dr. Ali Muhammad',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 20,
+        number: '201',
+        title: 'The ultimate guide dinosaurus',
+        author: 'Rupert Matthews, Steve Parker',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 21,
+        number: '202',
+        title: 'The Ultimate Guide Hiu',
+        author: 'Barbara Taylor',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 22,
+        number: '203',
+        title: 'The Ultimate Guide Antariksa',
+        author: 'Rupert Matthews, Steve Parker',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 23,
+        number: '228-233',
+        title: 'Atlas lengkap Indonesia&Dunia',
+        author: 'Palito Media',
+        qty: 6,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 24,
+        number: '234-238',
+        title: 'RPAL&RPUL Global',
+        author: 'Drs. Prayitno Darmanto',
+        qty: 5,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 25,
+        number: '301',
+        title: 'Ensiklopedia teknologi komputer',
+        author: 'Purindaswari',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 26,
+        number: '305',
+        title: 'The Inteligent Investor',
+        author: 'Benjamin Graham',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 27,
+        number: '401',
+        title: 'Ensiklopedia sejarah dunia',
+        author: 'Lulu Fitri Rahman',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 28,
+        number: '402',
+        title: 'Ensiklopedi Akhir Zaman',
+        author: 'Dr. Mahid Ahmad',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 29,
+        number: '403',
+        title: 'Ensiklopedi sejarah islam',
+        author: 'Dr. Raghib As Sirjani',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 30,
+        number: '405',
+        title: "Adab Penghafal Al Qur'an",
+        author: 'Imam Abu Zakaria Yaya',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 31,
+        number: '406',
+        title: 'Nusantaria sejarah',
+        author: 'Philip Bowring',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 32,
+        number: '801',
+        title: 'Atomic habits',
+        author: '',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 33,
+        number: '802',
+        title: 'Produktivitas sekolah',
+        author: '',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 34,
+        number: '806',
+        title: 'Public speaking for success',
+        author: '',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 35,
+        number: '808',
+        title: 'Social Inteligence',
+        author: '',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 36,
+        number: '810',
+        title: 'The physicology of money',
+        author: '',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 37,
+        number: '812',
+        title: 'Good vibes Good life',
+        author: '',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 38,
+        number: '813',
+        title: 'Cara tepat berdebat',
+        author: '',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 39,
+        number: '815',
+        title: 'Berani tidak disukai',
+        author: '',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 40,
+        number: '817',
+        title: 'Great leaders have no rules',
+        author: '',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 41,
+        number: '826',
+        title: 'Berdamai dengan masa lalu',
+        author: '',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 42,
+        number: '830',
+        title: 'Setiap luka akan pulih',
+        author: '',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 43,
+        number: '835',
+        title: '365 jurus anti stres',
+        author: '',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 44,
+        number: '903',
+        title: 'Dapur susie',
+        author: '',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 45,
+        number: '904',
+        title: 'Cooking at home',
+        author: '',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 46,
+        number: '905',
+        title: 'Bekal Organik anak sekolah',
+        author: '',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 47,
+        number: '906',
+        title: 'Resep sehat JSR',
+        author: '',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      {
+        id: 48,
+        number: '907',
+        title: 'Ramadhan JSR',
+        author: '',
+        qty: 1,
+        building: 'Gedung 2'
+      },
+
+      /* GEDUNG 3 */
+
+      {
+        id: 49,
+        number: '',
+        title: 'muhammad al fatih 1-3',
+        author: 'Handri Satria',
+        qty: 3,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 50,
+        number: '',
+        title: 'RPAL-RPUL',
+        author: 'DRS.prayitno darmanto dan ninik setyawati S.Pd',
+        qty: 4,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 51,
+        number: '',
+        title: 'ATLAS LENGKAP',
+        author: 'palito media',
+        qty: 4,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 52,
+        number: '',
+        title: 'KAMUS BAHASA INDONESIA',
+        author: 'Manda Putri E,S.PD',
+        qty: 1,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 53,
+        number: '',
+        title: 'fiqih islam wa adillatuhu',
+        author: 'Proft,Doctor Wahba Atobali',
+        qty: 10,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 54,
+        number: '',
+        title: 'ath Thabari',
+        author: '',
+        qty: 25,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 55,
+        number: '',
+        title: 'SHAHIH BUKHARI MUSLIM',
+        author: "Muhammad Fu'ad Abdul Baqi",
+        qty: 1,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 56,
+        number: '',
+        title: 'semua orang butuh curhat',
+        author: 'Lori gottlieb',
+        qty: 1,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 57,
+        number: '',
+        title: '21 WANITA PERKASA YANG DI TEMPA OLEH BUDAYA ACEH',
+        author: 'Qismullah Yusuf',
+        qty: 1,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 58,
+        number: '',
+        title: 'TOP FOKUS ULANGAN DAN UJIAN',
+        author: 'tim maestro eduka',
+        qty: 1,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 59,
+        number: '',
+        title: 'DISCOVERING MYSELF',
+        author: 'yohana nessy',
+        qty: 1,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 60,
+        number: '',
+        title: 'Mekkah dan Madinah',
+        author: 'Dr.ahmad Ibrahim asy -Syarif',
+        qty: 1,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 61,
+        number: '',
+        title: 'kitab tauhid',
+        author: 'DR.shalih bin fauzan',
+        qty: 1,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 62,
+        number: '',
+        title: 'RAJIN SHALAT TAPI MASIH KELIRU',
+        author: "Dr. Mahmud Abdurrahman Abdul Mun'im",
+        qty: 1,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 63,
+        number: '',
+        title: 'Fithrah',
+        author: 'yayasan nidaul fithrah',
+        qty: 1,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 64,
+        number: '',
+        title: 'tafsir al fatihah',
+        author: 'muhammad rasyid ridha',
+        qty: 1,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 65,
+        number: '',
+        title: 'fiqih islam dari alkitab dan assunnah 1 - 4',
+        author: 'syaikh shiddiq',
+        qty: 4,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 66,
+        number: '',
+        title: 'dunia ditanganku akherat dihatiku',
+        author: 'ustadz abdullah amim',
+        qty: 1,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 67,
+        number: '',
+        title: 'pengobatan,perawatan dan kecantikan',
+        author: 'Agus ibnu IBAD',
+        qty: 1,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 68,
+        number: '',
+        title: 'manajemen mareketing sekolah',
+        author: "jamal ma'mur Asmani",
+        qty: 1,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 69,
+        number: '',
+        title: 'belajar ilmu waris praktis',
+        author: 'Ustadz Muhammad Nur Yasin Zain',
+        qty: 1,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 70,
+        number: '',
+        title: '125 PAHLAWAN DAN PEJUANG NUSANTARA',
+        author: 'GAMAL KOMANDOKO',
+        qty: 1,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 71,
+        number: '',
+        title: 'KIAT SHOLAT KHUSYU',
+        author: 'MUHAMMAD AL-MUNAJJID',
+        qty: 1,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 72,
+        number: '',
+        title: 'ARAB INDONESIA',
+        author: 'PROF.DR.H,.MAHMUD YUNUS',
+        qty: 1,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 73,
+        number: '',
+        title: 'TUNTUNAN KURBAN',
+        author: '',
+        qty: 1,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 74,
+        number: '',
+        title: 'risalah qow aidul fikih',
+        author: '',
+        qty: 1,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 75,
+        number: '',
+        title: 'KAMUS INGGRIS INDONESIA',
+        author: '',
+        qty: 1,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 76,
+        number: '',
+        title: 'kultum kuliah 7 menit',
+        author: '',
+        qty: 1,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 77,
+        number: '',
+        title: 'BELAJAR DARI ILMU FARAIDH 1-12',
+        author: '',
+        qty: 12,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 78,
+        number: '',
+        title: 'majalah as sunnah',
+        author: '',
+        qty: 10,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 79,
+        number: '',
+        title: 'amalan sunnah setahun',
+        author: '',
+        qty: 1,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 80,
+        number: '',
+        title: 'SUKSES MENDIDIK ANAK',
+        author: '',
+        qty: 1,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 81,
+        number: '',
+        title: 'PALESTINA YG TERLUPAKAN',
+        author: '',
+        qty: 1,
+        building: 'Gedung 3'
+      },
+
+      {
+        id: 82,
+        number: '',
+        title: 'STUDI KELAYAKAN BISNIS',
+        author: '',
+        qty: 1,
+        building: 'Gedung 3'
+      }
+
+    ];
+
+
+    /*
+     * =========================
+     * DATA TRANSAKSI
+     * =========================
+     */
+
+    const defaultTransactions = [
+
+      {
+        id: 1,
+        member: 'Aina',
+        title: 'Pulang',
+        borrowDate: '2026-08-21',
+        returnDate: '2026-09-01',
+        dueDate: '2026-09-01',
+        building: 'Gedung 2',
+        program: 'Paket C'
+      },
+
+      {
+        id: 2,
+        member: 'Khodijah',
+        title: 'The midnight library',
+        borrowDate: '2026-08-21',
+        returnDate: '2026-08-26',
+        dueDate: '2026-08-26',
+        building: 'Gedung 2',
+        program: 'Paket C'
+      },
+
+      {
+        id: 3,
+        member: 'Khodijah',
+        title: 'Tiga malam bersama penghuni surga',
+        borrowDate: '2026-08-28',
+        returnDate: '2026-09-03',
+        dueDate: '2026-09-03',
+        building: 'Gedung 2',
+        program: 'Paket C'
+      },
+
+      {
+        id: 4,
+        member: 'Sausan',
+        title: 'Loneliness',
+        borrowDate: '2026-08-27',
+        returnDate: '2026-09-02',
+        dueDate: '2026-09-02',
+        building: 'Gedung 2',
+        program: 'Paket C'
+      },
+
+      {
+        id: 5,
+        member: 'Aulia',
+        title: 'Rumah untuk Alie',
+        borrowDate: '2026-08-27',
+        returnDate: '2026-08-28',
+        dueDate: '2026-08-28',
+        building: 'Gedung 2',
+        program: 'Paket C'
+      },
+
+      {
+        id: 6,
+        member: 'Diana',
+        title: 'Si putih',
+        borrowDate: '2026-08-27',
+        returnDate: '2026-09-04',
+        dueDate: '2026-09-04',
+        building: 'Gedung 2',
+        program: 'Paket C'
+      },
+
+      {
+        id: 7,
+        member: 'Meta',
+        title: 'Atlas dunia',
+        borrowDate: '2026-08-27',
+        returnDate: '2026-08-31',
+        dueDate: '2026-08-31',
+        building: 'Gedung 2',
+        program: 'Paket C'
+      },
+
+      {
+        id: 8,
+        member: 'Mutia',
+        title: 'Dia adalah kakakku',
+        borrowDate: '2026-08-27',
+        returnDate: '2026-09-03',
+        dueDate: '2026-09-03',
+        building: 'Gedung 2',
+        program: 'Paket C'
+      },
+
+      {
+        id: 9,
+        member: 'Almira',
+        title: 'Bibi Gill',
+        borrowDate: '2026-08-28',
+        returnDate: '2026-09-03',
+        dueDate: '2026-09-03',
+        building: 'Gedung 2',
+        program: 'Paket C'
+      },
+
+      {
+        id: 10,
+        member: 'Aulia',
+        title: 'Bumi',
+        borrowDate: '2026-08-28',
+        returnDate: '2026-09-03',
+        dueDate: '2026-09-03',
+        building: 'Gedung 2',
+        program: 'Paket C'
+      },
+
+      {
+        id: 11,
+        member: 'Medina',
+        title: 'Pulang - Pergi',
+        borrowDate: '2026-08-28',
+        returnDate: '2026-09-04',
+        dueDate: '2026-09-04',
+        building: 'Gedung 2',
+        program: 'Paket C'
+      },
+
+      {
+        id: 12,
+        member: 'Aina',
+        title: 'Pulang',
+        borrowDate: '2026-09-02',
+        returnDate: '2026-09-07',
+        dueDate: '2026-09-07',
+        building: 'Gedung 2',
+        program: 'Paket C'
+      },
+
+      {
+        id: 13,
+        member: 'Alita',
+        title: 'Berdamai dengan masa lalu',
+        borrowDate: '2026-09-03',
+        returnDate: '2026-09-11',
+        dueDate: '2026-09-11',
+        building: 'Gedung 2',
+        program: 'Paket C'
+      },
+
+      {
+        id: 14,
+        member: 'Almira',
+        title: 'Bibi Gill',
+        borrowDate: '2026-09-03',
+        returnDate: '2026-09-11',
+        dueDate: '2026-09-11',
+        building: 'Gedung 2',
+        program: 'Paket C'
+      },
+
+      {
+        id: 15,
+        member: 'Mutia',
+        title: 'Rumah untuk Alie',
+        borrowDate: '2026-09-03',
+        returnDate: '2026-09-09',
+        dueDate: '2026-09-09',
+        building: 'Gedung 2',
+        program: 'Paket C'
+      },
+
+      {
+        id: 16,
+        member: 'Khodijah',
+        title: 'Tiga malam bersama penghuni surga',
+        borrowDate: '2026-09-04',
+        returnDate: '2026-09-11',
+        dueDate: '2026-09-11',
+        building: 'Gedung 2',
+        program: 'Paket C'
+      },
+
+      {
+        id: 17,
+        member: 'Aulia',
+        title: 'Bumi',
+        borrowDate: '2026-09-04',
+        returnDate: '2026-09-11',
+        dueDate: '2026-09-11',
+        building: 'Gedung 2',
+        program: 'Paket C'
+      },
+
+      {
+        id: 18,
+        member: 'Meta',
+        title: 'Ensiklopedia Saintis Junior Teknologi',
+        borrowDate: '2026-09-04',
+        returnDate: '2026-09-11',
+        dueDate: '2026-09-11',
+        building: 'Gedung 2',
+        program: 'Paket C'
+      },
+
+      {
+        id: 19,
+        member: 'Diana',
+        title: 'Kisah teladan para nabi',
+        borrowDate: '2026-09-04',
+        returnDate: '2026-09-09',
+        dueDate: '2026-09-09',
+        building: 'Gedung 2',
+        program: 'Paket C'
+      },
+
+      {
+        id: 20,
+        member: 'Mutia',
+        title: 'Pulang',
+        borrowDate: '2026-09-09',
+        returnDate: '2026-09-11',
+        dueDate: '2026-09-11',
+        building: 'Gedung 2',
+        program: 'Paket C'
+      },
+
+      {
+        id: 21,
+        member: 'Sausan',
+        title: 'Rumah untuk Alie',
+        borrowDate: '2026-09-11',
+        returnDate: '',
+        dueDate: '2026-09-18',
+        building: 'Gedung 2',
+        program: 'Paket C'
+      },
+
+      {
+        id: 22,
+        member: 'Salwah',
+        title: 'Kado terbaik',
+        borrowDate: '2026-09-11',
+        returnDate: '',
+        dueDate: '2026-09-18',
+        building: 'Gedung 2',
+        program: 'Paket C'
+      },
+
+      {
+        id: 23,
+        member: 'Meta',
+        title: 'Kepribadian MBTI',
+        borrowDate: '2026-09-11',
+        returnDate: '',
+        dueDate: '2026-09-18',
+        building: 'Gedung 2',
+        program: 'Paket C'
+      },
+
+      {
+        id: 24,
+        member: 'Prita',
+        title: 'Bandara - Stasiun dan tahun setelahnya',
+        borrowDate: '2026-09-11',
+        returnDate: '',
+        dueDate: '2026-09-18',
+        building: 'Gedung 2',
+        program: 'Paket C'
+      }
+
+    ];
+
+
+    const books = ref([]);
+    const transactions = ref([]);
+
+    const borrowForm = ref({
+      member: '',
+      title: '',
+      borrowDate: today(),
+      dueDate: addDays(today(), 7),
+      building: 'Gedung 2'
+    });
+
+    const bookForm = ref({
+      number: '',
+      title: '',
+      author: '',
+      qty: 1,
+      building: 'Gedung 2'
+    });
+
+
+    /*
+     * =========================
+     * COMPUTED
+     * =========================
+     */
+
+    const totalBooks = computed(() =>
+      books.value.reduce((sum, b) => sum + Number(b.qty || 0), 0)
+    );
+
+    const borrowedCount = computed(() =>
+      transactions.value.filter(t => !t.returnDate).length
+    );
+
+    const availableBooks = computed(() =>
+      Math.max(0, totalBooks.value - borrowedCount.value)
+    );
+
+    const overdueCount = computed(() => {
+
+      const now = new Date();
+
+      return transactions.value.filter(t => {
+
+        if (t.returnDate || !t.dueDate) return false;
+
+        return new Date(t.dueDate + 'T23:59:59') < now;
+
+      }).length;
+
+    });
+
+
+    const filteredBooks = computed(() => {
+
+      let data = [...books.value];
+
+      const q = bookSearch.value.toLowerCase().trim();
+
+      if (q) {
+        data = data.filter(b =>
+          `${b.number} ${b.title} ${b.author}`
+            .toLowerCase()
+            .includes(q)
+        );
+      }
+
+      if (buildingFilter.value) {
+        data = data.filter(b => b.building === buildingFilter.value);
+      }
+
+      if (globalSearch.value.trim()) {
+
+        const g = globalSearch.value.toLowerCase();
+
+        data = data.filter(b =>
+          `${b.number} ${b.title} ${b.author} ${b.building}`
+            .toLowerCase()
+            .includes(g)
+        );
+
+      }
+
+      return data;
+    });
+
+
+    const activeLoans = computed(() =>
+      transactions.value.filter(t => !t.returnDate)
+    );
+
+
+    const filteredHistory = computed(() => {
+
+      let data = [...transactions.value].sort(
+        (a,b) => new Date(b.borrowDate) - new Date(a.borrowDate)
+      );
+
+      const q = historySearch.value.toLowerCase().trim();
+
+      if (q) {
+        data = data.filter(t =>
+          `${t.member} ${t.title} ${t.building}`
+            .toLowerCase()
+            .includes(q)
+        );
+      }
+
+      if (historyFilter.value === 'active') {
+        data = data.filter(t => !t.returnDate);
+      }
+
+      if (historyFilter.value === 'returned') {
+        data = data.filter(t => t.returnDate);
+      }
+
+      return data;
+    });
+
+
+    const recentTransactions = computed(() =>
+      [...transactions.value]
+        .sort((a,b) => new Date(b.borrowDate) - new Date(a.borrowDate))
+        .slice(0, 6)
+    );
+
+
+    /*
+     * =========================
+     * FUNCTIONS
+     * =========================
+     */
+
+    function today() {
+      const d = new Date();
+      return d.toISOString().split('T')[0];
+    }
+
+
+    function addDays(dateString, days) {
+
+      const d = new Date(dateString + 'T12:00:00');
+      d.setDate(d.getDate() + days);
+
+      return d.toISOString().split('T')[0];
+
+    }
+
+
+    function formatDate(value) {
+
+      if (!value) return '-';
+
+      const d = new Date(value + 'T12:00:00');
+
+      return d.toLocaleDateString('id-ID', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+      });
+
+    }
+
+
+    function showToast(message) {
+
+      toast.value = message;
+
+      setTimeout(() => {
+        toast.value = '';
+      }, 2500);
+
+    }
+
+
+    function saveAll() {
+
+      localStorage.setItem(
+        'khizanah_books',
+        JSON.stringify(books.value)
+      );
+
+      localStorage.setItem(
+        'khizanah_transactions',
+        JSON.stringify(transactions.value)
+      );
+
+      localStorage.setItem(
+        'khizanah_settings',
+        JSON.stringify(settings.value)
+      );
+
+    }
+
+
+    function openBorrow() {
+
+      borrowForm.value = {
+        member: '',
+        title: '',
+        borrowDate: today(),
+        dueDate: addDays(today(), 7),
+        building: 'Gedung 2'
+      };
+
+      activePage.value = 'borrow';
+
+    }
+
+
+    function openReturn() {
+      activePage.value = 'return';
+    }
+
+
+    function saveBorrow() {
+
+      if (!borrowForm.value.member.trim()) {
+        showToast('Nama peminjam belum diisi.');
+        return;
+      }
+
+      if (!borrowForm.value.title.trim()) {
+        showToast('Judul buku belum diisi.');
+        return;
+      }
+
+      const newId =
+        transactions.value.length
+          ? Math.max(...transactions.value.map(t => t.id)) + 1
+          : 1;
+
+      transactions.value.unshift({
+
+        id: newId,
+
+        member: borrowForm.value.member.trim(),
+
+        title: borrowForm.value.title.trim(),
+
+        borrowDate: borrowForm.value.borrowDate,
+
+        returnDate: '',
+
+        dueDate: borrowForm.value.dueDate,
+
+        building: borrowForm.value.building,
+
+        program: 'Paket C'
+
+      });
+
+      saveAll();
+
+      showToast('Peminjaman berhasil disimpan.');
+
+      borrowForm.value = {
+        member: '',
+        title: '',
+        borrowDate: today(),
+        dueDate: addDays(today(), 7),
+        building: 'Gedung 2'
+      };
+
+      activePage.value = 'history';
+
+    }
+
+
+    function returnBook(id) {
+
+      const item = transactions.value.find(t => t.id === id);
+
+      if (!item) return;
+
+      item.returnDate = today();
+
+      saveAll();
+
+      showToast('Buku berhasil dikembalikan.');
+
+    }
+
+
+    function openBookModal(book = null) {
+
+      editingBook.value = book;
+
+      if (book) {
+
+        bookForm.value = {
+          number: book.number || '',
+          title: book.title || '',
+          author: book.author || '',
+          qty: book.qty || 1,
+          building: book.building || 'Gedung 2'
+        };
+
+      } else {
+
+        bookForm.value = {
+          number: '',
+          title: '',
+          author: '',
+          qty: 1,
+          building: 'Gedung 2'
+        };
+
+      }
+
+      bookModal.value = true;
+
+    }
+
+
+    function saveBook() {
+
+      if (!bookForm.value.title.trim()) {
+        showToast('Judul buku belum diisi.');
+        return;
+      }
+
+      if (editingBook.value) {
+
+        const target = books.value.find(
+          b => b.id === editingBook.value.id
+        );
+
+        if (target) {
+
+          target.number = bookForm.value.number;
+          target.title = bookForm.value.title;
+          target.author = bookForm.value.author;
+          target.qty = Number(bookForm.value.qty || 1);
+          target.building = bookForm.value.building;
+
+        }
+
+        showToast('Data buku diperbarui.');
+
+      } else {
+
+        const newId =
+          books.value.length
+            ? Math.max(...books.value.map(b => b.id)) + 1
+            : 1;
+
+        books.value.push({
+
+          id: newId,
+
+          number: bookForm.value.number,
+
+          title: bookForm.value.title,
+
+          author: bookForm.value.author,
+
+          qty: Number(bookForm.value.qty || 1),
+
+          building: bookForm.value.building
+
+        });
+
+        showToast('Buku berhasil ditambahkan.');
+
+      }
+
+      saveAll();
+
+      bookModal.value = false;
+
+    }
+
+
+    function saveSettings() {
+
+      saveAll();
+
+      showToast('Pengaturan disimpan.');
+
+    }
+
+
+    function backupData() {
+
+      const data = {
+
+        exportedAt: new Date().toISOString(),
+
+        books: books.value,
+
+        transactions: transactions.value,
+
+        settings: settings.value
+
+      };
+
+      const blob = new Blob(
+        [JSON.stringify(data, null, 2)],
+        { type: 'application/json' }
+      );
+
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+
+      a.href = url;
+
+      a.download =
+        'backup-khizanah-al-hikmah-library.json';
+
+      a.click();
+
+      URL.revokeObjectURL(url);
+
+      showToast('Backup berhasil dibuat.');
+
+    }
+
+
+    function importData(event) {
+
+      const file = event.target.files[0];
+
+      if (!file) return;
+
+      const reader = new FileReader();
+
+      reader.onload = e => {
+
+        try {
+
+          const data = JSON.parse(e.target.result);
+
+          if (Array.isArray(data.books)) {
+            books.value = data.books;
+          }
+
+          if (Array.isArray(data.transactions)) {
+            transactions.value = data.transactions;
+          }
+
+          if (data.settings) {
+            settings.value = data.settings;
+          }
+
+          saveAll();
+
+          showToast('Data berhasil diimpor.');
+
+        } catch (error) {
+
+          showToast('File backup tidak valid.');
+
+        }
+
+      };
+
+      reader.readAsText(file);
+
+      event.target.value = '';
+
+    }
+
+
+    function resetData() {
+
+      const yes = confirm(
+        'Yakin ingin mengembalikan data ke data awal?'
+      );
+
+      if (!yes) return;
+
+      books.value = JSON.parse(
+        JSON.stringify(defaultBooks)
+      );
+
+      transactions.value = JSON.parse(
+        JSON.stringify(defaultTransactions)
+      );
+
+      settings.value = {
+        libraryName: 'Khizanah Al Hikmah Library',
+        schoolName: 'PKBM Ibadurrahman Sidoarjo'
+      };
+
+      saveAll();
+
+      showToast('Data dikembalikan ke data awal.');
+
+    }
+
+
+    /*
+     * =========================
+     * LOAD DATA
+     * =========================
+     */
+
+    onMounted(() => {
+
+      const savedBooks =
+        localStorage.getItem('khizanah_books');
+
+      const savedTransactions =
+        localStorage.getItem('khizanah_transactions');
+
+      const savedSettings =
+        localStorage.getItem('khizanah_settings');
+
+
+      books.value = savedBooks
+        ? JSON.parse(savedBooks)
+        : JSON.parse(JSON.stringify(defaultBooks));
+
+
+      transactions.value = savedTransactions
+        ? JSON.parse(savedTransactions)
+        : JSON.parse(JSON.stringify(defaultTransactions));
+
+
+      if (savedSettings) {
+        settings.value = JSON.parse(savedSettings);
+      }
+
+    });
+
+
+    return {
+
+      activePage,
+
+      showSearch,
+
+      globalSearch,
+
+      bookSearch,
+
+      buildingFilter,
+
+      historySearch,
+
+      historyFilter,
+
+      toast,
+
+      bookModal,
+
+      editingBook,
+
+      settings,
+
+      books,
+
+      transactions,
+
+      borrowForm,
+
+      bookForm,
+
+      totalBooks,
+
+      borrowedCount,
+
+      availableBooks,
+
+      overdueCount,
+
+      filteredBooks,
+
+      activeLoans,
+
+      filteredHistory,
+
+      recentTransactions,
+
+      formatDate,
+
+      openBorrow,
+
+      openReturn,
+
+      saveBorrow,
+
+      returnBook,
+
+      openBookModal,
+
+      saveBook,
+
+      saveSettings,
+
+      backupData,
+
+      importData,
+
+      resetData
+
+    };
+
+  }
+
+}).mount('#app');
+</script>
+
+</body>
+  </html>
