@@ -3,79 +3,2202 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Khizanah Al Hikmah Library</title>
+  <meta name="theme-color" content="#064e3b">
+  <title>Khizanah Al Hikmah Library - PKBM Ibadurrahman Sidoarjo</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            emeraldx: '#064e3b',
-            goldx: '#d4a72c'
-          }
-        }
-      }
-    }
-  </script>
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
 
   <style>
-    * { box-sizing:border-box; }
-    body {
-      margin:0;
-      background:#07130f;
-      font-family:Arial, Helvetica, sans-serif;
+    * {
+      box-sizing: border-box;
+      scrollbar-width: none;
     }
 
-    ::-webkit-scrollbar { width:0; height:0; }
+    *::-webkit-scrollbar {
+      display: none;
+    }
+
+    body {
+      margin: 0;
+      background: #0b1220;
+      font-family: "Plus Jakarta Sans", sans-serif;
+    }
+
+    .phone {
+      min-height: 100vh;
+      background: #f8fafc;
+    }
+
+    @media (min-width: 768px) {
+      .phone {
+        max-width: 1100px;
+        margin: 20px auto;
+        min-height: calc(100vh - 40px);
+        border-radius: 28px;
+        overflow: hidden;
+        box-shadow: 0 30px 80px rgba(0,0,0,.35);
+      }
+    }
+
+    .arabic {
+      font-family: "Amiri", serif;
+    }
 
     .glass {
-      background:rgba(255,255,255,.055);
-      border:1px solid rgba(255,255,255,.08);
-      backdrop-filter:blur(12px);
+      background: rgba(255,255,255,.08);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,.08);
     }
 
-    .active {
-      background:linear-gradient(135deg,#047857,#065f46);
-      color:white!important;
+    .card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 18px;
+      box-shadow: 0 5px 18px rgba(15,23,42,.05);
     }
 
-    .fade {
-      animation:fade .2s ease;
+    .nav-active {
+      color: #047857 !important;
+      font-weight: 800;
     }
 
-    @keyframes fade {
-      from { opacity:0; transform:translateY(5px); }
-      to { opacity:1; transform:translateY(0); }
+    .modal-bg {
+      background: rgba(2,6,23,.65);
+      backdrop-filter: blur(4px);
+    }
+
+    input, select {
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: #059669 !important;
+      box-shadow: 0 0 0 3px rgba(16,185,129,.12);
     }
   </style>
 </head>
 
-<body class="text-white">
+<body>
 
-<div id="app" class="min-h-screen">
+<div id="app" class="phone">
 
   <!-- HEADER -->
-  <header class="sticky top-0 z-50 bg-[#07130f]/95 backdrop-blur border-b border-white/10">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-
+  <header class="sticky top-0 z-40 bg-emerald-950 text-white">
+    <div class="px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-emerald-700 flex items-center justify-center">
-          <i class="fa-solid fa-book-quran text-amber-300"></i>
+        <div class="w-11 h-11 rounded-2xl bg-amber-400 text-emerald-950 flex items-center justify-center shadow-lg">
+          <i class="fa-solid fa-book-open text-lg"></i>
         </div>
 
         <div>
-          <h1 class="font-black text-sm sm:text-base">
+          <p class="text-[9px] uppercase tracking-widest text-emerald-300 font-bold">
+            PKBM Ibadurrahman
+          </p>
+          <h1 class="text-sm font-extrabold">
             Khizanah Al Hikmah
           </h1>
-          <p class="text-[10px] text-emerald-300">
-            PKBM Ibadurrahman Sidoarjo
+          <p class="text-[9px] text-emerald-300">
+            Library Management
           </p>
         </div>
       </div>
+
+      <button onclick="openPage('pengaturan')"
+        class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center">
+        <i class="fa-solid fa-gear text-sm"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <main class="p-4 pb-24">
+
+    <!-- ================= DASHBOARD ================= -->
+    <section id="page-dashboard">
+
+      <div class="rounded-3xl p-5 text-white overflow-hidden relative"
+        style="background:linear-gradient(135deg,#064e3b,#047857,#065f46)">
+
+        <div class="relative z-10">
+          <div class="flex justify-between items-start">
+            <span class="px-3 py-1 rounded-full bg-amber-400/15 border border-amber-300/20 text-amber-200 text-[9px] font-bold uppercase">
+              Ahlan Wa Sahlan
+            </span>
+
+            <span class="arabic text-amber-200 text-lg">
+              بِسْمِ ٱللَّٰهِ
+            </span>
+          </div>
+
+          <h2 class="text-xl font-extrabold mt-4">
+            Selamat Datang 👋
+          </h2>
+
+          <p class="text-emerald-100 text-xs mt-1 leading-relaxed">
+            Kelola koleksi dan sirkulasi buku Khizanah Al Hikmah
+            dengan lebih mudah.
+          </p>
+        </div>
+
+        <i class="fa-solid fa-book-quran absolute -right-5 -bottom-8 text-8xl text-white/5"></i>
+      </div>
+
+      <!-- STATS -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
+
+        <div class="card p-4">
+          <p class="text-[9px] uppercase font-bold text-slate-400">
+            Total Judul
+          </p>
+          <h3 id="statJudul" class="text-2xl font-extrabold text-emerald-800 mt-1">
+            0
+          </h3>
+          <p class="text-[9px] text-slate-400 mt-1">
+            Data buku
+          </p>
+        </div>
+
+        <div class="card p-4">
+          <p class="text-[9px] uppercase font-bold text-slate-400">
+            Eksemplar
+          </p>
+          <h3 id="statEksemplar" class="text-2xl font-extrabold text-blue-700 mt-1">
+            0
+          </h3>
+          <p class="text-[9px] text-slate-400 mt-1">
+            Jumlah buku
+          </p>
+        </div>
+
+        <div class="card p-4">
+          <p class="text-[9px] uppercase font-bold text-slate-400">
+            Dipinjam
+          </p>
+          <h3 id="statDipinjam" class="text-2xl font-extrabold text-amber-600 mt-1">
+            0
+          </h3>
+          <p class="text-[9px] text-slate-400 mt-1">
+            Transaksi aktif
+          </p>
+        </div>
+
+        <div class="card p-4">
+          <p class="text-[9px] uppercase font-bold text-slate-400">
+            Terlambat
+          </p>
+          <h3 id="statTerlambat" class="text-2xl font-extrabold text-rose-600 mt-1">
+            0
+          </h3>
+          <p class="text-[9px] text-slate-400 mt-1">
+            Perlu dikembalikan
+          </p>
+        </div>
+
+      </div>
+
+      <!-- QUICK ACTION -->
+      <div class="card p-4 mt-4">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="font-extrabold text-sm text-slate-800">
+            Aksi Cepat
+          </h2>
+          <span class="text-[9px] text-slate-400">
+            Sirkulasi
+          </span>
+        </div>
+
+        <div class="grid grid-cols-4 gap-2">
+
+          <button onclick="openPage('pinjam')"
+            class="rounded-2xl bg-emerald-50 text-emerald-800 p-3 text-center">
+            <i class="fa-solid fa-book-medical text-lg"></i>
+            <p class="text-[9px] font-bold mt-1">Pinjam</p>
+          </button>
+
+          <button onclick="openPage('kembali')"
+            class="rounded-2xl bg-amber-50 text-amber-800 p-3 text-center">
+            <i class="fa-solid fa-rotate-left text-lg"></i>
+            <p class="text-[9px] font-bold mt-1">Kembali</p>
+          </button>
+
+          <button onclick="openPage('buku')"
+            class="rounded-2xl bg-blue-50 text-blue-800 p-3 text-center">
+            <i class="fa-solid fa-book text-lg"></i>
+            <p class="text-[9px] font-bold mt-1">Buku</p>
+          </button>
+
+          <button onclick="openPage('riwayat')"
+            class="rounded-2xl bg-purple-50 text-purple-800 p-3 text-center">
+            <i class="fa-solid fa-clock-rotate-left text-lg"></i>
+            <p class="text-[9px] font-bold mt-1">Riwayat</p>
+          </button>
+
+        </div>
+      </div>
+
+      <!-- ACTIVE LOANS -->
+      <div class="card p-4 mt-4">
+        <div class="flex justify-between items-center mb-3">
+          <div>
+            <h2 class="font-extrabold text-sm text-slate-800">
+              Peminjaman Aktif
+            </h2>
+            <p class="text-[9px] text-slate-400">
+              Transaksi yang belum dikembalikan
+            </p>
+          </div>
+
+          <button onclick="openPage('kembali')"
+            class="text-[9px] font-bold text-emerald-700">
+            Lihat semua →
+          </button>
+        </div>
+
+        <div id="dashboardLoans" class="space-y-2"></div>
+      </div>
+
+    </section>
+
+
+    <!-- ================= BUKU ================= -->
+    <section id="page-buku" class="hidden">
+
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="text-xl font-extrabold text-slate-800">
+            Koleksi Buku
+          </h2>
+          <p class="text-[10px] text-slate-400">
+            Gedung 2 + Gedung 3 dalam satu database
+          </p>
+        </div>
+
+        <button onclick="openBookModal()"
+          class="bg-emerald-700 text-white w-10 h-10 rounded-xl shadow">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+      </div>
+
+      <div class="card p-3 mb-3">
+        <div class="relative">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-sm"></i>
+          <input id="bookSearch"
+            oninput="renderBooks()"
+            class="w-full border border-slate-200 rounded-xl pl-9 pr-3 py-2.5 text-xs"
+            placeholder="Cari judul, pengarang, nomor buku...">
+        </div>
+
+        <div class="grid grid-cols-3 gap-2 mt-2">
+          <select id="buildingFilter"
+            onchange="renderBooks()"
+            class="border border-slate-200 rounded-xl px-2 py-2 text-[10px]">
+            <option value="semua">Semua Gedung</option>
+            <option value="Gedung 2">Gedung 2</option>
+            <option value="Gedung 3">Gedung 3</option>
+          </select>
+
+          <select id="bookLimit"
+            onchange="renderBooks()"
+            class="border border-slate-200 rounded-xl px-2 py-2 text-[10px]">
+            <option value="30">30 data</option>
+            <option value="60">60 data</option>
+            <option value="100">100 data</option>
+            <option value="9999">Semua</option>
+          </select>
+
+          <button onclick="resetBookSearch()"
+            class="rounded-xl bg-slate-100 text-slate-600 text-[10px] font-bold">
+            Reset
+          </button>
+        </div>
+      </div>
+
+      <div id="bookCount" class="text-[10px] text-slate-400 mb-2"></div>
+
+      <div id="bookList" class="space-y-2"></div>
+
+    </section>
+
+
+    <!-- ================= PINJAM ================= -->
+    <section id="page-pinjam" class="hidden">
+
+      <div class="mb-4">
+        <h2 class="text-xl font-extrabold text-slate-800">
+          Peminjaman Buku
+        </h2>
+        <p class="text-[10px] text-slate-400">
+          Catat transaksi baru
+        </p>
+      </div>
+
+      <div class="card p-4 space-y-3">
+
+        <div>
+          <label class="text-[10px] font-bold text-slate-500">
+            Nama Peminjam
+          </label>
+          <input id="borrowerName"
+            class="w-full border border-slate-200 rounded-xl px-3 py-3 text-xs mt-1"
+            placeholder="Contoh: Khodijah">
+        </div>
+
+        <div>
+          <label class="text-[10px] font-bold text-slate-500">
+            Judul Buku
+          </label>
+          <input id="borrowBook"
+            class="w-full border border-slate-200 rounded-xl px-3 py-3 text-xs mt-1"
+            placeholder="Judul buku">
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+
+          <div>
+            <label class="text-[10px] font-bold text-slate-500">
+              Gedung
+            </label>
+            <select id="borrowBuilding"
+              class="w-full border border-slate-200 rounded-xl px-3 py-3 text-xs mt-1">
+              <option>Gedung 2</option>
+              <option>Gedung 3</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="text-[10px] font-bold text-slate-500">
+              Tanggal Pinjam
+            </label>
+            <input id="borrowDate"
+              type="date"
+              class="w-full border border-slate-200 rounded-xl px-3 py-3 text-xs mt-1">
+          </div>
+
+        </div>
+
+        <div>
+          <label class="text-[10px] font-bold text-slate-500">
+            Jatuh Tempo
+          </label>
+          <input id="borrowDue"
+            type="date"
+            class="w-full border border-slate-200 rounded-xl px-3 py-3 text-xs mt-1">
+        </div>
+
+        <button onclick="saveBorrow()"
+          class="w-full bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl py-3 font-bold text-xs">
+          <i class="fa-solid fa-check mr-1"></i>
+          Simpan Peminjaman
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= KEMBALI ================= -->
+    <section id="page-kembali" class="hidden">
+
+      <div class="mb-4">
+        <h2 class="text-xl font-extrabold text-slate-800">
+          Pengembalian
+        </h2>
+        <p class="text-[10px] text-slate-400">
+          Buku yang masih berada pada peminjam
+        </p>
+      </div>
+
+      <div id="returnList" class="space-y-2"></div>
+
+    </section>
+
+
+    <!-- ================= RIWAYAT ================= -->
+    <section id="page-riwayat" class="hidden">
+
+      <div class="mb-4">
+        <h2 class="text-xl font-extrabold text-slate-800">
+          Riwayat Peminjaman
+        </h2>
+        <p class="text-[10px] text-slate-400">
+          Semua transaksi
+        </p>
+      </div>
+
+      <div class="card p-3 mb-3">
+        <div class="relative">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-sm"></i>
+          <input id="historySearch"
+            oninput="renderHistory()"
+            class="w-full border border-slate-200 rounded-xl pl-9 pr-3 py-2.5 text-xs"
+            placeholder="Cari nama atau judul buku...">
+        </div>
+      </div>
+
+      <div id="historyList" class="space-y-2"></div>
+
+    </section>
+
+
+    <!-- ================= PENGATURAN ================= -->
+    <section id="page-pengaturan" class="hidden">
+
+      <div class="mb-4">
+        <h2 class="text-xl font-extrabold text-slate-800">
+          Pengaturan
+        </h2>
+        <p class="text-[10px] text-slate-400">
+          Informasi aplikasi
+        </p>
+      </div>
+
+      <div class="card p-4">
+
+        <div class="flex items-center gap-3">
+          <div class="w-14 h-14 rounded-2xl bg-emerald-700 text-amber-300 flex items-center justify-center">
+            <i class="fa-solid fa-book-open text-xl"></i>
+          </div>
+
+          <div>
+            <h3 class="font-extrabold text-slate-800">
+              Khizanah Al Hikmah Library
+            </h3>
+            <p class="text-[10px] text-slate-400">
+              PKBM Ibadurrahman Sidoarjo
+            </p>
+          </div>
+        </div>
+
+        <div class="border-t border-slate-100 mt-4 pt-4 space-y-3">
+
+          <div class="flex justify-between text-xs">
+            <span class="text-slate-500">Database buku</span>
+            <b id="settingBookTotal">0</b>
+          </div>
+
+          <div class="flex justify-between text-xs">
+            <span class="text-slate-500">Transaksi</span>
+            <b id="settingLoanTotal">0</b>
+          </div>
+
+          <div class="flex justify-between text-xs">
+            <span class="text-slate-500">Penyimpanan</span>
+            <b class="text-emerald-700">Browser</b>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="card p-4 mt-3">
+        <h3 class="font-extrabold text-sm">
+          Backup Data
+        </h3>
+
+        <p class="text-[10px] text-slate-400 mt-1">
+          Simpan data aplikasi sebagai file JSON.
+        </p>
+
+        <div class="grid grid-cols-2 gap-2 mt-3">
+
+          <button onclick="backupData()"
+            class="rounded-xl bg-emerald-50 text-emerald-800 py-3 text-xs font-bold">
+            <i class="fa-solid fa-download mr-1"></i>
+            Backup
+          </button>
+
+          <button onclick="document.getElementById('restoreFile').click()"
+            class="rounded-xl bg-blue-50 text-blue-800 py-3 text-xs font-bold">
+            <i class="fa-solid fa-upload mr-1"></i>
+            Restore
+          </button>
+
+          <input id="restoreFile"
+            type="file"
+            accept=".json"
+            class="hidden"
+            onchange="restoreData(event)">
+
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- BOTTOM NAV -->
+  <nav class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 shadow-lg">
+    <div class="max-w-[1100px] mx-auto grid grid-cols-5 h-16">
+
+      <button id="nav-dashboard"
+        onclick="openPage('dashboard')"
+        class="nav-active text-slate-400 flex flex-col items-center justify-center">
+        <i class="fa-solid fa-house text-sm"></i>
+        <span class="text-[9px] mt-1">Beranda</span>
+      </button>
+
+      <button id="nav-buku"
+        onclick="openPage('buku')"
+        class="text-slate-400 flex flex-col items-center justify-center">
+        <i class="fa-solid fa-book text-sm"></i>
+        <span class="text-[9px] mt-1">Buku</span>
+      </button>
+
+      <button onclick="openPage('pinjam')"
+        class="flex flex-col items-center justify-center -mt-5">
+        <span class="w-12 h-12 rounded-full bg-emerald-800 text-amber-300 border-4 border-white shadow-lg flex items-center justify-center">
+          <i class="fa-solid fa-plus"></i>
+        </span>
+        <span class="text-[9px] text-emerald-800 font-bold mt-1">
+          Pinjam
+        </span>
+      </button>
+
+      <button id="nav-riwayat"
+        onclick="openPage('riwayat')"
+        class="text-slate-400 flex flex-col items-center justify-center">
+        <i class="fa-solid fa-clock-rotate-left text-sm"></i>
+        <span class="text-[9px] mt-1">Riwayat</span>
+      </button>
+
+      <button id="nav-pengaturan"
+        onclick="openPage('pengaturan')"
+        class="text-slate-400 flex flex-col items-center justify-center">
+        <i class="fa-solid fa-gear text-sm"></i>
+        <span class="text-[9px] mt-1">Pengaturan</span>
+      </button>
+
+    </div>
+  </nav>
+
+
+  <!-- BOOK MODAL -->
+  <div id="bookModal"
+    class="hidden fixed inset-0 z-[100] modal-bg flex items-end md:items-center justify-center p-3">
+
+    <div class="bg-white w-full max-w-md rounded-3xl p-5 shadow-2xl">
+
+      <div class="flex justify-between items-center mb-4">
+        <div>
+          <h3 class="font-extrabold text-lg">
+            Tambah Buku
+          </h3>
+          <p class="text-[9px] text-slate-400">
+            Masukkan data buku baru
+          </p>
+        </div>
+
+        <button onclick="closeBookModal()"
+          class="w-9 h-9 rounded-full bg-slate-100">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3">
+
+        <input id="newBookNo"
+          class="w-full border border-slate-200 rounded-xl px-3 py-3 text-xs"
+          placeholder="No. Buku">
+
+        <input id="newBookTitle"
+          class="w-full border border-slate-200 rounded-xl px-3 py-3 text-xs"
+          placeholder="Judul Buku">
+
+        <input id="newBookAuthor"
+          class="w-full border border-slate-200 rounded-xl px-3 py-3 text-xs"
+          placeholder="Pengarang">
+
+        <input id="newBookQty"
+          type="number"
+          min="1"
+          value="1"
+          class="w-full border border-slate-200 rounded-xl px-3 py-3 text-xs"
+          placeholder="Jumlah">
+
+        <select id="newBookBuilding"
+          class="w-full border border-slate-200 rounded-xl px-3 py-3 text-xs">
+          <option>Gedung 2</option>
+          <option>Gedung 3</option>
+        </select>
+
+        <button onclick="addBook()"
+          class="w-full bg-emerald-700 text-white rounded-xl py-3 font-bold text-xs">
+          Simpan Buku
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   KHIZANAH AL HIKMAH LIBRARY
+   PKBM IBADURRAHMAN SIDOARJO
+   ========================================================= */
+
+/*
+  DATA BUKU:
+  Data di bawah mengambil data yang terbaca dari DATA BUKU.pdf.
+  Baris yang memang tidak lengkap pada sumber tidak dibuat-buat.
+*/
+
+/* ================= DATA BUKU GEDUNG 2 ================= */
+
+const booksGedung2 = [
+
+  ["001","Ighatsul lahfan","Ibnu Qayyim Al-Jauziyah",1],
+  ["002","Minhajul muslim","Abu Bakar Jabir",1],
+  ["003","Sirah nabawiyah","Syaikh shafiyyurrahman",1],
+  ["004","","",0],
+  ["005","Fikih jumhur (1)","Dr. Muhammad Na'im",1],
+  ["006","Fikih jumhur (2)","Dr. Muhammad Na'im",1],
+  ["007","Sejarah peradaban islam","Prof. Dr. H. J. Suyuthi Pulungan",1],
+  ["008","Mekkah dan madinah","Dr. Ahmad Ibrahim",1],
+  ["009","Dahsyatnya hari kiamat","Ibnu Kastir",1],
+  ["010","Ensiklopedia islam","Musdah Mulia",1],
+  ["011","The khalifah","Abdul Latip Thalib",1],
+  ["012","100 dosa yang diremehkan wanita","Abdul Lathif bin Hajis",2],
+  ["013","Wanita'' tangguh","Mahmud Mahdi Al-",1],
+  ["014","Kumpulan 101 kultum","",1],
+  ["015","Muhammad al-fatih","DR. Ali Ash Shallabi",1],
+  ["016","Majmu' syarif","",1],
+
+  ["101","Siroh Nabi Muhammad","M. Quraish Shihab",1],
+  ["102","Muhammad Sang Inspirator Dunia","Dr. Aidh Al-Qarni",1],
+  ["103","Muhammad The World Changer","Mohammad Jebara",1],
+  ["104","Sejarah Hidup Rasulullah","Syaikh Shafiyurrahman",1],
+  ["105","Biografi Istri, putri, cucu, dan pelayan nabi","Ahmad Khalil Jum'ah",1],
+  ["106","Biografi Umar","Prof. Dr. Ali Muhammad",1],
+  ["107","Biografi Abu Bakar","Prof. Dr. Ali Muhammad",1],
+
+  ["201","The ultimate guide dinosaurus","Rupert Matthews, Steve Parker",1],
+  ["202","The Ultimate Guide Hiu","Barbara Taylor",1],
+  ["203","The Ultimate Guide Antariksa","Rupert Matthews, Steve Parker",1],
+  ["204","Kamus bergambar tematik","Rudy Paryudi",1],
+  ["205","Ensiklopedia super seru halo bumi","Jean - Michel Bargard",1],
+  ["206","Ensiklopedia interaktif planet bumi","Marcus Johnson",1],
+  ["207","Ensiklopedia interaktif tubuh manusia","Marcus Johnson",1],
+  ["208","Tubuh Pedia","Christina Wilsdon",1],
+  ["209","Antariksa pedia","David A. Aguilar",1],
+  ["210","Mengapa tidak?","Crispin Boyer",1],
+  ["211","Atlas Dunia","Grace Hill",1],
+  ["212","Ensiklopedia Saintis Sains","Giles Sparrow",1],
+  ["213","Ensiklopedia Saintis Matematika","Tim Collins",1],
+  ["214","Ensiklopedia Saintis Eksperimen Sains","Thomas Canaran",1],
+  ["215","Ensiklopedi Sains Teknologi","Anita loughrey, Alex woolf",1],
+  ["216","Ensiklopedia Saintis Atlas Dunia","Claudia Martin",1],
+  ["217","Potret Pendoedok di Djawa tempoe doeloe","Oliver Johannes Raap",1],
+  ["218","Ensiklopedia Alam semesta& Luar angkasa","Taufik Hidayat",1],
+  ["219","Why?Aliens dan UFO","Lee Kwang Woong",1],
+  ["220","Why?Komputer","Youngsun CHD",1],
+  ["221","Why?Energi masa depan","Sangseon Yuun",1],
+  ["222","Why?Nuklir dan Energi","Lee Kwang Woong",1],
+  ["223","Why?Sains Sulap","PAPYRUS",1],
+  ["224","Why?Parasit","Yunkyeong CHEUN",1],
+  ["225","Why?tubuh kita","HEO, Suung Bong",1],
+  ["226","Why?binatang","Lee Kwang Woong",1],
+  ["227","Kesehatan,olahraga,dan kinerja","Prof. Dr. H. Y. S. Santoso Griwijoyo",1],
+  ["228-233","Atlas lengkap Indonesia&Dunia","Palito Media",6],
+  ["234-238","RPAL&RPUL Global","Drs. Prayitno Darmanto",5],
+  ["239","Kamus lengkap biologi","Santi Subrata",1],
+  ["240","Kamus sinonim antonim B.Indo","Drs. Nur Arifin Chaniago - Endang Sugriati",1],
+  ["241","Kamus Kimia Lengkap","Santi Subrata",1],
+  ["242","Eksperimen menakjubkan","Evita Swenesti",1],
+  ["243-244","Rumus Kimia","Evita Lievhie",2],
+
+  ["301","Ensiklopedia teknologi komputer","Purindaswari",1],
+  ["302","The magic Dr.Blender 3D Modeling","Hendi Hendramatwan",1],
+  ["303","Islamic enterpreneurship","Dr. Ika Yunia Fanzia, Lc.,M.E.I",1],
+  ["304","DIPO","Alam Nugroho Dewanto",1],
+  ["305","The Inteligent Investor","Benjamin Graham",1],
+  ["306","Jangan pernah bekerja sendirian","Keith Ferrazzi, Tahl Raz",1],
+
+  ["401","Ensiklopedia sejarah dunia","Lulu Fitri Rahman",1],
+  ["402","Ensiklopedi Akhir Zaman","Dr. Mahid Ahmad",1],
+  ["403","Ensiklopedi sejarah islam","Dr. Raghib As Sirjani",1],
+  ["404","Sang pangeran dan janissary","Salim A.Fillah",1],
+  ["405","Adab Penghafal Al Qur'an","Imam Abu Zakaria Yaya",1],
+  ["406","Nusantaria sejarah","Philip Bowring",1],
+  ["407","Cahaya dijantung kemiskinan","Herman Yoseph Sumanto",1],
+  ["408","Ya'juj&Ma'juj","Dr. As Syafii Al-Mahi",1],
+  ["409","Mudah menghafal 100 hadits","Said Yai bin Imanul",1],
+  ["410","Yang muda yang bekerja","Andika Hazrumi",1],
+  ["411","Kiat Hidup Sehat Rasulullah","Aba Ahmed Aga",1],
+
+  ["503","Rumus Produktif ala muslim","Zein Mukhlis",1],
+  ["504","Menjadi muslimah yang","Arum Faiza & Selizar",1],
+  ["505","Episode yang sempat hilang","Desti Anor",1],
+  ["506","Obat malas dosis tinggi","Khalifa Bisma Sanjaya",1],
+  ["507","Menjadi wanita tangguh","Sarah Ismi Kamilah",1],
+  ["508","Menjadi wanita cerdas sukses","Arum Faiza",1],
+  ["509","Sibuk Kerja Jangan Lupa Ibadah","Mushofa",1],
+  ["510","Stop overthingking","Nick Trenton",1],
+  ["511","AKM (asesmen kompetisi)","Tim Tentor Anak Bangsa",1],
+  ["512","Ujian sekolah+AKM","Tim Kompas Ilmu",1],
+  ["513","TOEFL","Tim Master Eduka",1],
+
+  ["604","OSN Matematika","Swah Sembiring, Sukino",1],
+  ["605","KSM Fisika","Marthen Kanginan",1],
+  ["606","Kumpulan paribahasa majas","Yettik Wulandari",1],
+  ["610","Kamus lengkap bahasa jawa","Ani Santoso",1],
+
+  ["801","Atomic habits","James Clear",1],
+  ["802","Produktivitas sekolah","Dr. H. Pendi Susanto M.",1],
+  ["826","Berdamai dengan masa lalu","Asti Musman",1],
+  ["830","Setiap luka akan pulih","Halimah",1],
+  ["831","Bahagia sekarang","Ardhina Nugraheni",1],
+  ["835","365 jurus anti stres","Adam Gordon",1],
+
+  ["903","Dapur susie","Susie Agung",1],
+  ["904","Cooking at home","Linna ma",1],
+  ["905","Bekal Organik anak sekolah","Tuti Soenardi",1],
+  ["906","Resep sehat JSR","Dr. Zaidul Akbar",1],
+  ["907","Ramadhan JSR","Dr. Zaidul Akbar",1],
+
+  ["1001","Mamalyre","Rensia Sanvira",1],
+  ["1002","Islamic Parenting","Syaikh Jamal Abdurrahman",1],
+  ["1004","Seni memahami perasaan anak","Park Jae Yeon",1],
+  ["1005","Seni bersikap pada anak","Sal Severe, Ph. D.",1],
+
+  ["2001","Bulan","",1],
+  ["2002","Le petit prince","Amoine De Saint - Exupery",1],
+  ["2003","Dompet ayah sepatu Ibu","J.S. Khairen",1],
+  ["2004","Mantappu jiwa","Jerome Polin Sijabat",1],
+  ["2005","Seluas langit biru","Sitta Karina",1],
+  ["2006","Kiai penggerak","Haidar Musyafa",1],
+
+  ["3001","Bersama kemudian berpisah","Amira Nuha Dzakiyah & Indha",1],
+  ["3002","No bullying","Faiza Valdaisyifa & Hendhy",1],
+  ["3003","Me Vs Self","Kalila Tyara Semarang",1],
+  ["3004","The archer girl","Khansa Humaira Dyfka",1],
+  ["3005","Petaka jurit malam","Nafisa Mahdiya",1],
+  ["3006","Ketika Ibu sakit","Nashwa Fazila & Malia",1],
+  ["3007","Home alone","Freya Alzena",1],
+  ["3008","Komikus misterius","Syifa Tsabita Wiangga",1],
+  ["3009","Kamus Al Munawwir Arab-Indonesia Terlengkap","Ahmad Warson Munawwir",2],
+  ["3010","Adab & Akhlak Islami","Majid Sa'ud Al Ausyan",1],
+  ["3011","Bertumbuh dimulai disini","senja rindiani",1],
+  ["3012","The glory story of two umars","Fuad abdurahman",1],
+  ["3013","Kamus Inggris-Indonesia","John M.Echols",1],
+
+  ["3014","Pendidik karakter di zaman keblinger","Doni koesoema A.",1],
+  ["3015","Tes Psikologi","Harfi Muthia Rahmi",2],
+  ["3016","Kamus Indonesia Inggris","John M.Echols",1],
+  ["3017","Kitab Sejarah Lengkap Khulafa'ur Rasyidin","Ibnu Katsir",1],
+  ["3018","Marketing 4.0","Philip kotler",1],
+  ["3019","Tokoh dan Penemuan","Josep Story",1],
+  ["3020","Sistem pendidikan finlandia","Ratih D.adiputri",1],
+  ["3021","Anak kantoran perjalanan","Samuel ray",1],
+  ["3022","Why? Anatomi","Changseop Eom",1],
+  ["3023","Kisah 25 nabi dan rasul","Erna fitrini",1],
+  ["3024","SNBT 2024","Tim Tentor Master",1],
+  ["3025","Bahas Tuntas kisi kisi UN 2018","Tim Tentor Smart",1],
+  ["3026","Shalahuddin al-ayyubi","Handri satria",1],
+  ["3027","SNBT 2025","Tim Tentor Master",1],
+  ["3028","Ensiklopedia Tanya Jawab Pengetahuan Umum","Amber Davenport",2],
+  ["3029","Pemantapan Menghadapi SBM-PTN IPC","Tim Widya Gamma",1],
+  ["3030","009 Dahsyatnya hari kiamat Ibnu katsir","Ibnu Katsir",1],
+  ["3031","Biografi Abu Bakar Ash Shiddiq","Prof.Dr. Ali Muhammad Ash Shallabi",1],
+  ["3032","606 Kamus bahsa indonesia","Manda Putri E",1],
+  ["3033","609 Biografi Umar bin al-Khattab","Prof.Dr. Ali Muhammad Ash Shallabi",1],
+  ["3034","607 KBBI kamus besar bahasa indonesia","Muliarman",1],
+  ["3035","608 Biografi Istri, putri, cucu","Ahmad Kholil Jum'ah",1],
+  ["3036","602 Ujian sekolah AKM","Bening faranisa",1],
+  ["3037","605 KSN fisika SMA","Marthen kanginan",1],
+  ["3038","601 Muhammad the world changer","Mohamad Jebara",1],
+  ["3039","602 Sang Inspirator dunia","Dr. Aidh Al Qarni",1],
+  ["3040","603 Ensiklopedi Akhir Zaman","Dr. Mahir Ahmad",1],
+  ["3041","610 UNBK 2018","yusuf pranomo",1],
+  ["3042","611 Sejarah Hidup Rasulullah","Syaikh Syafiruyurrahman Al Mubarakfuri 30",1],
+  ["3043","509 Sibuk kerja jangan lupa ibadah sibuk ibadah jangan lupa kerja","Mushofa",1],
+  ["3044","612 Ensiklopedia Sejarah dunia","Marina Ariyani",1],
+  ["3045","260 Kamus sinonim antonim","Drs. Nur Arifin Chaniago",1],
+  ["3046","rumah untuk alie","lenn liu",1],
+  ["3047","attitude is everything","jeff keller",1],
+  ["3048","30 Ilmuwan myslim yang hebat","Tim kitabah dhiyaul ilmi",1],
+  ["3049","Bagaimana bersikap pada anak","Sal Severe, Ph. D.",1],
+
+  ["3050","ayah, Bunda, Bagaimana Engkau Tuntun Ananda?","abunnada",1],
+  ["3051","xander's kitchen","Junita",1],
+  ["3052","terima kasih momo","abunnada",2],
+  ["3053","901 Law's kitchen","Law thomas",1],
+  ["3054","nikmat persendian yang terLupakan","Abunnada",1],
+  ["3055","Ashabul Kahfi","Abdullah Mukhlis",1],
+  ["3056","Hikmah Matahari,Bulan, dan Gunung","abunnada",1],
+  ["3057","608 kumpulan peribahasa majas","Yettik wulandari",1],
+  ["3058","Kisah Ashabul Ukhdud","Dhiyaul Ilmi",1],
+  ["3059","Jam dan Waktu","Bhuana Ilmu Populer",1],
+  ["3060","Ensiklopedia 4D tubuh manusia","Ensiklopedia",1],
+  ["3061","30 Kisah Teladan Ali bin Abi Thalib","Tere Liye",1],
+  ["3062","Minhajul Muslim jilid 2","Syaikh Abu bakar jabir",1],
+  ["3063","30 Kisah Teladan Umar bin Khattab","Kak Faiz",1],
+  ["3064","Seni berhubungan dengan orang lain","Richard Templar",1],
+  ["3065","Bintang","Tere Liye",1],
+  ["3066","Kisah Indah Ibunda Khadijah","Irfan Abu Faris",1],
+  ["3067","Komet minor","Tere Liye",1],
+  ["3068","Bahagia Tanpa Tapi","Jeong Moon Jeong",1],
+  ["3069","Selena","Tere Liye",1],
+  ["3070","Ceros dan Batozar","Tere Liye",1],
+  ["3071","Kisah Indah Ibunda Aisyah","Irfan Abu Faris",1],
+  ["3072","Kisah teladan para nabi seri 1","kak Ari",1],
+  ["3073","Si putih","Tere Liye",1],
+  ["3074","Bumi","Tere Liye",1],
+  ["3075","Tiga Malam Bersama Penghuni Surga","Fuad Abdurrahman",1],
+  ["3076","Nebula","Tere Liye",1],
+  ["3077","Lumpu","Tere Liye",1],
+  ["3078","Kids picture dictionary","Dr. Esti junining",1],
+  ["3079","ADHD pada lansia dan Cara Menanganinya","kathleen nadeau, PH.D.",1],
+  ["3080","Si anak pemberani","Tere Liye",1],
+  ["3081","Bibi Gill","Tere Liye",1],
+  ["3082","kisah teladan para nabi seri 5","Kak Ari",1],
+  ["3083","Tak Mungkin Membuat Semua Orang Senang","Jeong Moon Jeong",1],
+  ["3084","kisah teladan para nabi 4","Kak Ari",1],
+  ["3085","The Habit Journal","James Clear",1],
+  ["3086","kisah teladan para nabi seri 3","Kak Ari",1],
+  ["3087","toples air mata","Abunnada",1],
+  ["3088","kisah teladan para nabi seri 2","Kak Ari",1],
+  ["3089","Akhlak mulia","Abunnada",2],
+  ["3090","How to win friends","Dale carnegie",1],
+  ["3091","Si anak pemberani","Tere Liye",1],
+  ["3092","Teruslah Bodoh Jangan Pintar","Tere Liye",1],
+  ["3093","Pergi","Tere Liye",1],
+  ["3094","Rumus Produktif ala muslim","Zein mukhlis",1],
+  ["3095","Pulang Pergi","Tere Liye",1],
+  ["3096","Sifat Shalat Nabi","syaikh Abdul Aziz bin Abdillah bin Baaz",1],
+  ["3097","Para Tabi'in","Abdurrahman Ra' fat Al Basya",1],
+  ["3098","Bimbingan Islam","syaikh muhammad bin jamil zainu",1],
+  ["3099","sahabat sahabat nabi","Abdurrahman Ra' fat Al Basya",1],
+  ["3100","Misteri akhir jaman","Shalahuddin Mahmud",1],
+  ["3101","khutbah khutbah Rasulullah","Muhammad Khali Al Khatib",1],
+  ["3102","asal usul kesyirikan di mekah","abunnada",1],
+  ["3103","PCOS dan gangguan haidh","dr. Gita Pratama",1],
+  ["3104","manhaj ahlus sunnah al jamaah dalam tazkiyatun nufus","yazid bin abdul qadir jawas",1],
+  ["3105","jika kita tak pernah jatuh cinta","Alvi syahrin",1],
+  ["3106","prinsip prinsip aqidah","yazid bin abdul qadir jawas",1],
+  ["3107","Dunia lebih jelek daripada bangkai kambing","yazid bin abdul qadir jawas",1],
+  ["3108","Hal hal yang wajib diketahui setiap muslim","Ibrahim bin asy syaikh shalih",1],
+  ["3109","jalan golongan yang selamat","syaikh muhammad bin jamil zainu",1],
+  ["3110","sukses sebelum usia 30","aneera Amba dan Marlina Nana",1],
+  ["3111","Adab di atas ilmu","Adabul 'Alim wal muta'alim",1],
+  ["3112","Sifat sholat nabi","Syaikh 'abdul 'aziz bin abdullah bin baaz",1],
+  ["3113","the innovation book","max mckeown",1],
+  ["3114","jangan membuat masalah kecil ditempat kerja jadi masalah besar","richard carlson, PH.D.",1],
+  ["3115","Waktunya berkembang","Amy Newmmark",1],
+  ["3116","Otodiak pintar bahasa inggris","Riskandia maharani",1],
+  ["3117","Kimchi confessions","Xaviera Putri",1],
+  ["3118","kepribadian berdasarkan MBTI","Kim Seona",2],
+  ["3119","jika kita tak pernah baik baik saja","Alvi syahrin",1],
+  ["3120","Nasihat Indah Agar Tak Terpedaya ''keindahan''Zina","Syaikh Sa'id Bin Musfir Al - Qahthani",1],
+  ["3121","Top EYD ejaan yang disempurnakan","Utami Pratiwi S. Pd",1],
+  ["3122","jangan dulu patah","nurunala",1],
+  ["3123","Kartun statistik","larry gonick &woollcott smith",1],
+  ["3124","Memory is Easy seri 1","Muhammad wildan syaifulloh",1],
+  ["3125","Berdamai dengan takdir","Sony Adams",1],
+  ["3126","learning how to learn","barbara oakley, PH.D., terry sejnowski, PH.D.",1],
+  ["3127","Memory is Easy seri 2","Muhammad wildanres",1],
+  ["3128","Hidup ini singkat jangan dibuat berat","Dale Carnegie",1],
+  ["3129","Panduan sosok minimalis untuk kehidupan yang lebiih baik","Fumio Sasaki",1],
+  ["3130","selembut kapas sekeras baja","ayu aida",1],
+  ["3131","Keluar dari zona nyaman","Amy Newmark",1],
+  ["3132","Mengenal lebih dekat manusia pilihan neraka","syaikh muhammad as shayin",1],
+  ["3133","loneliness","alvi syahrin",1],
+  ["3134","Asal usul kesyirikan di mekah","Abunada",1],
+  ["3135","Wahai Perokok inilah Surgamu","Zainal Abidin bin Syamsuddin",1],
+  ["3136","Amalan muslimah di masa haid dan nifas","",1],
+
+  ["3137","300 kesalahan sholat yang sering di remehkan","Abu Ubaidah Al Walid bin Muhammad bin Salamah",1],
+  ["3138","Ikhlas paling serius","Fajar Sulaiman",1],
+  ["3139","Succes Habits","Napoleon Hill",1],
+  ["3140","Yang penting teruslah melangkah!","Iqro' Firdaus",1],
+  ["3141","Karena menikah tak sebercanda itu","Amar ar-risalah",1],
+  ["3142","Inspektur cilik 2","Esra avgoren",1],
+  ["3143","Untuk kamu yang malas dan suka menunda","Noura",1],
+  ["3144","Menjadi dewasa bukan tentang usia","Sofia fitriani",1],
+  ["3145","Pulang","Tereliye",1],
+  ["3146","Si Anak Savana","Tereliye",1],
+  ["3147","Rahasia parenting nabi muhammad","Abun nada",1],
+  ["3148","Pulang pergi","Tereliye",1],
+  ["3149","Hafalan sholat delisa","Tereliye",1],
+  ["3150","Si anak pemberani","Tereliye",1],
+  ["3151","Dia adalah kakakku","Tereliye",1],
+  ["3152","Pergi","Tereliye",1],
+  ["3153","Teruslah bodoh jangan pintar","Tereliye",1],
+  ["3154","","Tereliye",1],
+  ["3155","Nak, dengarkanlah bapak","Abunnada",1],
+  ["3156","Jalan golongan yang selamat","Syaikh Muhammmad bin Jamil Zainu",1],
+  ["3157","Bandara,station dan tahun-tahun setelahnya","Erina Delyere",1],
+  ["3158","Creative Teaching","Robert Bala",1],
+  ["3159","Si Anak Pelangi","Tereliye",1],
+  ["3160","The midnight library","",1],
+  ["3161","Understanding why children bully","Hanlie Muliani & Robert Pereira",1],
+  ["3162","Mengapa harus beribadah","Jeffrey Lang",1],
+  ["3163","Kamus al Munawwir indonesia-arab terlengkap","AW. Munawwir",1],
+  ["3164","Muhammad nabiku","Aminah Ummu Tazkiya",1],
+  ["3165","Sebelum ayah tiada","Muhammad Yasir, Lc",1],
+  ["3166","Ada surga di setiap wanita","Muhammad Yasir, Lc",1],
+  ["3167","Sebelum bunda tiada","Muhammad Yasir, Lc",1],
+  ["3168","Qaddarallah wa maasyaa-a fa'ala","Ustadz Gigih Surya Nugraha",1],
+  ["3169","Fiqih sunnah wanita","",2],
+  ["3170","Kamus arab-indonesia Al Azhar","S. Askar",1],
+  ["3171","Toefl edisi lengkap 1890","Tim Master Eduka",1]
+];
+
+
+/* ================= DATA BUKU GEDUNG 3 ================= */
+
+const booksGedung3 = [
+
+  ["1","muhammad al fatih 1-3","Handri Satria",3],
+  ["2","RPAL-RPUL","DRS.prayitno darmanto dan ninik setyawati S.Pd",4],
+  ["3","ATLAS LENGKAP","palito media",4],
+  ["4","KAMUS BAHASA INDONESIA","Manda Putri E,S.PD",1],
+  ["5","fiqih islam wa adillatuhu","Proft,Doctor Wahba Atobali",10],
+  ["6","ath Thabari","",25],
+  ["7","SHAHIH BUKHARI MUSLIM","Muhammad Fu'ad Abdul Baqi",1],
+  ["8","semua orang butuh curhat","Lori gottlieb",1],
+  ["9","21 WANITA PERKASA YANG DI TEMPA OLEH BUDAYA ACEH","Qismullah Yusuf",1],
+  ["10","TOP FOKUS ULANGAN DAN UJIAN","tim maestro eduka",1],
+  ["11","DISCOVERING MYSELF","yohana nessy",1],
+  ["12","Mekkah dan Madinah","Dr.ahmad Ibrahim asy -Syarif",1],
+  ["13","kitab tauhid","DR.shalih bin fauzan",1],
+  ["14","RAJIN SHALAT TAPI MASIH KELIRU","Dr. Mahmud Abdurrahman Abdul Mun'im",1],
+  ["15","Fithrah","yayasan nidaul fithrah",1],
+  ["16","tafsir al fatihah","muhammad rasyid ridha",1],
+  ["17","fiqih islam dari alkitab dan assunnah 1 - 4","syaikh shiddiq",4],
+  ["18","dunia ditanganku akherat dihatiku","ustadz abdullah amim",1],
+  ["19","pengobatan,perawatan dan kecantikan","Agus ibnu IBAD",1],
+  ["20","manajemen mareketing sekolah","jamal ma'mur Asmani",1],
+  ["21","belajar ilmu waris praktis","Ustadz Muhammad Nur Yasin Zain",1],
+  ["22","125 PAHLAWAN DAN PEJUANG NUSANTARA","GAMAL KOMANDOKO",1],
+  ["23","KIAT SHOLAT KHUSYU","MUHAMMAD AL-MUNAJJID",1],
+  ["24","ARAB INDONESIA","PROF.DR.H,.MAHMUD YUNUS",1],
+  ["25","TUNTUNAN KURBAN","SYAIKH DR ABDULLAH BIN ABDURRAHMAN",1],
+  ["26","risalah qow aidul fikih","ustadz abdullah amim",1],
+  ["27","KAMUS INGGRIS INDONESIA","JOHN M. ECHOLS",1],
+  ["28","kultum kuliah 7 menit","ahmad sunarto",1],
+  ["29","BELAJAR DARI ILMU FARAIDH 1 - 12","ABU MALIK AMRIL FATONI AL FADHALI",12],
+  ["30","majalah as sunnah","yayasan lajnah istiqomah",10],
+  ["31","amalan sunnah setahun","YAZID BIN ABDUL QODIR JAWAS",1],
+  ["32","SUKSES MENDIDIK ANAK","KUSUMASTUTI risa",1],
+  ["33","PALESTINA YG TERLUPAKAN","USTADZ. KHALID BASALAMAH",1],
+  ["34","STUDI KELAYAKAN BISNIS","Dr. KASMIR S.E M.M & JAKFAR S.E M.M",1],
+  ["35","tbl top banget latihan","tim tentor anak bangsa",1],
+  ["36","KAIDAH MEMAHAMI TAUHID DAN SYIRIK","ABU MALIK AL FADHOLI",1],
+  ["37","QONITAH","MAJALAH KREATIF",1],
+  ["38","buku lengkap tes bakat sekolah skolastik","dwi sumar prasetyono",1],
+  ["39","160 AYAT HUKUM AL QURAN","Drs.FATCHUR ROCHMAN",1],
+  ["40","MUTIARA HADIST SHAHIH BUKHARI","Ust maftuh ahnan",1],
+  ["41","al-mawaddah","lajnah dakwah",4],
+  ["42","ulasan tuntas","syaikh muhammad bin shaleh al usaimin",1],
+  ["43","asal mula suku asmat","dian k.",1],
+  ["44","as-sunnah","yayasan lajnah istiqomah",19],
+  ["45","al furqan","lajnah mahad al furqan al islami",3],
+  ["46","sains","",1],
+  ["47","shalat yang menangis","khalid ibn muhamad al rasyid sholeh ahmad syami",1],
+  ["48","sifat shalat nabi","syaikh muhammad nashiruddin al bani",1],
+  ["49","kumpulan pribahasa majas dan ungkapan bahasa indonesia","yettik wulandari",2],
+  ["50","easy to love","PT gramedia pustaka utama",1],
+  ["51","metode penelitian","mohammad nazir",1],
+  ["52","resep sehat","dr zaidul akbar",1],
+  ["53","perjalanan haji nabi dan salafus shalih","dr badr bin nashir al badr",1],
+  ["54","bittersweet","PT gramedia pustaka utama",1],
+  ["55","mukjizat hadist lalat","ma`had ali al irsyad as salafiy",1],
+  ["56","burung besi monika","monika anggreini",1],
+  ["57","ayat ayat berkhasiat","muhammad tharhuni",1],
+  ["58","menggambar arsitektur","tecky hendrarto",1],
+  ["59","kitab tauhid","syekh muhammad at tamimi",2],
+  ["60","haji dan umroh","iwan gayo",1],
+  ["61","risalah shalat lengkap","bintang usaha jaya",1],
+  ["62","al fatih pilar peradaban modul kuttab","budi ashari",1],
+  ["63","karantina hafal al quran sebulan","saied al makhtum al hafizh",1],
+  ["64","lancar berbicara dalam bahasa inggris","goridus sukur",1],
+  ["65","buku pintar mengelola sekolah swasta","muhammad arifin",1],
+  ["66","muhammad sebagai pedagang","ippho santosa",1],
+  ["67","ringkasan kaidah kaidah bahasa arab","ustadz aunur rofiq bin ghufron",1],
+  ["68","desain pembelajaran tahfidz al quran","rifqi hidayat",1],
+  ["69","kupikir segalanya akan beres saat aku dewasa","kim hae nam dan park jong seok",1],
+  ["70","kesalahan kesalahan fatal pengusaha","masyarakat tanpa riba",1],
+  ["71","ilmu waris peraktis","ustadz muhammad nur yasin zain",1],
+  ["72","modul laboratorium bank syariah","nisful laila",1],
+  ["73","himpunan hadist qudsi","achmad sunarto",1],
+  ["74","mantappu jiwa","jerome polin sijabat",1],
+  ["75","asurasi syariah","abdullah amrin",1],
+  ["76","pelajaran bahasa arab","abdurrahman",1],
+  ["77","tahajjud nabi","said bin ali bin wahf al qahthani",1],
+  ["78","bekal untuk setiap pendidik","abu malik al fadholi",5],
+  ["79","metode as syafi i","nizar jabal",1],
+  ["80","modernisasi pendidikan islam","",1],
+  ["81","tingkatan iq anak anda 3-6 tahun","yul iskandar",1],
+  ["82","cahaya jantung kemiskinan","herman yoseph",1],
+  ["83","ilmu tajwid","saadah",1],
+  ["84","hadiah istimewa menuju keluarga sakinah","yazid bin abdul qodir jawas",1]
+
+];
+
+
+/* ================= NORMALISASI DATABASE ================= */
+
+let books = [];
+
+function buildDatabase() {
+
+  books = [];
+
+  booksGedung2.forEach((b,i) => {
+    books.push({
+      id: "G2-" + (i+1),
+      no: b[0],
+      title: b[1],
+      author: b[2],
+      qty: Number(b[3]) || 0,
+      building: "Gedung 2"
+    });
+  });
+
+  booksGedung3.forEach((b,i) => {
+    books.push({
+      id: "G3-" + (i+1),
+      no: b[0],
+      title: b[1],
+      author: b[2],
+      qty: Number(b[3]) || 0,
+      building: "Gedung 3"
+    });
+  });
+
+  const saved = localStorage.getItem("khizanah_books");
+
+  if (saved) {
+    try {
+      books = JSON.parse(saved);
+    } catch(e) {}
+  }
+}
+
+
+/* ================= TRANSAKSI ================= */
+
+let loans = [
+  {
+    id:1,
+    siswa:"Aina",
+    buku:"Pulang",
+    pinjam:"2026-08-21",
+    kembali:"2026-09-01",
+    tempo:"2026-09-01",
+    gedung:"Gedung 2",
+    status:"Kembali"
+  },
+  {
+    id:2,
+    siswa:"Khodijah",
+    buku:"The midnight library",
+    pinjam:"2026-08-21",
+    kembali:"2026-08-26",
+    tempo:"2026-08-26",
+    gedung:"Gedung 2",
+    status:"Kembali"
+  },
+  {
+    id:3,
+    siswa:"Khodijah",
+    buku:"Tiga Malam Bersama Penghuni Surga",
+    pinjam:"2026-08-28",
+    kembali:"2026-09-03",
+    tempo:"2026-09-03",
+    gedung:"Gedung 2",
+    status:"Kembali"
+  },
+  {
+    id:4,
+    siswa:"Sausan",
+    buku:"Loneliness",
+    pinjam:"2026-08-27",
+    kembali:"2026-09-02",
+    tempo:"2026-09-02",
+    gedung:"Gedung 2",
+    status:"Kembali"
+  },
+  {
+    id:5,
+    siswa:"Aulia",
+    buku:"Rumah untuk Alie",
+    pinjam:"2026-08-27",
+    kembali:"2026-08-28",
+    tempo:"2026-08-28",
+    gedung:"Gedung 2",
+    status:"Kembali"
+  },
+  {
+    id:6,
+    siswa:"Diana",
+    buku:"Si putih",
+    pinjam:"2026-08-27",
+    kembali:"2026-09-04",
+    tempo:"2026-09-04",
+    gedung:"Gedung 2",
+    status:"Kembali"
+  },
+  {
+    id:7,
+    siswa:"Meta",
+    buku:"Atlas dunia",
+    pinjam:"2026-08-27",
+    kembali:"2026-08-31",
+    tempo:"2026-08-31",
+    gedung:"Gedung 2",
+    status:"Kembali"
+  },
+  {
+    id:8,
+    siswa:"Mutia",
+    buku:"Dia adalah kakakku",
+    pinjam:"2026-08-27",
+    kembali:"2026-09-03",
+    tempo:"2026-09-03",
+    gedung:"Gedung 2",
+    status:"Kembali"
+  },
+  {
+    id:9,
+    siswa:"Almira",
+    buku:"Bibi Gill",
+    pinjam:"2026-08-28",
+    kembali:"2026-09-03",
+    tempo:"2026-09-03",
+    gedung:"Gedung 2",
+    status:"Kembali"
+  },
+  {
+    id:10,
+    siswa:"Aulia",
+    buku:"Bumi",
+    pinjam:"2026-08-28",
+    kembali:"2026-09-03",
+    tempo:"2026-09-03",
+    gedung:"Gedung 2",
+    status:"Kembali"
+  },
+  {
+    id:11,
+    siswa:"Medina",
+    buku:"Pulang - Pergi",
+    pinjam:"2026-08-28",
+    kembali:"2026-09-04",
+    tempo:"2026-09-04",
+    gedung:"Gedung 2",
+    status:"Kembali"
+  },
+  {
+    id:12,
+    siswa:"Aina",
+    buku:"Pulang",
+    pinjam:"2026-09-02",
+    kembali:"2026-09-07",
+    tempo:"2026-09-07",
+    gedung:"Gedung 2",
+    status:"Kembali"
+  },
+  {
+    id:13,
+    siswa:"Alita",
+    buku:"Berdamai dengan masa lalu",
+    pinjam:"2026-09-03",
+    kembali:"2026-09-11",
+    tempo:"2026-09-11",
+    gedung:"Gedung 2",
+    status:"Kembali"
+  },
+  {
+    id:14,
+    siswa:"Almira",
+    buku:"Bibi Gill",
+    pinjam:"2026-09-03",
+    kembali:"2026-09-11",
+    tempo:"2026-09-11",
+    gedung:"Gedung 2",
+    status:"Kembali"
+  },
+  {
+    id:15,
+    siswa:"Mutia",
+    buku:"Rumah untuk Alie",
+    pinjam:"2026-09-03",
+    kembali:"2026-09-09",
+    tempo:"2026-09-09",
+    gedung:"Gedung 2",
+    status:"Kembali"
+  },
+  {
+    id:16,
+    siswa:"Khodijah",
+    buku:"Tiga Malam Bersama Penghuni Surga",
+    pinjam:"2026-09-04",
+    kembali:"2026-09-11",
+    tempo:"2026-09-11",
+    gedung:"Gedung 2",
+    status:"Kembali"
+  },
+  {
+    id:17,
+    siswa:"Aulia",
+    buku:"Bumi",
+    pinjam:"2026-09-04",
+    kembali:"2026-09-11",
+    tempo:"2026-09-11",
+    gedung:"Gedung 2",
+    status:"Kembali"
+  },
+  {
+    id:18,
+    siswa:"Meta",
+    buku:"Ensiklopedia Saintis Junior Teknologi",
+    pinjam:"2026-09-04",
+    kembali:"2026-09-11",
+    tempo:"2026-09-11",
+    gedung:"Gedung 2",
+    status:"Kembali"
+  },
+  {
+    id:19,
+    siswa:"Diana",
+    buku:"Kisah teladan para nabi",
+    pinjam:"2026-09-04",
+    kembali:"2026-09-09",
+    tempo:"2026-09-09",
+    gedung:"Gedung 2",
+    status:"Kembali"
+  },
+  {
+    id:20,
+    siswa:"Mutia",
+    buku:"Pulang",
+    pinjam:"2026-09-09",
+    kembali:"2026-09-11",
+    tempo:"2026-09-11",
+    gedung:"Gedung 2",
+    status:"Kembali"
+  },
+  {
+    id:21,
+    siswa:"Sausan",
+    buku:"Rumah untuk Alie",
+    pinjam:"2026-09-11",
+    kembali:"",
+    tempo:"2026-09-18",
+    gedung:"Gedung 2",
+    status:"Dipinjam"
+  },
+  {
+    id:22,
+    siswa:"Salwah",
+    buku:"Kado Terbaik",
+    pinjam:"2026-09-11",
+    kembali:"",
+    tempo:"2026-09-18",
+    gedung:"Gedung 2",
+    status:"Dipinjam"
+  },
+  {
+    id:23,
+    siswa:"Meta",
+    buku:"Kepribadian MBTI",
+    pinjam:"2026-09-11",
+    kembali:"",
+    tempo:"2026-09-18",
+    gedung:"Gedung 2",
+    status:"Dipinjam"
+  },
+  {
+    id:24,
+    siswa:"Prita",
+    buku:"Bandara - Stasiun dan tahun setelahnya",
+    pinjam:"2026-09-11",
+    kembali:"",
+    tempo:"2026-09-18",
+    gedung:"Gedung 2",
+    status:"Dipinjam"
+  }
+];
+
+
+/* ================= LOCAL STORAGE ================= */
+
+function saveData() {
+
+  localStorage.setItem(
+    "khizanah_books",
+    JSON.stringify(books)
+  );
+
+  localStorage.setItem(
+    "khizanah_loans",
+    JSON.stringify(loans)
+  );
+}
+
+function loadData() {
+
+  buildDatabase();
+
+  const savedLoans =
+    localStorage.getItem("khizanah_loans");
+
+  if (savedLoans) {
+    try {
+      loans = JSON.parse(savedLoans);
+    } catch(e) {}
+  }
+}
+
+
+/* ================= NAVIGATION ================= */
+
+function openPage(page) {
+
+  const pages = [
+    "dashboard",
+    "buku",
+    "pinjam",
+    "kembali",
+    "riwayat",
+    "pengaturan"
+  ];
+
+  pages.forEach(p => {
+
+    const el =
+      document.getElementById("page-" + p);
+
+    if (el) {
+      el.classList.toggle(
+        "hidden",
+        p !== page
+      );
+    }
+  });
+
+  document.querySelectorAll("[id^='nav-']")
+    .forEach(btn => {
+      btn.classList.remove("nav-active");
+    });
+
+  const nav =
+    document.getElementById("nav-" + page);
+
+  if (nav) {
+    nav.classList.add("nav-active");
+  }
+
+  if (page === "dashboard") renderDashboard();
+  if (page === "buku") renderBooks();
+  if (page === "kembali") renderReturns();
+  if (page === "riwayat") renderHistory();
+  if (page === "pengaturan") renderSettings();
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+
+/* ================= DATE ================= */
+
+function today() {
+
+  const d = new Date();
+
+  const month =
+    String(d.getMonth()+1).padStart(2,"0");
+
+  const day =
+    String(d.getDate()).padStart(2,"0");
+
+  return `${d.getFullYear()}-${month}-${day}`;
+}
+
+
+/* ================= STATS ================= */
+
+function activeLoans() {
+
+  return loans.filter(
+    x => x.status === "Dipinjam"
+  );
+}
+
+function lateLoans() {
+
+  const now = today();
+
+  return activeLoans().filter(
+    x => x.tempo && x.tempo < now
+  );
+}
+
+function totalCopies() {
+
+  return books.reduce(
+    (sum,b) => sum + Number(b.qty || 0),
+    0
+  );
+}
+
+
+/* ================= DASHBOARD ================= */
+
+function renderDashboard() {
+
+  document.getElementById("statJudul").textContent =
+    books.filter(b => b.title).length;
+
+  document.getElementById("statEksemplar").textContent =
+    totalCopies();
+
+  document.getElementById("statDipinjam").textContent =
+    activeLoans().length;
+
+  document.getElementById("statTerlambat").textContent =
+    lateLoans().length;
+
+  const list =
+    document.getElementById("dashboardLoans");
+
+  const data =
+    activeLoans().slice().reverse().slice(0,5);
+
+  if (!data.length) {
+
+    list.innerHTML = `
+      <div class="text-center py-7 text-slate-400">
+        <i class="fa-solid fa-circle-check text-2xl text-emerald-500"></i>
+        <p class="text-xs mt-2">
+          Tidak ada peminjaman aktif
+        </p>
+      </div>
+    `;
+
+    return;
+  }
+
+  list.innerHTML =
+    data.map(loanCard).join("");
+}
+
+
+/* ================= LOAN CARD ================= */
+
+function loanCard(item) {
+
+  const terlambat =
+    item.status === "Dipinjam" &&
+    item.tempo &&
+    item.tempo < today();
+
+  return `
+    <div class="border border-slate-100 rounded-2xl p-3 flex gap-3 items-center">
+
+      <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0">
+        <i class="fa-solid fa-book-bookmark"></i>
+      </div>
+
+      <div class="min-w-0 flex-1">
+        <p class="font-bold text-xs text-slate-800">
+          ${escapeHTML(item.siswa)}
+        </p>
+
+        <p class="text-[10px] text-slate-500 truncate">
+          ${escapeHTML(item.buku)}
+        </p>
+
+        <p class="text-[9px] text-slate-400 mt-1">
+          Jatuh tempo: ${formatDate(item.tempo)}
+        </p>
+      </div>
+
+      <span class="text-[8px] font-bold px-2 py-1 rounded-lg
+        ${terlambat
+          ? "bg-rose-50 text-rose-600"
+          : "bg-emerald-50 text-emerald-700"}">
+        ${terlambat ? "Terlambat" : "Aktif"}
+      </span>
+
+    </div>
+  `;
+}
+
+
+/* ================= BOOKS ================= */
+
+function renderBooks() {
+
+  const search =
+    (document.getElementById("bookSearch")?.value || "")
+      .toLowerCase();
+
+  const building =
+    document.getElementById("buildingFilter")?.value ||
+    "semua";
+
+  const limit =
+    Number(document.getElementById("bookLimit")?.value || 30);
+
+  let data = books.filter(b => {
+
+    const text =
+      `${b.no} ${b.title} ${b.author} ${b.building}`
+        .toLowerCase();
+
+    const matchSearch =
+      !search || text.includes(search);
+
+    const matchBuilding =
+      building === "semua" ||
+      b.building === building;
+
+    return matchSearch && matchBuilding;
+  });
+
+  const totalFound = data.length;
+
+  data = data.slice(0,limit);
+
+  document.getElementById("bookCount").textContent =
+    `Menampilkan ${data.length} dari ${totalFound} data`;
+
+  const list =
+    document.getElementById("bookList");
+
+  if (!data.length) {
+
+    list.innerHTML = `
+      <div class="card p-8 text-center">
+        <i class="fa-solid fa-book-open text-3xl text-slate-300"></i>
+        <p class="text-xs text-slate-400 mt-2">
+          Buku tidak ditemukan.
+        </p>
+      </div>
+    `;
+
+    return;
+  }
+
+  list.innerHTML =
+    data.map((book,index) => {
+
+      return `
+        <div class="card p-3">
+
+          <div class="flex gap-3">
+
+            <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-800 flex items-center justify-center font-extrabold text-[10px] shrink-0">
+              ${escapeHTML(book.no || "-")}
+            </div>
+
+            <div class="min-w-0 flex-1">
+
+              <div class="flex justify-between gap-2">
+
+                <div class="min-w-0">
+
+                  <h3 class="font-extrabold text-xs text-slate-800">
+                    ${escapeHTML(book.title || "Judul belum diisi")}
+                  </h3>
+
+                  <p class="text-[9px] text-slate-500 mt-1">
+                    ${escapeHTML(book.author || "Pengarang belum diisi")}
+                  </p>
+
+                </div>
+
+                <button
+                  onclick="deleteBook('${book.id}')"
+                  class="text-slate-300 hover:text-rose-500 shrink-0">
+                  <i class="fa-solid fa-trash text-xs"></i>
+                </button>
+
+              </div>
+
+              <div class="flex gap-2 mt-2">
+
+                <span class="px-2 py-1 rounded-lg bg-slate-100 text-slate-500 text-[8px] font-bold">
+                  ${escapeHTML(book.building)}
+                </span>
+
+                <span class="px-2 py-1 rounded-lg bg-blue-50 text-blue-700 text-[8px] font-bold">
+                  ${book.qty} eksemplar
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      `;
+    }).join("");
+}
+
+
+function resetBookSearch() {
+
+  document.getElementById("bookSearch").value = "";
+  document.getElementById("buildingFilter").value = "semua";
+  document.getElementById("bookLimit").value = "30";
+
+  renderBooks();
+}
+
+
+/* ================= BOOK MODAL ================= */
+
+function openBookModal() {
+
+  document.getElementById("bookModal")
+    .classList.remove("hidden");
+
+}
+
+function closeBookModal() {
+
+  document.getElementById("bookModal")
+    .classList.add("hidden");
+
+}
+
+function addBook() {
+
+  const no =
+    document.getElementById("newBookNo").value.trim();
+
+  const title =
+    document.getElementById("newBookTitle").value.trim();
+
+  const author =
+    document.getElementById("newBookAuthor").value.trim();
+
+  const qty =
+    Number(document.getElementById("newBookQty").value || 1);
+
+  const building =
+    document.getElementById("newBookBuilding").value;
+
+  if (!title) {
+
+    alert("Judul buku wajib diisi.");
+
+    return;
+  }
+
+  books.push({
+
+    id:
+      "CUSTOM-" +
+      Date.now(),
+
+    no:
+      no || "-",
+
+    title,
+    author,
+
+    qty:
+      qty > 0 ? qty : 1,
+
+    building
+
+  });
+
+  saveData();
+
+  closeBookModal();
+
+  document.getElementById("newBookNo").value = "";
+  document.getElementById("newBookTitle").value = "";
+  document.getElementById("newBookAuthor").value = "";
+  document.getElementById("newBookQty").value = 1;
+
+  renderBooks();
+  renderDashboard();
+
+  alert("Buku berhasil ditambahkan.");
+}
+
+
+function deleteBook(id) {
+
+  const book =
+    books.find(b => b.id === id);
+
+  if (!book) return;
+
+  if (!confirm(
+    `Hapus buku "${book.title || "tanpa judul"}"?`
+  )) return;
+
+  books =
+    books.filter(b => b.id !== id);
+
+  saveData();
+
+  renderBooks();
+  renderDashboard();
+}
+
+
+/* ================= BORROW ================= */
+
+function saveBorrow() {
+
+  const siswa =
+    document.getElementById("borrowerName").value.trim();
+
+  const buku =
+    document.getElementById("borrowBook").value.trim();
+
+  const gedung =
+    document.getElementById("borrowBuilding").value;
+
+  const pinjam =
+    document.getElementById("borrowDate").value;
+
+  const tempo =
+    document.getElementById("borrowDue").value;
+
+  if (!siswa || !buku || !pinjam || !tempo) {
+
+    alert("Lengkapi data peminjaman terlebih dahulu.");
+
+    return;
+  }
+
+  loans.push({
+
+    id:
+      Date.now(),
+
+    siswa,
+    buku,
+    pinjam,
+
+    kembali:
+      "",
+
+    tempo,
+
+    gedung,
+
+    status:
+      "Dipinjam"
+
+  });
+
+  saveData();
+
+  document.getElementById("borrowerName").value = "";
+  document.getElementById("borrowBook").value = "";
+
+  alert("Peminjaman berhasil disimpan.");
+
+  renderDashboard();
+
+  openPage("kembali");
+}
+
+
+/* ================= RETURN ================= */
+
+function renderReturns() {
+
+  const list =
+    document.getElementById("returnList");
+
+  const data =
+    activeLoans().slice().reverse();
+
+  if (!data.length) {
+
+    list.innerHTML = `
+      <div class="card p-8 text-center">
+        <i class="fa-solid fa-circle-check text-3xl text-emerald-500"></i>
+        <p class="text-xs text-slate-500 mt-2">
+          Semua buku sudah dikembalikan.
+        </p>
+      </div>
+    `;
+
+    return;
+  }
+
+  list.innerHTML =
+    data.map(item => {
+
+      const terlambat =
+        item.tempo &&
+        item.tempo < today();
+
+      return `
+        <div class="card p-4">
+
+          <div class="flex gap-3">
+
+            <div class="w-11 h-11 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center shrink-0">
+              <i class="fa-solid fa-book"></i>
+            </div>
+
+            <div class="flex-1 min-w-0">
+
+              <div class="flex justify-between gap-2">
+
+                <div>
+                  <h3 class="font-extrabold text-xs">
+                    ${escapeHTML(item.siswa)}
+                  </h3>
+
+                  <p class="text-[10px] text-slate-500 mt-1">
+                    ${escapeHTML(item.buku)}
+                  </p>
+                </div>
+
+                <span class="text-[8px] h-fit px-2 py-1 rounded-lg
+                  ${terlambat
+                    ? "bg-rose-50 text-rose-600"
+                    : "bg-emerald-50 text-emerald-700"}">
+                  ${terlambat ? "Terlambat" : "Aktif"}
+                </span>
+
+              </div>
+
+              <div class="flex justify-between items-center mt-3">
+
+                <div>
+                  <p class="text-[8px] text-slate-400">
+                    Dipinjam ${formatDate(item.pinjam)}
+                  </p>
+
+                  <p class="text-[8px] text-slate-400">
+                    Tempo ${formatDate(item.tempo)}
+                  </p>
+                </div>
+
+                <button
+                  onclick="returnBook(${item.id})"
+                  class="bg-amber-500 text-white rounded-xl px-3 py-2 text-[9px] font-bold">
+                  <i class="fa-solid fa-rotate-left mr-1"></i>
+                  Kembalikan
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      `;
+    }).join("");
+}
+
+
+function returnBook(id) {
+
+  const index =
+    loans.findIndex(x => x.id === id);
+
+  if (index === -1) return;
+
+  if (!confirm("Tandai buku sebagai sudah dikembalikan?"))
+    return;
+
+  loans[index].status = "Kembali";
+  loans[index].kembali = today();
+
+  saveData();
+
+  renderReturns();
+  renderDashboard();
+
+  alert("Pengembalian berhasil dicatat.");
+}
+
+
+/* ================= HISTORY ================= */
+
+function renderHistory() {
+
+  const search =
+    (document.getElementById("historySearch")?.value || "")
+      .toLowerCase();
+
+  let data =
+    loans.slice().reverse();
+
+  if (search) {
+
+    data =
+      data.filter(x =>
+
+        `${x.siswa} ${x.buku} ${x.gedung}`
+          .toLowerCase()
+          .includes(search)
+
+      );
+  }
+
+  const list =
+    document.getElementById("historyList");
+
+  if (!data.length) {
+
+    list.innerHTML = `
+      <div class="card p-8 text-center text-xs text-slate-400">
+        Tidak ada riwayat.
+      </div>
+    `;
+
+    return;
+  }
+
+  list.innerHTML =
+    data.map(item => {
+
+      const active =
+        item.status === "Dipinjam";
+
+      return `
+        <div class="card p-3">
+
+          <div class="flex gap-3">
+
+            <div class="w-10 h-10 rounded-xl
+              ${active
+                ? "bg-emerald-50 text-emerald-700"
+                : "bg-slate-100 text-slate-500"}
+              flex items-center justify-center">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+            </div>
+
+            <div class="flex-1 min-w-0">
+
+              <div class="flex justify-between gap-2">
+
+                <div class="min-w-0">
+
+                  <p class="font-extrabold text-xs text-slate-800">
+                    ${escapeHTML(item.siswa)}
+                  </p>
+
+                  <p class="text-[10px] text-slate-500 truncate">
+                    ${escapeHTML(item.buku)}
+                  </p>
+
+                </div>
+
+                <span class="text-[8px] px-2 py-1 h-fit rounded-lg
+                  ${active
+                    ? "bg-amber-50 text-amber-700"
+                    : "bg-slate-100 text-slate-500"}">
+                  ${active ? "Dipinjam" : "Kembali"}
+                </span>
+
+              </div>
+
+              <div class="flex gap-3 mt-2 text-[8px] text-slate-400">
+                <span>
+                  Pinjam ${formatDate(item.pinjam)}
+                </span>
+
+                ${
+                  item.kembali
+                    ? `<span>Kembali ${formatDate(item.kembali)}</span>`
+                    : `<span>Tempo ${formatDate(item.tempo)}</span>`
+                }
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      `;
+    }).join("");
+}
+
+
+/* ================= SETTINGS ================= */
+
+function renderSettings() {
+
+  document.getElementById("settingBookTotal")
+    .textContent = books.length;
+
+  document.getElementById("settingLoanTotal")
+    .textContent = loans.length;
+}
+
+
+/* ================= BACKUP ================= */
+
+function backupData() {
+
+  const data = {
+
+    app:
+      "Khizanah Al Hikmah Library",
+
+    school:
+      "PKBM Ibadurrahman Sidoarjo",
+
+    exportedAt:
+      new Date().toISOString(),
+
+    books,
+    loans
+
+  };
+
+  const blob =
+    new Blob(
+      [JSON.stringify(data,null,2)],
+      {type:"application/json"}
+    );
+
+  const url =
+    URL.createObjectURL(blob);
+
+  const a =
+    document.createElement("a");
+
+  a.href = url;
+
+  a.download =
+    "backup-khizanah-al-hikmah.json";
+
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+
+
+function restoreData(event) {
+
+  const file =
+    event.target.files[0];
+
+  if (!file) return;
+
+  const reader =
+    new FileReader();
+
+  reader.onload = function(e) {
+
+    try {
+
+      const data =
+        JSON.parse(e.target.result);
+
+      if (Array.isArray(data.books))
+        books = data.books;
+
+      if (Array.isArray(data.loans))
+        loans = data.loans;
+
+      saveData();
+
+      renderDashboard();
+      renderBooks();
+      renderSettings();
+
+      alert("Data berhasil dipulihkan.");
+
+    } catch(error) {
+
+      alert("File backup tidak valid.");
+
+    }
+
+  };
+
+  reader.readAsText(file);
+}
+
+
+/* ================= UTILITIES ================= */
+
+function formatDate(date) {
+
+  if (!date) return "-";
+
+  const parts =
+    date.split("-");
+
+  if (parts.length !== 3)
+    return date;
+
+  return `${parts[2]}/${parts[1]}/${parts[0]}`;
+}
+
+
+function escapeHTML(text) {
+
+  return String(text ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+
+/* ================= INIT ================= */
+
+function init() {
+
+  loadData();
+
+  document.getElementById("borrowDate").value =
+    today();
+
+  const due =
+    new Date();
+
+  due.setDate(
+    due.getDate() + 7
+  );
+
+  const month =
+    String(due.getMonth()+1).padStart(2,"0");
+
+  const day =
+    String(due.getDate()).padStart(2,"0");
+
+  document.getElementById("borrowDue").value =
+    `${due.getFullYear()}-${month}-${day}`;
+
+  renderDashboard();
+
+}
+
+init();
+
+</script>
+
+</body>
+  </html>      </div>
 
       <button onclick="toggleMenu()"
               class="lg:hidden w-9 h-9 rounded-xl glass">
