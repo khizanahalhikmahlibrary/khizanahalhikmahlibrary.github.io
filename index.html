@@ -1,81 +1,2091 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Khizanah Al Hikmah Library</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Khizanah Al Hikmah Library</title>
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <style>
-    * {
-      box-sizing: border-box;
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+*{box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+
+body{
+  margin:0;
+  background:#f7faf8;
+  color:#18352d;
+  font-family:'Plus Jakarta Sans',sans-serif;
+}
+
+button,input,select{font-family:inherit}
+
+.page{display:none}
+.page.active{display:block}
+
+.card{
+  background:#fff;
+  border:1px solid #e1ebe5;
+  border-radius:20px;
+  box-shadow:0 7px 25px rgba(4,80,54,.06);
+}
+
+.nav-active{
+  background:#087f5b!important;
+  color:#fff!important;
+}
+
+.table-wrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  min-width:800px;
+  border-collapse:collapse;
+}
+
+th{
+  background:#edf7f1;
+  color:#356454;
+  font-size:12px;
+  font-weight:800;
+  padding:14px;
+  text-align:left;
+}
+
+td{
+  padding:13px 14px;
+  border-top:1px solid #edf1ee;
+  font-size:13px;
+}
+
+input,select{
+  width:100%;
+  border:1px solid #dbe6df;
+  border-radius:13px;
+  padding:12px 14px;
+  outline:none;
+  background:white;
+}
+
+input:focus,select:focus{
+  border-color:#087f5b;
+  box-shadow:0 0 0 3px rgba(8,127,91,.08);
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  background:rgba(4,25,17,.62);
+}
+
+.modal.hidden{
+  display:none!important;
+}
+
+.modal-box{
+  width:100%;
+  max-width:520px;
+  max-height:92vh;
+  overflow:auto;
+  background:#fff;
+  border-radius:24px;
+  padding:24px;
+  box-shadow:0 30px 80px rgba(0,0,0,.25);
+}
+
+.status{
+  display:inline-flex;
+  padding:5px 10px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:800;
+}
+
+.status-return{
+  color:#15803d;
+  background:#dcfce7;
+}
+
+.status-borrow{
+  color:#b45309;
+  background:#fef3c7;
+}
+
+@media(max-width:760px){
+  .desktop-nav{display:none}
+  .mobile-button{display:block!important}
+  .hero-title{font-size:31px!important}
+  .stat-grid{grid-template-columns:repeat(2,1fr)!important}
+  .quick-grid{grid-template-columns:repeat(2,1fr)!important}
+  .modal{
+    align-items:flex-start;
+    padding-top:30px;
+  }
+}
+
+@media(min-width:761px){
+  .mobile-button{display:none!important}
+}
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================
+HEADER
+===================================================== -->
+
+<header class="sticky top-0 z-50 bg-white border-b border-emerald-100">
+
+  <div class="max-w-7xl mx-auto px-5 py-4 flex items-center justify-between">
+
+    <div class="flex items-center gap-3">
+
+      <div class="w-12 h-12 rounded-xl bg-emerald-50
+                  border border-emerald-100
+                  flex items-center justify-center overflow-hidden">
+
+        <img
+          src="logo-pkbm.png"
+          alt="Logo PKBM Ibadurrahman"
+          class="w-full h-full object-contain p-1"
+        >
+
+      </div>
+
+      <div>
+        <h1 class="font-extrabold text-lg text-gray-900">
+          Khizanah Al Hikmah Library
+        </h1>
+
+        <p class="text-xs text-gray-500">
+          PKBM Ibadurrahman Sidoarjo
+        </p>
+      </div>
+
+    </div>
+
+
+    <nav class="desktop-nav flex gap-2">
+
+      <button
+        id="nav-home"
+        onclick="showPage('home')"
+        class="nav-item nav-active px-5 py-2.5 rounded-xl
+               text-sm font-bold">
+        Beranda
+      </button>
+
+      <button
+        id="nav-buku"
+        onclick="showPage('buku')"
+        class="nav-item px-5 py-2.5 rounded-xl
+               text-sm font-bold text-gray-500">
+        Buku
+      </button>
+
+      <button
+        id="nav-peminjaman"
+        onclick="showPage('peminjaman')"
+        class="nav-item px-5 py-2.5 rounded-xl
+               text-sm font-bold text-gray-500">
+        Peminjaman
+      </button>
+
+      <button
+        id="nav-pengaturan"
+        onclick="showPage('pengaturan')"
+        class="nav-item px-5 py-2.5 rounded-xl
+               text-sm font-bold text-gray-500">
+        Pengaturan
+      </button>
+
+    </nav>
+
+
+    <button
+      class="mobile-button hidden bg-emerald-700
+             text-white px-4 py-2 rounded-xl"
+      onclick="toggleMobile()">
+
+      <i class="fa-solid fa-bars"></i>
+
+    </button>
+
+  </div>
+
+
+  <div id="mobileNav" class="hidden px-5 pb-4">
+
+    <div class="grid grid-cols-2 gap-2">
+
+      <button onclick="showPage('home')"
+        class="bg-emerald-50 text-emerald-800 p-3 rounded-xl font-semibold">
+        Beranda
+      </button>
+
+      <button onclick="showPage('buku')"
+        class="bg-emerald-50 text-emerald-800 p-3 rounded-xl font-semibold">
+        Buku
+      </button>
+
+      <button onclick="showPage('peminjaman')"
+        class="bg-emerald-50 text-emerald-800 p-3 rounded-xl font-semibold">
+        Peminjaman
+      </button>
+
+      <button onclick="showPage('pengaturan')"
+        class="bg-emerald-50 text-emerald-800 p-3 rounded-xl font-semibold">
+        Pengaturan
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<main class="max-w-7xl mx-auto px-5 py-7">
+
+
+<!-- =====================================================
+BERANDA
+===================================================== -->
+
+<section id="page-home" class="page active">
+
+  <div class="rounded-3xl overflow-hidden
+              bg-gradient-to-br from-emerald-800
+              via-emerald-700 to-emerald-900
+              text-white p-6 md:p-9 mb-7 relative">
+
+    <div class="relative z-10">
+
+      <div class="flex items-center justify-between mb-3">
+
+        <span class="bg-amber-300/20
+                     border border-amber-200/30
+                     text-amber-200
+                     px-3 py-1 rounded-full
+                     text-xs font-bold">
+          Ahlan Wa Sahlan
+        </span>
+
+        <span class="text-amber-200 text-xl">
+          بِسْمِ ٱللَّٰهِ
+        </span>
+
+      </div>
+
+
+      <p class="uppercase text-emerald-200
+                text-sm font-bold tracking-wider">
+        PERPUSTAKAAN DIGITAL
+      </p>
+
+
+      <h2 class="hero-title text-4xl md:text-5xl
+                 font-extrabold leading-tight mt-2">
+
+        Selamat datang di
+        <span class="text-emerald-300">
+          Khizanah Al Hikmah
+        </span>
+
+      </h2>
+
+
+      <p class="text-emerald-50/80
+                max-w-3xl mt-3 leading-relaxed">
+
+        Kelola koleksi buku, peminjaman,
+        pengembalian, dan riwayat perpustakaan
+        dalam satu tempat.
+
+      </p>
+
+    </div>
+
+    <i class="fa-solid fa-book-quran
+       absolute -bottom-7 -right-5
+       text-[130px] text-white/5"></i>
+
+  </div>
+
+
+  <button
+    onclick="openBorrowModal()"
+    class="w-full bg-emerald-600
+           hover:bg-emerald-700
+           text-white font-extrabold
+           py-4 rounded-2xl
+           shadow-lg mb-7">
+
+    <i class="fa-solid fa-plus mr-2"></i>
+    Peminjaman Baru
+
+  </button>
+
+
+  <!-- ANGKA TETAP -->
+
+  <div class="stat-grid grid grid-cols-2 lg:grid-cols-5 gap-4 mb-7">
+
+    <div class="card p-5">
+      <div class="flex justify-between">
+        <span class="text-sm text-gray-500">Total Buku</span>
+        <span class="text-emerald-600">
+          <i class="fa-solid fa-book"></i>
+        </span>
+      </div>
+
+      <h3 class="text-3xl font-extrabold text-emerald-700 mt-4">
+        1.450
+      </h3>
+
+      <p class="text-xs text-gray-400 mt-1">
+        koleksi tercatat
+      </p>
+    </div>
+
+
+    <div class="card p-5">
+      <div class="flex justify-between">
+        <span class="text-sm text-gray-500">Total Siswa</span>
+        <span class="text-blue-600">
+          <i class="fa-solid fa-user-graduate"></i>
+        </span>
+      </div>
+
+      <h3 class="text-3xl font-extrabold text-blue-700 mt-4">
+        380
+      </h3>
+
+      <p class="text-xs text-gray-400 mt-1">
+        anggota
+      </p>
+    </div>
+
+
+    <div class="card p-5">
+      <div class="flex justify-between">
+        <span class="text-sm text-gray-500">Dipinjam</span>
+        <span class="text-amber-600">
+          <i class="fa-solid fa-book-open"></i>
+        </span>
+      </div>
+
+      <h3 class="text-3xl font-extrabold text-amber-600 mt-4">
+        42
+      </h3>
+
+      <p class="text-xs text-gray-400 mt-1">
+        sedang dipinjam
+      </p>
+    </div>
+
+
+    <div class="card p-5">
+      <div class="flex justify-between">
+        <span class="text-sm text-gray-500">Tersedia</span>
+        <span class="text-emerald-600">
+          <i class="fa-solid fa-book-bookmark"></i>
+        </span>
+      </div>
+
+      <h3 class="text-3xl font-extrabold text-emerald-700 mt-4">
+        1.408
+      </h3>
+
+      <p class="text-xs text-gray-400 mt-1">
+        siap dipinjam
+      </p>
+    </div>
+
+
+    <div class="card p-5">
+      <div class="flex justify-between">
+        <span class="text-sm text-gray-500">Terlambat</span>
+        <span class="text-red-500">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </span>
+      </div>
+
+      <h3 class="text-3xl font-extrabold text-red-600 mt-4">
+        3
+      </h3>
+
+      <p class="text-xs text-gray-400 mt-1">
+        perlu ditindaklanjuti
+      </p>
+    </div>
+
+  </div>
+
+
+  <!-- QUICK MENU -->
+
+  <div class="quick-grid grid grid-cols-2 lg:grid-cols-4 gap-4 mb-7">
+
+    <button onclick="openBorrowModal()"
+      class="card p-5 text-left hover:border-emerald-300">
+
+      <div class="w-12 h-12 rounded-xl
+                  bg-emerald-100 text-emerald-700
+                  flex items-center justify-center">
+
+        <i class="fa-solid fa-book-open"></i>
+
+      </div>
+
+      <h3 class="font-bold text-lg mt-4">
+        Pinjam Buku
+      </h3>
+
+      <p class="text-sm text-gray-400 mt-1">
+        Catat peminjaman baru
+      </p>
+
+    </button>
+
+
+    <button onclick="showPage('peminjaman')"
+      class="card p-5 text-left hover:border-emerald-300">
+
+      <div class="w-12 h-12 rounded-xl
+                  bg-blue-100 text-blue-700
+                  flex items-center justify-center">
+
+        <i class="fa-solid fa-rotate-left"></i>
+
+      </div>
+
+      <h3 class="font-bold text-lg mt-4">
+        Pengembalian
+      </h3>
+
+      <p class="text-sm text-gray-400 mt-1">
+        Kelola buku yang kembali
+      </p>
+
+    </button>
+
+
+    <button onclick="showPage('buku')"
+      class="card p-5 text-left hover:border-emerald-300">
+
+      <div class="w-12 h-12 rounded-xl
+                  bg-purple-100 text-purple-700
+                  flex items-center justify-center">
+
+        <i class="fa-solid fa-layer-group"></i>
+
+      </div>
+
+      <h3 class="font-bold text-lg mt-4">
+        Koleksi Buku
+      </h3>
+
+      <p class="text-sm text-gray-400 mt-1">
+        Cari dan lihat koleksi
+      </p>
+
+    </button>
+
+
+    <button onclick="showPage('peminjaman')"
+      class="card p-5 text-left hover:border-emerald-300">
+
+      <div class="w-12 h-12 rounded-xl
+                  bg-orange-100 text-orange-700
+                  flex items-center justify-center">
+
+        <i class="fa-solid fa-chart-column"></i>
+
+      </div>
+
+      <h3 class="font-bold text-lg mt-4">
+        Riwayat
+      </h3>
+
+      <p class="text-sm text-gray-400 mt-1">
+        Lihat aktivitas perpustakaan
+      </p>
+
+    </button>
+
+  </div>
+
+
+  <!-- AKTIVITAS -->
+
+  <div class="card p-6 mb-7">
+
+    <div class="flex justify-between items-center mb-5">
+
+      <div>
+        <h3 class="text-xl font-extrabold">
+          Aktivitas Peminjaman
+        </h3>
+
+        <p class="text-sm text-gray-400 mt-1">
+          Data terbaru dari sistem
+        </p>
+      </div>
+
+      <button
+        onclick="showPage('peminjaman')"
+        class="text-emerald-700 font-bold text-sm">
+        Lihat semua →
+      </button>
+
+    </div>
+
+    <div id="recentLoans"></div>
+
+  </div>
+
+
+  <!-- GEDUNG -->
+
+  <div class="card p-6">
+
+    <h3 class="text-xl font-extrabold">
+      Koleksi per Gedung
+    </h3>
+
+    <p class="text-sm text-gray-400 mt-1 mb-6">
+      Data buku dalam satu sistem
+    </p>
+
+
+    <div class="mb-5">
+
+      <div class="flex justify-between mb-2">
+        <span class="font-semibold">Gedung 2</span>
+        <span class="font-bold text-emerald-700">Perpustakaan</span>
+      </div>
+
+      <div class="h-3 bg-gray-100 rounded-full">
+        <div class="h-full bg-emerald-500 rounded-full"
+             style="width:65%"></div>
+      </div>
+
+    </div>
+
+
+    <div>
+
+      <div class="flex justify-between mb-2">
+        <span class="font-semibold">Gedung 3</span>
+        <span class="font-bold text-blue-600">Perpustakaan</span>
+      </div>
+
+      <div class="h-3 bg-gray-100 rounded-full">
+        <div class="h-full bg-blue-500 rounded-full"
+             style="width:35%"></div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================================
+BUKU
+===================================================== -->
+
+<section id="page-buku" class="page">
+
+  <div class="mb-6">
+
+    <p class="text-emerald-700 uppercase text-sm font-bold">
+      Koleksi
+    </p>
+
+    <h2 class="text-3xl font-extrabold">
+      Koleksi Buku
+    </h2>
+
+    <p class="text-gray-500 mt-1">
+      Koleksi Gedung 2 dan Gedung 3 dalam satu sistem.
+    </p>
+
+  </div>
+
+
+  <div class="card p-5 mb-5">
+
+    <div class="relative">
+
+      <i class="fa-solid fa-magnifying-glass
+         absolute left-4 top-1/2
+         -translate-y-1/2 text-gray-400"></i>
+
+      <input
+        id="bookSearch"
+        oninput="renderBooks()"
+        class="pl-11"
+        placeholder="Cari judul, pengarang, atau nomor buku..."
+      >
+
+    </div>
+
+  </div>
+
+
+  <div class="card overflow-hidden">
+
+    <div class="p-5 border-b border-gray-100">
+
+      <span id="bookResultCount"
+            class="text-sm text-gray-500">
+        Memuat data buku...
+      </span>
+
+    </div>
+
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>No. Buku</th>
+            <th>Judul Buku</th>
+            <th>Jumlah</th>
+            <th>Pengarang</th>
+            <th>Gedung</th>
+          </tr>
+        </thead>
+
+        <tbody id="bookTable">
+
+          <tr>
+            <td colspan="6"
+                class="text-center py-12 text-gray-400">
+              Memuat data dari DATA BUKU.pdf...
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================================
+PEMINJAMAN
+===================================================== -->
+
+<section id="page-peminjaman" class="page">
+
+  <div class="flex flex-col md:flex-row
+              md:items-center md:justify-between
+              gap-4 mb-6">
+
+    <div>
+
+      <p class="text-emerald-700 uppercase
+                text-sm font-bold">
+        Sirkulasi
+      </p>
+
+      <h2 class="text-3xl font-extrabold">
+        Peminjaman & Pengembalian
+      </h2>
+
+      <p class="text-gray-500 mt-1">
+        Data peminjaman buku Perpustakaan Paket C.
+      </p>
+
+    </div>
+
+
+    <button
+      onclick="openBorrowModal()"
+      class="bg-emerald-700 text-white
+             px-5 py-3 rounded-xl font-bold">
+
+      + Peminjaman Baru
+
+    </button>
+
+  </div>
+
+
+  <div class="card overflow-hidden">
+
+    <div class="p-5 border-b border-gray-100">
+
+      <div class="relative">
+
+        <i class="fa-solid fa-magnifying-glass
+           absolute left-4 top-1/2
+           -translate-y-1/2 text-gray-400"></i>
+
+        <input
+          id="loanSearch"
+          oninput="renderLoans()"
+          class="pl-11"
+          placeholder="Cari nama atau judul buku..."
+        >
+
+      </div>
+
+    </div>
+
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>No.</th>
+            <th>Nama</th>
+            <th>Judul Buku</th>
+            <th>Tanggal Pinjam</th>
+            <th>Tanggal Kembali</th>
+            <th>Status</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="loanTable"></tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================================
+PENGATURAN
+===================================================== -->
+
+<section id="page-pengaturan" class="page">
+
+  <div class="mb-6">
+
+    <p class="text-emerald-700 uppercase
+              text-sm font-bold">
+      Sistem
+    </p>
+
+    <h2 class="text-3xl font-extrabold">
+      Pengaturan
+    </h2>
+
+  </div>
+
+
+  <div class="card p-6 max-w-2xl">
+
+    <div class="flex items-center gap-4 mb-7">
+
+      <img
+        src="logo-pkbm.png"
+        alt="Logo PKBM Ibadurrahman"
+        class="w-20 h-20 object-contain
+               rounded-2xl border
+               border-emerald-100 p-2"
+      >
+
+      <div>
+
+        <h3 class="text-xl font-extrabold">
+          Khizanah Al Hikmah Library
+        </h3>
+
+        <p class="text-gray-500">
+          PKBM Ibadurrahman Sidoarjo
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="space-y-4">
+
+      <div>
+        <label class="text-sm font-bold text-gray-600">
+          Nama Sekolah
+        </label>
+
+        <input
+          readonly
+          value="PKBM Ibadurrahman Sidoarjo"
+          class="mt-2 bg-gray-50"
+        >
+      </div>
+
+
+      <div>
+        <label class="text-sm font-bold text-gray-600">
+          Nama Perpustakaan
+        </label>
+
+        <input
+          readonly
+          value="Khizanah Al Hikmah Library"
+          class="mt-2 bg-gray-50"
+        >
+      </div>
+
+
+      <div>
+        <label class="text-sm font-bold text-gray-600">
+          Tahun Data
+        </label>
+
+        <input
+          readonly
+          value="2025/2026"
+          class="mt-2 bg-gray-50"
+        >
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+
+<!-- =====================================================
+MODAL PEMINJAMAN
+===================================================== -->
+
+<div
+  id="borrowModal"
+  class="modal hidden"
+  onclick="modalOutside(event)"
+>
+
+  <div
+    class="modal-box"
+    onclick="event.stopPropagation()"
+  >
+
+    <div class="flex justify-between
+                items-start mb-6">
+
+      <div>
+
+        <h2 class="text-xl font-extrabold">
+          Peminjaman Baru
+        </h2>
+
+        <p class="text-xs text-gray-400 mt-1">
+          Catat transaksi peminjaman
+        </p>
+
+      </div>
+
+
+      <button
+        type="button"
+        onclick="closeBorrowModal()"
+        class="w-10 h-10 rounded-full
+               bg-gray-100 hover:bg-gray-200
+               flex items-center justify-center">
+
+        <i class="fa-solid fa-xmark"></i>
+
+      </button>
+
+    </div>
+
+
+    <form id="borrowForm"
+          onsubmit="saveLoan(event)">
+
+      <div class="mb-4">
+
+        <label class="text-sm font-bold">
+          Nama Peminjam
+        </label>
+
+        <input
+          id="newName"
+          required
+          placeholder="Nama peminjam"
+          class="mt-2"
+        >
+
+      </div>
+
+
+      <div class="mb-4">
+
+        <label class="text-sm font-bold">
+          Judul Buku
+        </label>
+
+        <select
+          id="newBook"
+          required
+          class="mt-2">
+
+          <option value="">
+            Pilih buku...
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="mb-4">
+
+        <label class="text-sm font-bold">
+          Gedung
+        </label>
+
+        <select id="newBuilding"
+                class="mt-2">
+
+          <option>Gedung 2</option>
+          <option>Gedung 3</option>
+
+        </select>
+
+      </div>
+
+
+      <div class="grid grid-cols-2 gap-3 mb-6">
+
+        <div>
+
+          <label class="text-sm font-bold">
+            Tanggal Pinjam
+          </label>
+
+          <input
+            id="newBorrowDate"
+            type="date"
+            required
+            class="mt-2"
+          >
+
+        </div>
+
+
+        <div>
+
+          <label class="text-sm font-bold">
+            Jatuh Tempo
+          </label>
+
+          <input
+            id="newDueDate"
+            type="date"
+            required
+            class="mt-2"
+          >
+
+        </div>
+
+      </div>
+
+
+      <button
+        type="submit"
+        class="w-full bg-emerald-700
+               hover:bg-emerald-800
+               text-white py-3.5
+               rounded-xl font-extrabold">
+
+        <i class="fa-solid fa-check mr-2"></i>
+        Simpan Peminjaman
+
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+
+<script>
+
+/* =====================================================
+DATA PEMINJAMAN
+NAMA KHODIJAH TETAP ADA.
+Yang dihapus hanya kata Khodijah dari NAMA FILE.
+===================================================== */
+
+const loans = [
+
+  {
+    no:1,
+    name:"Aina",
+    title:"Pulang",
+    borrow:"21-8-2026",
+    returned:"1-9-2026",
+    status:"Dikembalikan"
+  },
+
+  {
+    no:2,
+    name:"Khodijah",
+    title:"The midnight library",
+    borrow:"21-8-2026",
+    returned:"26-8-2026",
+    status:"Dikembalikan"
+  },
+
+  {
+    no:3,
+    name:"Khodijah",
+    title:"Tiga malam bersama penghuni surga",
+    borrow:"28-8-2026",
+    returned:"3-9-2026",
+    status:"Dikembalikan"
+  },
+
+  {
+    no:4,
+    name:"Sausan",
+    title:"Loneliness",
+    borrow:"27-8-2026",
+    returned:"2-8-2026",
+    status:"Dikembalikan"
+  },
+
+  {
+    no:5,
+    name:"Aulia",
+    title:"Rumah untuk Alie",
+    borrow:"27-8-2026",
+    returned:"28-8-2026",
+    status:"Dikembalikan"
+  },
+
+  {
+    no:6,
+    name:"Diana",
+    title:"Si putih",
+    borrow:"27-8-2026",
+    returned:"4-9-2026",
+    status:"Dikembalikan"
+  },
+
+  {
+    no:7,
+    name:"Meta",
+    title:"Atlas dunia",
+    borrow:"27-8-2026",
+    returned:"31-8-2026",
+    status:"Dikembalikan"
+  },
+
+  {
+    no:8,
+    name:"Mutia",
+    title:"Dia adalah kakakku",
+    borrow:"27-8-2026",
+    returned:"3-9-2026",
+    status:"Dikembalikan"
+  },
+
+  {
+    no:9,
+    name:"Almira",
+    title:"Bibi Gill",
+    borrow:"28-8-2026",
+    returned:"3-9-2026",
+    status:"Dikembalikan"
+  },
+
+  {
+    no:10,
+    name:"Aulia",
+    title:"Bumi",
+    borrow:"28-8-2026",
+    returned:"3-9-2026",
+    status:"Dikembalikan"
+  },
+
+  {
+    no:11,
+    name:"Medina",
+    title:"Pulang - Pergi",
+    borrow:"28-8-2026",
+    returned:"4-9-2026",
+    status:"Dikembalikan"
+  },
+
+  {
+    no:12,
+    name:"Aina",
+    title:"Pulang",
+    borrow:"2-8-2026",
+    returned:"7-8-2026",
+    status:"Dikembalikan"
+  },
+
+  {
+    no:13,
+    name:"Alita",
+    title:"Berdamai dengan masa lalu",
+    borrow:"3-9-2026",
+    returned:"11-9-2026",
+    status:"Dikembalikan"
+  },
+
+  {
+    no:14,
+    name:"Almira",
+    title:"Bibi Gill",
+    borrow:"3-9-2026",
+    returned:"11/9/2026",
+    status:"Dikembalikan"
+  },
+
+  {
+    no:15,
+    name:"Mutia",
+    title:"Rumah untuk Alie",
+    borrow:"3-9-2026",
+    returned:"9-9-2026",
+    status:"Dikembalikan"
+  },
+
+  {
+    no:16,
+    name:"Khodijah",
+    title:"Tiga malam bersama penghuni surga",
+    borrow:"4-9-2026",
+    returned:"11-9-2026",
+    status:"Dikembalikan"
+  },
+
+  {
+    no:17,
+    name:"Aulia",
+    title:"Bumi",
+    borrow:"4-9-2026",
+    returned:"11-9-2026",
+    status:"Dikembalikan"
+  },
+
+  {
+    no:18,
+    name:"Meta",
+    title:"Ensiklopedia Saintis Junior Teknologi",
+    borrow:"4-9-2026",
+    returned:"11-9-2026",
+    status:"Dikembalikan"
+  },
+
+  {
+    no:19,
+    name:"Diana",
+    title:"Kisah teladan para nabi",
+    borrow:"4-9-2026",
+    returned:"9/9/2026",
+    status:"Dikembalikan"
+  },
+
+  {
+    no:20,
+    name:"Mutia",
+    title:"Pulang",
+    borrow:"9-9-2026",
+    returned:"11-9-2026",
+    status:"Dikembalikan"
+  },
+
+  {
+    no:21,
+    name:"Sausan",
+    title:"Rumah untuk Alie",
+    borrow:"11-9-2026",
+    returned:"-",
+    status:"Dipinjam"
+  },
+
+  {
+    no:22,
+    name:"Salwah",
+    title:"Kado terbaik",
+    borrow:"11-9-2026",
+    returned:"-",
+    status:"Dipinjam"
+  },
+
+  {
+    no:23,
+    name:"Meta",
+    title:"Kepribadian MBTI",
+    borrow:"11-9-2026",
+    returned:"-",
+    status:"Dipinjam"
+  },
+
+  {
+    no:24,
+    name:"Prita",
+    title:"Bandara - Stasiun dan tahun setelahnya",
+    borrow:"11-9-2026",
+    returned:"-",
+    status:"Dipinjam"
+  }
+
+];
+
+
+/* =====================================================
+DATA BUKU
+===================================================== */
+
+let books = [];
+
+
+/* =====================================================
+NAVIGASI
+===================================================== */
+
+function showPage(page){
+
+  document.querySelectorAll(".page")
+    .forEach(el => el.classList.remove("active"));
+
+
+  const target =
+    document.getElementById("page-" + page);
+
+  if(target){
+    target.classList.add("active");
+  }
+
+
+  document.querySelectorAll(".nav-item")
+    .forEach(el => {
+
+      el.classList.remove("nav-active");
+      el.classList.add("text-gray-500");
+
+    });
+
+
+  const active =
+    document.getElementById("nav-" + page);
+
+  if(active){
+
+    active.classList.add("nav-active");
+    active.classList.remove("text-gray-500");
+
+  }
+
+
+  document
+    .getElementById("mobileNav")
+    ?.classList.add("hidden");
+
+
+  if(page === "buku"){
+    renderBooks();
+  }
+
+  if(page === "peminjaman"){
+    renderLoans();
+  }
+
+}
+
+
+function toggleMobile(){
+
+  document
+    .getElementById("mobileNav")
+    .classList.toggle("hidden");
+
+}
+
+
+/* =====================================================
+MODAL
+===================================================== */
+
+function openBorrowModal(){
+
+  const modal =
+    document.getElementById("borrowModal");
+
+  modal.classList.remove("hidden");
+
+  document.body.style.overflow="hidden";
+
+
+  const today =
+    new Date().toISOString().slice(0,10);
+
+  document.getElementById("newBorrowDate").value=today;
+
+  populateBookSelect();
+
+}
+
+
+function closeBorrowModal(){
+
+  document
+    .getElementById("borrowModal")
+    .classList.add("hidden");
+
+  document.body.style.overflow="";
+
+}
+
+
+function modalOutside(event){
+
+  if(event.target.id === "borrowModal"){
+    closeBorrowModal();
+  }
+
+}
+
+
+document.addEventListener("keydown",function(event){
+
+  if(event.key === "Escape"){
+    closeBorrowModal();
+  }
+
+});
+
+
+/* =====================================================
+RENDER PEMINJAMAN
+===================================================== */
+
+function renderLoans(){
+
+  const table =
+    document.getElementById("loanTable");
+
+  if(!table)return;
+
+
+  const input =
+    document.getElementById("loanSearch");
+
+  const search =
+    (input?.value || "").toLowerCase();
+
+
+  const filtered =
+    loans.filter(item =>
+
+      (
+        item.name +
+        " " +
+        item.title
+      )
+      .toLowerCase()
+      .includes(search)
+
+    );
+
+
+  table.innerHTML =
+    filtered.map(item => `
+
+      <tr>
+
+        <td>
+          ${item.no}
+        </td>
+
+        <td class="font-bold">
+          ${escapeHTML(item.name)}
+        </td>
+
+        <td>
+          ${escapeHTML(item.title)}
+        </td>
+
+        <td>
+          ${escapeHTML(item.borrow)}
+        </td>
+
+        <td>
+          ${escapeHTML(item.returned)}
+        </td>
+
+        <td>
+
+          <span class="status
+            ${
+              item.status === "Dikembalikan"
+              ? "status-return"
+              : "status-borrow"
+            }">
+
+            ${item.status}
+
+          </span>
+
+        </td>
+
+      </tr>
+
+    `).join("");
+
+}
+
+
+/* =====================================================
+AKTIVITAS BERANDA
+===================================================== */
+
+function renderRecent(){
+
+  const box =
+    document.getElementById("recentLoans");
+
+  if(!box)return;
+
+
+  box.innerHTML =
+    loans.slice(0,6).map(item => `
+
+      <div class="
+        flex items-center justify-between
+        gap-4 p-4 mb-2
+        bg-gray-50
+        border border-gray-100
+        rounded-xl
+      ">
+
+        <div class="min-w-0">
+
+          <p class="font-bold">
+            ${escapeHTML(item.name)}
+          </p>
+
+          <p class="text-sm text-gray-500 truncate">
+            ${escapeHTML(item.title)}
+          </p>
+
+        </div>
+
+
+        <span class="status
+          ${
+            item.status === "Dikembalikan"
+            ? "status-return"
+            : "status-borrow"
+          }">
+
+          ${item.status}
+
+        </span>
+
+      </div>
+
+    `).join("");
+
+}
+
+
+/* =====================================================
+BUKU
+===================================================== */
+
+async function loadBooks(){
+
+  /*
+    Jika DATA BUKU.pdf tersedia di repository,
+    browser akan mencoba membacanya.
+
+    File:
+    DATA BUKU.pdf
+  */
+
+  try{
+
+    const response =
+      await fetch("DATA%20BUKU.pdf");
+
+    if(!response.ok){
+      throw new Error("DATA BUKU.pdf tidak ditemukan");
     }
 
-    html {
-      scroll-behavior: smooth;
+
+    const buffer =
+      await response.arrayBuffer();
+
+
+    const pdfjs =
+      await import(
+        "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs"
+      );
+
+
+    pdfjs.GlobalWorkerOptions.workerSrc =
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs";
+
+
+    const pdf =
+      await pdfjs.getDocument({
+        data:buffer
+      }).promise;
+
+
+    const rows=[];
+
+
+    for(let pageNo=1;
+        pageNo<=pdf.numPages;
+        pageNo++){
+
+      const page =
+        await pdf.getPage(pageNo);
+
+
+      const content =
+        await page.getTextContent();
+
+
+      const groups={};
+
+
+      content.items.forEach(item => {
+
+        const y =
+          Math.round(
+            item.transform[5]/3
+          )*3;
+
+
+        if(!groups[y]){
+          groups[y]=[];
+        }
+
+
+        groups[y].push({
+          x:item.transform[4],
+          text:item.str
+        });
+
+      });
+
+
+      Object.keys(groups)
+        .sort((a,b)=>b-a)
+        .forEach(y=>{
+
+          const line =
+            groups[y]
+              .sort((a,b)=>a.x-b.x)
+              .map(item=>item.text)
+              .join(" ")
+              .replace(/\s+/g," ")
+              .trim();
+
+
+          if(line){
+            rows.push(line);
+          }
+
+        });
+
     }
 
-    body {
-      margin: 0;
-      background:
-        radial-gradient(circle at top right, rgba(34,197,94,.08), transparent 30%),
-        radial-gradient(circle at bottom left, rgba(59,130,246,.07), transparent 30%),
-        #070b10;
-      color: #f8fafc;
-      font-family: "Plus Jakarta Sans", sans-serif;
+
+    books =
+      parseBookRows(rows);
+
+
+    renderBooks();
+
+    populateBookSelect();
+
+
+  }catch(error){
+
+    console.error(error);
+
+
+    document.getElementById("bookResultCount")
+      .textContent=
+      "DATA BUKU.pdf belum dapat dibaca";
+
+
+    document.getElementById("bookTable")
+      .innerHTML=`
+
+      <tr>
+
+        <td colspan="6"
+            class="text-center py-12 text-gray-400">
+
+          Pastikan file
+          <b>DATA BUKU.pdf</b>
+          sudah berada di repository
+          yang sama dengan index.html.
+
+        </td>
+
+      </tr>
+
+      `;
+
+  }
+
+}
+
+
+/* =====================================================
+PARSER
+===================================================== */
+
+function parseBookRows(rows){
+
+  const result=[];
+
+  let building="Gedung 2";
+
+
+  rows.forEach(line=>{
+
+    if(
+      /Perpustakaan Gedung 3/i.test(line) ||
+      /^B\./i.test(line)
+    ){
+
+      building="Gedung 3";
+      return;
+
     }
 
-    .arabic {
-      font-family: "Amiri", serif;
+
+    if(
+      /PKBM IBADURRAHMAN/i.test(line) ||
+      /Tahun 2025\/2026/i.test(line) ||
+      /NO\.?\s*BUKU/i.test(line) ||
+      /JUDUL BUKU/i.test(line)
+    ){
+      return;
     }
 
-    .glass {
-      background: rgba(255,255,255,.045);
-      border: 1px solid rgba(255,255,255,.08);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+
+    const match =
+      line.match(
+        /^(\d+)\s+(?:(\d{3}(?:-\d+)?)\s+)?(.+)$/
+      );
+
+
+    if(!match)return;
+
+
+    const no=match[1];
+    const code=match[2] || "";
+    let rest=match[3].trim();
+
+    let qty="";
+    let author="";
+
+
+    const qtyMatch =
+      rest.match(
+        /(?:^|\s)(\d+)\s+(.+)$/
+      );
+
+
+    if(qtyMatch){
+
+      const number=
+        parseInt(qtyMatch[1],10);
+
+
+      if(number>=1 && number<=100){
+
+        qty=String(number);
+
+        const before =
+          rest.substring(
+            0,
+            qtyMatch.index
+          ).trim();
+
+        const after =
+          qtyMatch[2].trim();
+
+
+        rest=before;
+        author=after;
+
+      }
+
     }
 
-    .glow-green {
-      box-shadow:
-        0 0 0 1px rgba(34,197,94,.05),
-        0 12px 40px rgba(34,197,94,.07);
-    }
 
-    .page {
-      display: none;
-    }
+    result.push({
 
-    .page.active {
-      display: block;
-    }
+      no,
+      code,
+      title:rest || "-",
+      qty:qty || "-",
+      author:author || "-",
+      building
 
-    /*
-      MODAL
-      Dibuat dengan hidden attribute + pointer-events
-      supaya tidak mungkin menahan klik saat tertutup.
-    */
-    #borrowModal[hidden] {
-      display: none !important;
-      pointer-events: none !important;
-    }
+    });
 
-    #borrowModal:not([hidden]) {
-      display: flex;
-      pointer-events: auto;
-    }
+  });
 
-    #borrowModal .modal-backdrop {
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,.72);
-      z-index: 0;
+
+  return result;
+
+}
+
+
+/* =====================================================
+RENDER BUKU
+===================================================== */
+
+function renderBooks(){
+
+  const table =
+    document.getElementById("bookTable");
+
+  if(!table)return;
+
+
+  const search =
+    (
+      document.getElementById("bookSearch")
+      ?.value || ""
+    ).toLowerCase();
+
+
+  const filtered =
+    books.filter(book =>
+
+      (
+        book.no +
+        " " +
+        book.code +
+        " " +
+        book.title +
+        " " +
+        book.author +
+        " " +
+        book.building
+      )
+      .toLowerCase()
+      .includes(search)
+
+    );
+
+
+  document.getElementById("bookResultCount")
+    .textContent =
+      `${filtered.length} data buku ditemukan`;
+
+
+  if(!filtered.length){
+
+    table.innerHTML=`
+
+      <tr>
+
+        <td colspan="6"
+            class="text-center py-12 text-gray-400">
+
+          ${
+            books.length
+            ? "Buku yang dicari tidak ditemukan."
+            : "Data buku sedang dimuat..."
+          }
+
+        </td>
+
+      </tr>
+
+    `;
+
+    return;
+
+  }
+
+
+  table.innerHTML =
+    filtered.map(book=>`
+
+      <tr>
+
+        <td>
+          ${escapeHTML(book.no)}
+        </td>
+
+        <td>
+          ${escapeHTML(book.code || "-")}
+        </td>
+
+        <td class="font-semibold">
+          ${escapeHTML(book.title)}
+        </td>
+
+        <td>
+          ${escapeHTML(book.qty)}
+        </td>
+
+        <td>
+          ${escapeHTML(book.author)}
+        </td>
+
+        <td>
+
+          <span class="
+            inline-flex
+            px-3 py-1
+            rounded-full
+            text-xs font-bold
+            ${
+              book.building === "Gedung 2"
+              ? "bg-emerald-100 text-emerald-700"
+              : "bg-blue-100 text-blue-700"
+            }
+          ">
+
+            ${book.building}
+
+          </span>
+
+        </td>
+
+      </tr>
+
+    `).join("");
+
+}
+
+
+/* =====================================================
+SELECT BUKU
+===================================================== */
+
+function populateBookSelect(){
+
+  const select =
+    document.getElementById("newBook");
+
+  if(!select)return;
+
+
+  if(!books.length){
+
+    select.innerHTML=`
+
+      <option value="">
+        Data buku belum dimuat
+      </option>
+
+    `;
+
+    return;
+
+  }
+
+
+  select.innerHTML=
+    `<option value="">
+      Pilih buku...
+    </option>`+
+
+    books.map((book,index)=>`
+
+      <option value="${index}">
+
+        ${escapeHTML(book.title)}
+        — ${escapeHTML(book.building)}
+
+      </option>
+
+    `).join("");
+
+}
+
+
+/* =====================================================
+SIMPAN PEMINJAMAN
+===================================================== */
+
+function saveLoan(event){
+
+  event.preventDefault();
+
+
+  const name =
+    document.getElementById("newName")
+      .value.trim();
+
+
+  const bookIndex =
+    document.getElementById("newBook")
+      .value;
+
+
+  const building =
+    document.getElementById("newBuilding")
+      .value;
+
+
+  const borrow =
+    document.getElementById("newBorrowDate")
+      .value;
+
+
+  if(!name || bookIndex===""){
+    return;
+  }
+
+
+  const book =
+    books[Number(bookIndex)];
+
+
+  loans.unshift({
+
+    no:loans.length+1,
+
+    name,
+
+    title:
+      book?.title || "-",
+
+    borrow:
+      formatDate(borrow),
+
+    returned:"-",
+
+    status:"Dipinjam",
+
+    building
+
+  });
+
+
+  renderLoans();
+
+  renderRecent();
+
+  closeBorrowModal();
+
+
+  document
+    .getElementById("borrowForm")
+    .reset();
+
+
+  alert("Peminjaman berhasil dicatat.");
+
+}
+
+
+/* =====================================================
+UTILITAS
+===================================================== */
+
+function formatDate(date){
+
+  if(!date)return "-";
+
+
+  const parts=
+    date.split("-");
+
+
+  if(parts.length!==3){
+    return date;
+  }
+
+
+  return `${parts[2]}-${parts[1]}-${parts[0]}`;
+
+}
+
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+/* =====================================================
+START
+===================================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function(){
+
+    showPage("home");
+
+    renderLoans();
+
+    renderRecent();
+
+    loadBooks();
+
+  }
+);
+
+</script>
+
+</body>
+</html>      z-index: 0;
     }
 
     #borrowModal .modal-box {
