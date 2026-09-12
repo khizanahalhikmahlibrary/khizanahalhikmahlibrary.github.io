@@ -6,41 +6,148 @@
 <title>Khizanah Al Hikmah Library</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 <style>
 *{box-sizing:border-box}
 
-html{scroll-behavior:smooth}
-
 body{
   margin:0;
-  background:#f7faf8;
-  color:#18352d;
-  font-family:'Plus Jakarta Sans',sans-serif;
+  font-family:"Plus Jakarta Sans",sans-serif;
+  background:#f6faf8;
+  color:#17352d;
 }
 
-button,input,select{font-family:inherit}
+button,input,select{
+  font-family:inherit;
+}
 
-.page{display:none}
-.page.active{display:block}
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
+
+.nav-btn{
+  border:0;
+  background:transparent;
+  color:#64748b;
+  padding:11px 20px;
+  border-radius:14px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.nav-btn:hover{
+  color:#047857;
+  background:#ecfdf5;
+}
+
+.nav-btn.active{
+  color:white;
+  background:#078b69;
+  box-shadow:0 7px 18px rgba(5,150,105,.18);
+}
 
 .card{
-  background:#fff;
-  border:1px solid #e1ebe5;
+  background:white;
+  border:1px solid #e5eee9;
   border-radius:20px;
-  box-shadow:0 7px 25px rgba(4,80,54,.06);
+  box-shadow:0 8px 28px rgba(15,73,54,.06);
 }
 
-.nav-active{
-  background:#087f5b!important;
-  color:#fff!important;
+.hero{
+  background:
+    radial-gradient(circle at 92% 20%,rgba(255,255,255,.14),transparent 22%),
+    linear-gradient(135deg,#087d5e,#07916e);
+  color:white;
+  border-radius:25px;
+}
+
+.stat-card{
+  min-height:145px;
+}
+
+.quick-card{
+  min-height:165px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.quick-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 30px rgba(15,73,54,.10);
+}
+
+.modal-hidden{
+  display:none !important;
+}
+
+#borrowModal{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+
+#borrowModal.show{
+  display:flex;
+}
+
+.modal-backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.58);
+  cursor:pointer;
+}
+
+.modal-box{
+  position:relative;
+  z-index:2;
+  width:min(520px,100%);
+  max-height:92vh;
+  overflow:auto;
+  background:white;
+  border-radius:22px;
+  padding:24px;
+  box-shadow:0 30px 80px rgba(0,0,0,.3);
+}
+
+.form-input{
+  width:100%;
+  border:1px solid #dce8e3;
+  background:#fff;
+  border-radius:13px;
+  padding:12px 14px;
+  outline:none;
+}
+
+.form-input:focus{
+  border-color:#0a9b75;
+  box-shadow:0 0 0 3px rgba(16,185,129,.10);
+}
+
+.primary-btn{
+  background:#078f6d;
+  color:white;
+  border:0;
+  border-radius:13px;
+  padding:13px 18px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.primary-btn:hover{
+  background:#067b5e;
 }
 
 .table-wrap{
@@ -49,97 +156,69 @@ button,input,select{font-family:inherit}
 
 table{
   width:100%;
-  min-width:800px;
   border-collapse:collapse;
 }
 
 th{
-  background:#edf7f1;
-  color:#356454;
-  font-size:12px;
-  font-weight:800;
-  padding:14px;
+  background:#f0f8f4;
+  color:#31564b;
   text-align:left;
+  font-size:13px;
+  padding:13px;
+  white-space:nowrap;
 }
 
 td{
-  padding:13px 14px;
-  border-top:1px solid #edf1ee;
+  padding:13px;
+  border-top:1px solid #edf2ef;
   font-size:13px;
+  color:#425b54;
 }
 
-input,select{
-  width:100%;
-  border:1px solid #dbe6df;
-  border-radius:13px;
-  padding:12px 14px;
-  outline:none;
-  background:white;
-}
-
-input:focus,select:focus{
-  border-color:#087f5b;
-  box-shadow:0 0 0 3px rgba(8,127,91,.08);
-}
-
-.modal{
-  position:fixed;
-  inset:0;
-  z-index:9999;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-  background:rgba(4,25,17,.62);
-}
-
-.modal.hidden{
-  display:none!important;
-}
-
-.modal-box{
-  width:100%;
-  max-width:520px;
-  max-height:92vh;
-  overflow:auto;
-  background:#fff;
-  border-radius:24px;
-  padding:24px;
-  box-shadow:0 30px 80px rgba(0,0,0,.25);
-}
-
-.status{
+.badge{
   display:inline-flex;
-  padding:5px 10px;
+  padding:5px 9px;
   border-radius:999px;
   font-size:11px;
   font-weight:800;
 }
 
-.status-return{
-  color:#15803d;
-  background:#dcfce7;
+.badge-active{
+  color:#047857;
+  background:#dff8ed;
 }
 
-.status-borrow{
-  color:#b45309;
-  background:#fef3c7;
+.badge-return{
+  color:#2563eb;
+  background:#e3edff;
 }
 
-@media(max-width:760px){
-  .desktop-nav{display:none}
-  .mobile-button{display:block!important}
-  .hero-title{font-size:31px!important}
-  .stat-grid{grid-template-columns:repeat(2,1fr)!important}
-  .quick-grid{grid-template-columns:repeat(2,1fr)!important}
-  .modal{
-    align-items:flex-start;
-    padding-top:30px;
+.badge-late{
+  color:#dc2626;
+  background:#fee2e2;
+}
+
+.mobile-menu{
+  display:none;
+}
+
+@media(max-width:768px){
+  .desktop-nav{
+    display:none;
   }
-}
 
-@media(min-width:761px){
-  .mobile-button{display:none!important}
+  .mobile-menu{
+    display:block;
+  }
+
+  .hero h2{
+    font-size:34px;
+    line-height:1.12;
+  }
+
+  .hero{
+    border-radius:20px;
+  }
 }
 </style>
 </head>
@@ -147,291 +226,207 @@ input:focus,select:focus{
 <body>
 
 <!-- =====================================================
-HEADER
+     HEADER
+     LOGO DIHAPUS SESUAI PERMINTAAN
 ===================================================== -->
-
-<header class="sticky top-0 z-50 bg-white border-b border-emerald-100">
-
-  <div class="max-w-7xl mx-auto px-5 py-4 flex items-center justify-between">
-
-    <div class="flex items-center gap-3">
-
-      <div class="w-12 h-12 rounded-xl bg-emerald-50
-                  border border-emerald-100
-                  flex items-center justify-center overflow-hidden">
-
-        <img
-          src="logo-pkbm.png"
-          alt="Logo PKBM Ibadurrahman"
-          class="w-full h-full object-contain p-1"
-        >
-
-      </div>
+<header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-emerald-100">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="h-20 flex items-center justify-between">
 
       <div>
-        <h1 class="font-extrabold text-lg text-gray-900">
+        <h1 class="text-xl md:text-2xl font-extrabold text-slate-800">
           Khizanah Al Hikmah Library
         </h1>
-
-        <p class="text-xs text-gray-500">
+        <p class="text-xs md:text-sm text-slate-500">
           PKBM Ibadurrahman Sidoarjo
         </p>
       </div>
 
+      <nav class="desktop-nav flex items-center gap-1">
+        <button class="nav-btn active" id="nav-home"
+          onclick="showPage('home')">Beranda</button>
+
+        <button class="nav-btn" id="nav-buku"
+          onclick="showPage('buku')">Buku</button>
+
+        <button class="nav-btn" id="nav-peminjaman"
+          onclick="showPage('peminjaman')">Peminjaman</button>
+
+        <button class="nav-btn" id="nav-pengaturan"
+          onclick="showPage('pengaturan')">Pengaturan</button>
+      </nav>
+
+      <button onclick="toggleMobileMenu()"
+        class="mobile-menu w-11 h-11 rounded-xl bg-emerald-50 text-emerald-700">
+        <i class="fa-solid fa-bars"></i>
+      </button>
     </div>
 
+    <div id="mobileNav"
+      class="hidden pb-4 grid grid-cols-4 gap-2">
 
-    <nav class="desktop-nav flex gap-2">
-
-      <button
-        id="nav-home"
-        onclick="showPage('home')"
-        class="nav-item nav-active px-5 py-2.5 rounded-xl
-               text-sm font-bold">
-        Beranda
+      <button onclick="showPage('home');closeMobileMenu()"
+        class="py-3 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-bold">
+        <i class="fa-solid fa-house block mb-1"></i>Beranda
       </button>
 
-      <button
-        id="nav-buku"
-        onclick="showPage('buku')"
-        class="nav-item px-5 py-2.5 rounded-xl
-               text-sm font-bold text-gray-500">
-        Buku
+      <button onclick="showPage('buku');closeMobileMenu()"
+        class="py-3 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-bold">
+        <i class="fa-solid fa-book block mb-1"></i>Buku
       </button>
 
-      <button
-        id="nav-peminjaman"
-        onclick="showPage('peminjaman')"
-        class="nav-item px-5 py-2.5 rounded-xl
-               text-sm font-bold text-gray-500">
-        Peminjaman
+      <button onclick="showPage('peminjaman');closeMobileMenu()"
+        class="py-3 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-bold">
+        <i class="fa-solid fa-right-left block mb-1"></i>Peminjaman
       </button>
 
-      <button
-        id="nav-pengaturan"
-        onclick="showPage('pengaturan')"
-        class="nav-item px-5 py-2.5 rounded-xl
-               text-sm font-bold text-gray-500">
-        Pengaturan
+      <button onclick="showPage('pengaturan');closeMobileMenu()"
+        class="py-3 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-bold">
+        <i class="fa-solid fa-gear block mb-1"></i>Pengaturan
       </button>
-
-    </nav>
-
-
-    <button
-      class="mobile-button hidden bg-emerald-700
-             text-white px-4 py-2 rounded-xl"
-      onclick="toggleMobile()">
-
-      <i class="fa-solid fa-bars"></i>
-
-    </button>
-
-  </div>
-
-
-  <div id="mobileNav" class="hidden px-5 pb-4">
-
-    <div class="grid grid-cols-2 gap-2">
-
-      <button onclick="showPage('home')"
-        class="bg-emerald-50 text-emerald-800 p-3 rounded-xl font-semibold">
-        Beranda
-      </button>
-
-      <button onclick="showPage('buku')"
-        class="bg-emerald-50 text-emerald-800 p-3 rounded-xl font-semibold">
-        Buku
-      </button>
-
-      <button onclick="showPage('peminjaman')"
-        class="bg-emerald-50 text-emerald-800 p-3 rounded-xl font-semibold">
-        Peminjaman
-      </button>
-
-      <button onclick="showPage('pengaturan')"
-        class="bg-emerald-50 text-emerald-800 p-3 rounded-xl font-semibold">
-        Pengaturan
-      </button>
-
     </div>
-
   </div>
-
 </header>
 
 
-<main class="max-w-7xl mx-auto px-5 py-7">
+<main class="max-w-7xl mx-auto px-5 lg:px-8 py-7">
 
 
 <!-- =====================================================
-BERANDA
+     BERANDA
 ===================================================== -->
-
 <section id="page-home" class="page active">
 
-  <div class="rounded-3xl overflow-hidden
-              bg-gradient-to-br from-emerald-800
-              via-emerald-700 to-emerald-900
-              text-white p-6 md:p-9 mb-7 relative">
+  <div class="hero p-7 md:p-10 mb-7">
 
-    <div class="relative z-10">
-
-      <div class="flex items-center justify-between mb-3">
-
-        <span class="bg-amber-300/20
-                     border border-amber-200/30
-                     text-amber-200
-                     px-3 py-1 rounded-full
-                     text-xs font-bold">
-          Ahlan Wa Sahlan
-        </span>
-
-        <span class="text-amber-200 text-xl">
-          بِسْمِ ٱللَّٰهِ
-        </span>
-
-      </div>
-
-
-      <p class="uppercase text-emerald-200
-                text-sm font-bold tracking-wider">
-        PERPUSTAKAAN DIGITAL
-      </p>
-
-
-      <h2 class="hero-title text-4xl md:text-5xl
-                 font-extrabold leading-tight mt-2">
-
-        Selamat datang di
-        <span class="text-emerald-300">
-          Khizanah Al Hikmah
-        </span>
-
-      </h2>
-
-
-      <p class="text-emerald-50/80
-                max-w-3xl mt-3 leading-relaxed">
-
-        Kelola koleksi buku, peminjaman,
-        pengembalian, dan riwayat perpustakaan
-        dalam satu tempat.
-
-      </p>
-
+    <div class="inline-flex px-4 py-2 rounded-full
+      bg-white/15 border border-white/20 text-sm font-bold mb-4">
+      Ahlan Wa Sahlan
     </div>
 
-    <i class="fa-solid fa-book-quran
-       absolute -bottom-7 -right-5
-       text-[130px] text-white/5"></i>
+    <div class="flex justify-between gap-6">
 
+      <div>
+        <p class="text-emerald-100 font-bold text-sm tracking-wide mb-2">
+          PERPUSTAKAAN DIGITAL
+        </p>
+
+        <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight">
+          Selamat datang di
+          <span class="text-emerald-200">
+            Khizanah Al Hikmah
+          </span>
+        </h2>
+
+        <p class="mt-4 text-emerald-50/90 text-base md:text-lg max-w-3xl">
+          Kelola koleksi buku, peminjaman, pengembalian, dan riwayat
+          perpustakaan dalam satu tempat.
+        </p>
+      </div>
+
+      <div class="hidden md:block text-3xl font-amiri">
+        بسم الله
+      </div>
+
+    </div>
   </div>
 
 
-  <button
-    onclick="openBorrowModal()"
-    class="w-full bg-emerald-600
-           hover:bg-emerald-700
-           text-white font-extrabold
-           py-4 rounded-2xl
-           shadow-lg mb-7">
-
+  <button onclick="openBorrowModal()"
+    class="w-full primary-btn text-lg py-4 mb-7 shadow-lg shadow-emerald-100">
     <i class="fa-solid fa-plus mr-2"></i>
     Peminjaman Baru
-
   </button>
 
 
-  <!-- ANGKA TETAP -->
+  <!-- STATISTIK -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-7">
 
-  <div class="stat-grid grid grid-cols-2 lg:grid-cols-5 gap-4 mb-7">
-
-    <div class="card p-5">
+    <div class="card stat-card p-6">
       <div class="flex justify-between">
-        <span class="text-sm text-gray-500">Total Buku</span>
-        <span class="text-emerald-600">
+        <span class="text-slate-500">Total Buku</span>
+        <span class="text-emerald-600 text-xl">
           <i class="fa-solid fa-book"></i>
         </span>
       </div>
 
-      <h3 class="text-3xl font-extrabold text-emerald-700 mt-4">
+      <div class="text-4xl font-extrabold text-emerald-700 mt-5">
         1.450
-      </h3>
+      </div>
 
-      <p class="text-xs text-gray-400 mt-1">
+      <p class="text-sm text-slate-400 mt-1">
         koleksi tercatat
       </p>
     </div>
 
 
-    <div class="card p-5">
+    <div class="card stat-card p-6">
       <div class="flex justify-between">
-        <span class="text-sm text-gray-500">Total Siswa</span>
-        <span class="text-blue-600">
+        <span class="text-slate-500">Total Siswa</span>
+        <span class="text-blue-600 text-xl">
           <i class="fa-solid fa-user-graduate"></i>
         </span>
       </div>
 
-      <h3 class="text-3xl font-extrabold text-blue-700 mt-4">
+      <div class="text-4xl font-extrabold text-blue-700 mt-5">
         380
-      </h3>
+      </div>
 
-      <p class="text-xs text-gray-400 mt-1">
+      <p class="text-sm text-slate-400 mt-1">
         anggota
       </p>
     </div>
 
 
-    <div class="card p-5">
+    <div class="card stat-card p-6">
       <div class="flex justify-between">
-        <span class="text-sm text-gray-500">Dipinjam</span>
-        <span class="text-amber-600">
+        <span class="text-slate-500">Dipinjam</span>
+        <span class="text-amber-600 text-xl">
           <i class="fa-solid fa-book-open"></i>
         </span>
       </div>
 
-      <h3 class="text-3xl font-extrabold text-amber-600 mt-4">
+      <div class="text-4xl font-extrabold text-amber-600 mt-5">
         42
-      </h3>
+      </div>
 
-      <p class="text-xs text-gray-400 mt-1">
+      <p class="text-sm text-slate-400 mt-1">
         sedang dipinjam
       </p>
     </div>
 
 
-    <div class="card p-5">
+    <div class="card stat-card p-6">
       <div class="flex justify-between">
-        <span class="text-sm text-gray-500">Tersedia</span>
-        <span class="text-emerald-600">
+        <span class="text-slate-500">Tersedia</span>
+        <span class="text-emerald-600 text-xl">
           <i class="fa-solid fa-book-bookmark"></i>
         </span>
       </div>
 
-      <h3 class="text-3xl font-extrabold text-emerald-700 mt-4">
+      <div class="text-4xl font-extrabold text-emerald-700 mt-5">
         1.408
-      </h3>
+      </div>
 
-      <p class="text-xs text-gray-400 mt-1">
+      <p class="text-sm text-slate-400 mt-1">
         siap dipinjam
       </p>
     </div>
 
 
-    <div class="card p-5">
+    <div class="card stat-card p-6 md:col-span-1">
       <div class="flex justify-between">
-        <span class="text-sm text-gray-500">Terlambat</span>
-        <span class="text-red-500">
+        <span class="text-slate-500">Terlambat</span>
+        <span class="text-red-500 text-xl">
           <i class="fa-solid fa-triangle-exclamation"></i>
         </span>
       </div>
 
-      <h3 class="text-3xl font-extrabold text-red-600 mt-4">
+      <div class="text-4xl font-extrabold text-red-600 mt-5">
         3
-      </h3>
+      </div>
 
-      <p class="text-xs text-gray-400 mt-1">
+      <p class="text-sm text-slate-400 mt-1">
         perlu ditindaklanjuti
       </p>
     </div>
@@ -439,169 +434,140 @@ BERANDA
   </div>
 
 
-  <!-- QUICK MENU -->
+  <!-- QUICK ACTION -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-7">
 
-  <div class="quick-grid grid grid-cols-2 lg:grid-cols-4 gap-4 mb-7">
+    <div class="card quick-card p-6"
+      onclick="openBorrowModal()">
 
-    <button onclick="openBorrowModal()"
-      class="card p-5 text-left hover:border-emerald-300">
-
-      <div class="w-12 h-12 rounded-xl
-                  bg-emerald-100 text-emerald-700
-                  flex items-center justify-center">
-
+      <div class="w-12 h-12 rounded-xl bg-emerald-100
+        text-emerald-700 flex items-center justify-center text-xl mb-5">
         <i class="fa-solid fa-book-open"></i>
-
       </div>
 
-      <h3 class="font-bold text-lg mt-4">
+      <h3 class="font-extrabold text-lg">
         Pinjam Buku
       </h3>
 
-      <p class="text-sm text-gray-400 mt-1">
+      <p class="text-slate-400 text-sm mt-1">
         Catat peminjaman baru
       </p>
+    </div>
 
-    </button>
 
+    <div class="card quick-card p-6"
+      onclick="showPage('peminjaman')">
 
-    <button onclick="showPage('peminjaman')"
-      class="card p-5 text-left hover:border-emerald-300">
-
-      <div class="w-12 h-12 rounded-xl
-                  bg-blue-100 text-blue-700
-                  flex items-center justify-center">
-
+      <div class="w-12 h-12 rounded-xl bg-blue-100
+        text-blue-700 flex items-center justify-center text-xl mb-5">
         <i class="fa-solid fa-rotate-left"></i>
-
       </div>
 
-      <h3 class="font-bold text-lg mt-4">
+      <h3 class="font-extrabold text-lg">
         Pengembalian
       </h3>
 
-      <p class="text-sm text-gray-400 mt-1">
+      <p class="text-slate-400 text-sm mt-1">
         Kelola buku yang kembali
       </p>
+    </div>
 
-    </button>
 
+    <div class="card quick-card p-6"
+      onclick="showPage('buku')">
 
-    <button onclick="showPage('buku')"
-      class="card p-5 text-left hover:border-emerald-300">
-
-      <div class="w-12 h-12 rounded-xl
-                  bg-purple-100 text-purple-700
-                  flex items-center justify-center">
-
+      <div class="w-12 h-12 rounded-xl bg-purple-100
+        text-purple-700 flex items-center justify-center text-xl mb-5">
         <i class="fa-solid fa-layer-group"></i>
-
       </div>
 
-      <h3 class="font-bold text-lg mt-4">
+      <h3 class="font-extrabold text-lg">
         Koleksi Buku
       </h3>
 
-      <p class="text-sm text-gray-400 mt-1">
+      <p class="text-slate-400 text-sm mt-1">
         Cari dan lihat koleksi
       </p>
+    </div>
 
-    </button>
 
+    <div class="card quick-card p-6"
+      onclick="showPage('peminjaman')">
 
-    <button onclick="showPage('peminjaman')"
-      class="card p-5 text-left hover:border-emerald-300">
-
-      <div class="w-12 h-12 rounded-xl
-                  bg-orange-100 text-orange-700
-                  flex items-center justify-center">
-
+      <div class="w-12 h-12 rounded-xl bg-orange-100
+        text-orange-700 flex items-center justify-center text-xl mb-5">
         <i class="fa-solid fa-chart-column"></i>
-
       </div>
 
-      <h3 class="font-bold text-lg mt-4">
+      <h3 class="font-extrabold text-lg">
         Riwayat
       </h3>
 
-      <p class="text-sm text-gray-400 mt-1">
+      <p class="text-slate-400 text-sm mt-1">
         Lihat aktivitas perpustakaan
       </p>
-
-    </button>
+    </div>
 
   </div>
 
 
   <!-- AKTIVITAS -->
-
   <div class="card p-6 mb-7">
 
-    <div class="flex justify-between items-center mb-5">
-
+    <div class="flex items-center justify-between mb-5">
       <div>
-        <h3 class="text-xl font-extrabold">
+        <h2 class="text-xl font-extrabold">
           Aktivitas Peminjaman
-        </h3>
+        </h2>
 
-        <p class="text-sm text-gray-400 mt-1">
+        <p class="text-sm text-slate-400 mt-1">
           Data terbaru dari sistem
         </p>
       </div>
 
-      <button
-        onclick="showPage('peminjaman')"
-        class="text-emerald-700 font-bold text-sm">
+      <button onclick="showPage('peminjaman')"
+        class="text-emerald-600 font-bold text-sm">
         Lihat semua →
       </button>
-
     </div>
 
-    <div id="recentLoans"></div>
-
+    <div id="homeActivity"></div>
   </div>
 
 
   <!-- GEDUNG -->
-
   <div class="card p-6">
 
-    <h3 class="text-xl font-extrabold">
+    <h2 class="text-xl font-extrabold">
       Koleksi per Gedung
-    </h3>
+    </h2>
 
-    <p class="text-sm text-gray-400 mt-1 mb-6">
+    <p class="text-sm text-slate-400 mt-1 mb-6">
       Data buku dalam satu sistem
     </p>
 
-
     <div class="mb-5">
-
       <div class="flex justify-between mb-2">
-        <span class="font-semibold">Gedung 2</span>
-        <span class="font-bold text-emerald-700">Perpustakaan</span>
+        <span>Gedung 2</span>
+        <b class="text-emerald-600">—</b>
       </div>
 
-      <div class="h-3 bg-gray-100 rounded-full">
+      <div class="h-3 bg-slate-100 rounded-full overflow-hidden">
         <div class="h-full bg-emerald-500 rounded-full"
-             style="width:65%"></div>
+          style="width:65%"></div>
       </div>
-
     </div>
 
-
     <div>
-
       <div class="flex justify-between mb-2">
-        <span class="font-semibold">Gedung 3</span>
-        <span class="font-bold text-blue-600">Perpustakaan</span>
+        <span>Gedung 3</span>
+        <b class="text-blue-600">—</b>
       </div>
 
-      <div class="h-3 bg-gray-100 rounded-full">
+      <div class="h-3 bg-slate-100 rounded-full overflow-hidden">
         <div class="h-full bg-blue-500 rounded-full"
-             style="width:35%"></div>
+          style="width:35%"></div>
       </div>
-
     </div>
 
   </div>
@@ -611,90 +577,58 @@ BERANDA
 
 
 <!-- =====================================================
-BUKU
+     BUKU
 ===================================================== -->
-
 <section id="page-buku" class="page">
 
-  <div class="mb-6">
+  <div class="flex flex-col md:flex-row md:items-center
+    justify-between gap-4 mb-6">
 
-    <p class="text-emerald-700 uppercase text-sm font-bold">
-      Koleksi
-    </p>
+    <div>
+      <h2 class="text-3xl font-extrabold">
+        Koleksi Buku
+      </h2>
+      <p class="text-slate-500">
+        Koleksi Gedung 2 dan Gedung 3 dalam satu sistem.
+      </p>
+    </div>
 
-    <h2 class="text-3xl font-extrabold">
-      Koleksi Buku
-    </h2>
-
-    <p class="text-gray-500 mt-1">
-      Koleksi Gedung 2 dan Gedung 3 dalam satu sistem.
-    </p>
-
+    <button onclick="openBookModal()" class="primary-btn">
+      <i class="fa-solid fa-plus mr-2"></i>
+      Tambah Buku
+    </button>
   </div>
 
 
-  <div class="card p-5 mb-5">
-
+  <div class="card p-4 mb-5">
     <div class="relative">
-
       <i class="fa-solid fa-magnifying-glass
-         absolute left-4 top-1/2
-         -translate-y-1/2 text-gray-400"></i>
+        absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
 
-      <input
-        id="bookSearch"
+      <input id="bookSearch"
         oninput="renderBooks()"
-        class="pl-11"
-        placeholder="Cari judul, pengarang, atau nomor buku..."
-      >
-
+        class="form-input pl-11"
+        placeholder="Cari judul, pengarang, atau nomor buku...">
     </div>
-
   </div>
 
 
   <div class="card overflow-hidden">
-
-    <div class="p-5 border-b border-gray-100">
-
-      <span id="bookResultCount"
-            class="text-sm text-gray-500">
-        Memuat data buku...
-      </span>
-
-    </div>
-
-
     <div class="table-wrap">
-
       <table>
-
         <thead>
           <tr>
-            <th>No.</th>
             <th>No. Buku</th>
             <th>Judul Buku</th>
-            <th>Jumlah</th>
             <th>Pengarang</th>
+            <th>Jumlah</th>
             <th>Gedung</th>
           </tr>
         </thead>
 
-        <tbody id="bookTable">
-
-          <tr>
-            <td colspan="6"
-                class="text-center py-12 text-gray-400">
-              Memuat data dari DATA BUKU.pdf...
-            </td>
-          </tr>
-
-        </tbody>
-
+        <tbody id="bookTable"></tbody>
       </table>
-
     </div>
-
   </div>
 
 </section>
@@ -702,73 +636,53 @@ BUKU
 
 
 <!-- =====================================================
-PEMINJAMAN
+     PEMINJAMAN
 ===================================================== -->
-
 <section id="page-peminjaman" class="page">
 
-  <div class="flex flex-col md:flex-row
-              md:items-center md:justify-between
-              gap-4 mb-6">
+  <div class="flex flex-col md:flex-row md:items-center
+    justify-between gap-4 mb-6">
 
     <div>
-
-      <p class="text-emerald-700 uppercase
-                text-sm font-bold">
-        Sirkulasi
-      </p>
-
       <h2 class="text-3xl font-extrabold">
-        Peminjaman & Pengembalian
+        Peminjaman
       </h2>
 
-      <p class="text-gray-500 mt-1">
-        Data peminjaman buku Perpustakaan Paket C.
+      <p class="text-slate-500">
+        Data peminjaman buku perpustakaan Paket C.
       </p>
-
     </div>
 
-
-    <button
-      onclick="openBorrowModal()"
-      class="bg-emerald-700 text-white
-             px-5 py-3 rounded-xl font-bold">
-
-      + Peminjaman Baru
-
+    <button onclick="openBorrowModal()" class="primary-btn">
+      <i class="fa-solid fa-plus mr-2"></i>
+      Peminjaman Baru
     </button>
 
   </div>
 
 
-  <div class="card overflow-hidden">
+  <div class="card p-4 mb-5">
 
-    <div class="p-5 border-b border-gray-100">
+    <div class="relative">
+      <i class="fa-solid fa-magnifying-glass
+        absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
 
-      <div class="relative">
-
-        <i class="fa-solid fa-magnifying-glass
-           absolute left-4 top-1/2
-           -translate-y-1/2 text-gray-400"></i>
-
-        <input
-          id="loanSearch"
-          oninput="renderLoans()"
-          class="pl-11"
-          placeholder="Cari nama atau judul buku..."
-        >
-
-      </div>
-
+      <input id="loanSearch"
+        oninput="renderLoans()"
+        class="form-input pl-11"
+        placeholder="Cari nama atau judul buku...">
     </div>
 
+  </div>
+
+
+  <div class="card overflow-hidden">
 
     <div class="table-wrap">
 
       <table>
 
         <thead>
-
           <tr>
             <th>No.</th>
             <th>Nama</th>
@@ -776,8 +690,8 @@ PEMINJAMAN
             <th>Tanggal Pinjam</th>
             <th>Tanggal Kembali</th>
             <th>Status</th>
+            <th>Aksi</th>
           </tr>
-
         </thead>
 
         <tbody id="loanTable"></tbody>
@@ -793,93 +707,44 @@ PEMINJAMAN
 
 
 <!-- =====================================================
-PENGATURAN
+     PENGATURAN
 ===================================================== -->
-
 <section id="page-pengaturan" class="page">
 
   <div class="mb-6">
-
-    <p class="text-emerald-700 uppercase
-              text-sm font-bold">
-      Sistem
-    </p>
-
     <h2 class="text-3xl font-extrabold">
       Pengaturan
     </h2>
 
+    <p class="text-slate-500">
+      Informasi dasar perpustakaan.
+    </p>
   </div>
 
 
   <div class="card p-6 max-w-2xl">
 
-    <div class="flex items-center gap-4 mb-7">
+    <label class="block text-sm font-bold mb-2">
+      Nama Perpustakaan
+    </label>
 
-      <img
-        src="logo-pkbm.png"
-        alt="Logo PKBM Ibadurrahman"
-        class="w-20 h-20 object-contain
-               rounded-2xl border
-               border-emerald-100 p-2"
-      >
+    <input class="form-input mb-5"
+      value="Khizanah Al Hikmah Library">
 
-      <div>
+    <label class="block text-sm font-bold mb-2">
+      Nama Sekolah
+    </label>
 
-        <h3 class="text-xl font-extrabold">
-          Khizanah Al Hikmah Library
-        </h3>
+    <input class="form-input mb-5"
+      value="PKBM Ibadurrahman Sidoarjo">
 
-        <p class="text-gray-500">
-          PKBM Ibadurrahman Sidoarjo
-        </p>
+    <label class="block text-sm font-bold mb-2">
+      Sistem Koleksi
+    </label>
 
-      </div>
-
-    </div>
-
-
-    <div class="space-y-4">
-
-      <div>
-        <label class="text-sm font-bold text-gray-600">
-          Nama Sekolah
-        </label>
-
-        <input
-          readonly
-          value="PKBM Ibadurrahman Sidoarjo"
-          class="mt-2 bg-gray-50"
-        >
-      </div>
-
-
-      <div>
-        <label class="text-sm font-bold text-gray-600">
-          Nama Perpustakaan
-        </label>
-
-        <input
-          readonly
-          value="Khizanah Al Hikmah Library"
-          class="mt-2 bg-gray-50"
-        >
-      </div>
-
-
-      <div>
-        <label class="text-sm font-bold text-gray-600">
-          Tahun Data
-        </label>
-
-        <input
-          readonly
-          value="2025/2026"
-          class="mt-2 bg-gray-50"
-        >
-      </div>
-
-    </div>
+    <select class="form-input">
+      <option>Gedung 2 + Gedung 3 — Satu Sistem</option>
+    </select>
 
   </div>
 
@@ -890,42 +755,25 @@ PENGATURAN
 
 
 <!-- =====================================================
-MODAL PEMINJAMAN
+     MODAL PEMINJAMAN
 ===================================================== -->
+<div id="borrowModal" class="modal-hidden">
 
-<div
-  id="borrowModal"
-  class="modal hidden"
-  onclick="modalOutside(event)"
->
+  <div class="modal-backdrop"
+    onclick="closeBorrowModal()"></div>
 
-  <div
-    class="modal-box"
-    onclick="event.stopPropagation()"
-  >
+  <div class="modal-box">
 
-    <div class="flex justify-between
-                items-start mb-6">
+    <div class="flex items-center justify-between mb-5">
 
-      <div>
+      <h2 class="text-xl font-extrabold">
+        Peminjaman Baru
+      </h2>
 
-        <h2 class="text-xl font-extrabold">
-          Peminjaman Baru
-        </h2>
-
-        <p class="text-xs text-gray-400 mt-1">
-          Catat transaksi peminjaman
-        </p>
-
-      </div>
-
-
-      <button
-        type="button"
+      <button type="button"
         onclick="closeBorrowModal()"
-        class="w-10 h-10 rounded-full
-               bg-gray-100 hover:bg-gray-200
-               flex items-center justify-center">
+        class="w-10 h-10 rounded-full bg-slate-100
+        text-slate-600 hover:bg-slate-200">
 
         <i class="fa-solid fa-xmark"></i>
 
@@ -935,103 +783,82 @@ MODAL PEMINJAMAN
 
 
     <form id="borrowForm"
-          onsubmit="saveLoan(event)">
+      onsubmit="saveLoan(event)">
 
       <div class="mb-4">
-
-        <label class="text-sm font-bold">
+        <label class="block text-sm font-semibold mb-2">
           Nama Peminjam
         </label>
 
-        <input
-          id="newName"
+        <input id="borrowName"
           required
-          placeholder="Nama peminjam"
-          class="mt-2"
-        >
-
+          class="form-input"
+          placeholder="Nama peminjam">
       </div>
 
 
       <div class="mb-4">
-
-        <label class="text-sm font-bold">
+        <label class="block text-sm font-semibold mb-2">
           Judul Buku
         </label>
 
-        <select
-          id="newBook"
+        <select id="borrowBook"
           required
-          class="mt-2">
+          class="form-input">
 
           <option value="">
-            Pilih buku...
+            Pilih buku
           </option>
 
         </select>
-
       </div>
 
 
       <div class="mb-4">
-
-        <label class="text-sm font-bold">
+        <label class="block text-sm font-semibold mb-2">
           Gedung
         </label>
 
-        <select id="newBuilding"
-                class="mt-2">
+        <select id="borrowBuilding"
+          class="form-input">
 
           <option>Gedung 2</option>
           <option>Gedung 3</option>
 
         </select>
-
       </div>
 
 
-      <div class="grid grid-cols-2 gap-3 mb-6">
+      <div class="grid grid-cols-2 gap-3 mb-5">
 
         <div>
-
-          <label class="text-sm font-bold">
+          <label class="block text-sm font-semibold mb-2">
             Tanggal Pinjam
           </label>
 
-          <input
-            id="newBorrowDate"
+          <input id="borrowDate"
             type="date"
             required
-            class="mt-2"
-          >
-
+            class="form-input">
         </div>
 
 
         <div>
-
-          <label class="text-sm font-bold">
+          <label class="block text-sm font-semibold mb-2">
             Jatuh Tempo
           </label>
 
-          <input
-            id="newDueDate"
+          <input id="dueDate"
             type="date"
             required
-            class="mt-2"
-          >
-
+            class="form-input">
         </div>
 
       </div>
 
 
-      <button
-        type="submit"
-        class="w-full bg-emerald-700
-               hover:bg-emerald-800
-               text-white py-3.5
-               rounded-xl font-extrabold">
+      <button type="submit"
+        class="primary-btn w-full">
 
         <i class="fa-solid fa-check mr-2"></i>
         Simpan Peminjaman
@@ -1041,7 +868,77 @@ MODAL PEMINJAMAN
     </form>
 
   </div>
+</div>
 
+
+
+<!-- =====================================================
+     MODAL TAMBAH BUKU
+===================================================== -->
+<div id="bookModal"
+  class="modal-hidden fixed inset-0 z-[9999]
+  items-center justify-center p-5">
+
+  <div class="modal-backdrop"
+    onclick="closeBookModal()"></div>
+
+  <div class="modal-box">
+
+    <div class="flex justify-between items-center mb-5">
+
+      <h2 class="text-xl font-extrabold">
+        Tambah Buku
+      </h2>
+
+      <button onclick="closeBookModal()"
+        class="w-10 h-10 rounded-full bg-slate-100">
+
+        <i class="fa-solid fa-xmark"></i>
+
+      </button>
+
+    </div>
+
+
+    <form onsubmit="addBook(event)">
+
+      <input id="newNo"
+        class="form-input mb-3"
+        placeholder="No. Buku"
+        required>
+
+      <input id="newTitle"
+        class="form-input mb-3"
+        placeholder="Judul Buku"
+        required>
+
+      <input id="newAuthor"
+        class="form-input mb-3"
+        placeholder="Pengarang">
+
+      <input id="newQty"
+        type="number"
+        min="1"
+        value="1"
+        class="form-input mb-3"
+        placeholder="Jumlah">
+
+      <select id="newBuilding"
+        class="form-input mb-5">
+
+        <option>Gedung 2</option>
+        <option>Gedung 3</option>
+
+      </select>
+
+      <button class="primary-btn w-full">
+        <i class="fa-solid fa-plus mr-2"></i>
+        Tambah Buku
+      </button>
+
+    </form>
+
+  </div>
 </div>
 
 
@@ -1049,979 +946,513 @@ MODAL PEMINJAMAN
 <script>
 
 /* =====================================================
-DATA PEMINJAMAN
-NAMA KHODIJAH TETAP ADA.
-Yang dihapus hanya kata Khodijah dari NAMA FILE.
+   DATA BUKU
+   Data yang sudah terbaca dari data perpustakaan.
 ===================================================== */
 
-const loans = [
+let books = [
 
-  {
-    no:1,
-    name:"Aina",
-    title:"Pulang",
-    borrow:"21-8-2026",
-    returned:"1-9-2026",
-    status:"Dikembalikan"
-  },
+{no:"001",title:"Ighatsul lahfan",qty:1,author:"Ibnu Qayyim Al-Jauziyah",building:"Gedung 2"},
+{no:"002",title:"Minhajul muslim",qty:1,author:"Abu Bakar Jabir",building:"Gedung 2"},
+{no:"003",title:"Sirah nabawiyah",qty:1,author:"Syaikh shafiyyurrahman",building:"Gedung 2"},
+{no:"005",title:"Fikih jumhur (1)",qty:1,author:"Dr. Muhammad Na'im",building:"Gedung 2"},
+{no:"006",title:"Fikih jumhur (2)",qty:1,author:"Dr. Muhammad Na'im",building:"Gedung 2"},
+{no:"007",title:"Sejarah peradaban islam",qty:1,author:"Prof. Dr. H. J. Suyuthi Pulungan",building:"Gedung 2"},
+{no:"008",title:"Mekkah dan madinah",qty:1,author:"Dr. Ahmad Ibrahim",building:"Gedung 2"},
+{no:"009",title:"Dahsyatnya hari kiamat",qty:1,author:"Ibnu Kastir",building:"Gedung 2"},
+{no:"010",title:"Ensiklopedia islam",qty:"",author:"Musdah Mulia",building:"Gedung 2"},
+{no:"011",title:"The khalifah",qty:1,author:"Abdul Latip Thalib",building:"Gedung 2"},
+{no:"012",title:"100 dosa yang diremehkan wanita",qty:2,author:"Abdul Lathif bin Hajis",building:"Gedung 2"},
+{no:"014",title:"Kumpulan 101 kultum",qty:1,author:"",building:"Gedung 2"},
+{no:"015",title:"Muhammad al-fatih",qty:1,author:"DR. Ali Ash Shallabi",building:"Gedung 2"},
+{no:"016",title:"Majmu' syarif",qty:"",author:"",building:"Gedung 2"},
+{no:"101",title:"Siroh Nabi Muhammad",qty:"",author:"M. Quraish Shihab",building:"Gedung 2"},
+{no:"102",title:"Muhammad Sang Inspirator Dunia",qty:1,author:"Dr. Aidh Al-Qarni",building:"Gedung 2"},
+{no:"103",title:"Muhammad The World Changer",qty:1,author:"Mohammad Jebara",building:"Gedung 2"},
+{no:"104",title:"Sejarah Hidup Rasulullah",qty:1,author:"Syaikh Shafiyurrahman",building:"Gedung 2"},
+{no:"105",title:"Biografi Istri, putri, cucu, dan pelayan nabi",qty:1,author:"Ahmad Khalil Jum'ah",building:"Gedung 2"},
+{no:"106",title:"Biografi Umar",qty:1,author:"Prof. Dr. Ali Muhammad",building:"Gedung 2"},
+{no:"107",title:"Biografi Abu Bakar",qty:1,author:"Prof. Dr. Ali Muhammad",building:"Gedung 2"},
+{no:"201",title:"The ultimate guide dinosaurus",qty:1,author:"Rupert Matthews, Steve Parker",building:"Gedung 2"},
+{no:"202",title:"The Ultimate Guide Hiu",qty:1,author:"Barbara Taylor",building:"Gedung 2"},
+{no:"203",title:"The Ultimate Guide Antariksa",qty:1,author:"Rupert Matthews, Steve Parker",building:"Gedung 2"},
+{no:"228-233",title:"Atlas lengkap Indonesia&Dunia",qty:6,author:"Palito Media",building:"Gedung 2"},
+{no:"234-238",title:"RPAL&RPUL Global",qty:5,author:"Drs. Prayitno Darmanto",building:"Gedung 2"},
+{no:"301",title:"Ensiklopedia teknologi komputer",qty:1,author:"Purindaswari",building:"Gedung 2"},
+{no:"302",title:"The magic Dr.Blender 3D Modeling",qty:1,author:"Hendi Hendramatwan",building:"Gedung 2"},
+{no:"305",title:"The Inteligent Investor",qty:1,author:"Benjamin Graham",building:"Gedung 2"},
+{no:"401",title:"Ensiklopedia sejarah dunia",qty:"",author:"Lulu Fitri Rahman",building:"Gedung 2"},
+{no:"402",title:"Ensiklopedi Akhir Zaman",qty:1,author:"Dr. Mahid Ahmad",building:"Gedung 2"},
+{no:"403",title:"Ensiklopedi sejarah islam",qty:1,author:"Dr. Raghib As Sirjani",building:"Gedung 2"},
+{no:"404",title:"Sang pangeran dan janissary",qty:"",author:"Salim A.Fillah",building:"Gedung 2"},
+{no:"405",title:"Adab Penghafal Al Qur'an",qty:1,author:"Imam Abu Zakaria Yaya",building:"Gedung 2"},
+{no:"406",title:"Nusantaria sejarah",qty:1,author:"Philip Bowring",building:"Gedung 2"},
+{no:"503",title:"Rumus Produktif ala muslim",qty:"",author:"",building:"Gedung 2"},
+{no:"504",title:"Menjadi muslimah yang",qty:"",author:"",building:"Gedung 2"},
+{no:"506",title:"Obat malas dosis tinggi",qty:"",author:"",building:"Gedung 2"},
+{no:"507",title:"Menjadi wanita tangguh",qty:"",author:"",building:"Gedung 2"},
+{no:"509",title:"Sibuk Kerja Jangan Lupa Ibadah",qty:"",author:"",building:"Gedung 2"},
+{no:"604",title:"OSN Matematika",qty:"",author:"",building:"Gedung 2"},
+{no:"605",title:"KSM Fisika",qty:"",author:"",building:"Gedung 2"},
+{no:"610",title:"Kamus lengkap bahasa jawa",qty:"",author:"",building:"Gedung 2"},
+{no:"801",title:"Atomic habits",qty:"",author:"",building:"Gedung 2"},
+{no:"802",title:"Produktivitas sekolah",qty:"",author:"",building:"Gedung 2"},
+{no:"806",title:"Public speaking for success",qty:"",author:"",building:"Gedung 2"},
+{no:"808",title:"Social Inteligence",qty:"",author:"",building:"Gedung 2"},
+{no:"810",title:"The physicology of money",qty:"",author:"",building:"Gedung 2"},
+{no:"812",title:"Good vibes Good life",qty:"",author:"",building:"Gedung 2"},
+{no:"813",title:"Cara tepat berdebat",qty:"",author:"",building:"Gedung 2"},
+{no:"815",title:"Berani tidak disukai",qty:"",author:"",building:"Gedung 2"},
+{no:"817",title:"Great leaders have no rules",qty:"",author:"",building:"Gedung 2"},
+{no:"826",title:"Berdamai dengan masa lalu",qty:"",author:"",building:"Gedung 2"},
+{no:"830",title:"Setiap luka akan pulih",qty:"",author:"",building:"Gedung 2"},
+{no:"835",title:"365 jurus anti stres",qty:"",author:"",building:"Gedung 2"},
+{no:"903",title:"Dapur susie",qty:"",author:"",building:"Gedung 2"},
+{no:"904",title:"Cooking at home",qty:"",author:"",building:"Gedung 2"},
+{no:"905",title:"Bekal Organik anak sekolah",qty:"",author:"",building:"Gedung 2"},
+{no:"906",title:"Resep sehat JSR",qty:"",author:"",building:"Gedung 2"},
+{no:"907",title:"Ramadhan JSR",qty:"",author:"",building:"Gedung 2"},
 
-  {
-    no:2,
-    name:"Khodijah",
-    title:"The midnight library",
-    borrow:"21-8-2026",
-    returned:"26-8-2026",
-    status:"Dikembalikan"
-  },
-
-  {
-    no:3,
-    name:"Khodijah",
-    title:"Tiga malam bersama penghuni surga",
-    borrow:"28-8-2026",
-    returned:"3-9-2026",
-    status:"Dikembalikan"
-  },
-
-  {
-    no:4,
-    name:"Sausan",
-    title:"Loneliness",
-    borrow:"27-8-2026",
-    returned:"2-8-2026",
-    status:"Dikembalikan"
-  },
-
-  {
-    no:5,
-    name:"Aulia",
-    title:"Rumah untuk Alie",
-    borrow:"27-8-2026",
-    returned:"28-8-2026",
-    status:"Dikembalikan"
-  },
-
-  {
-    no:6,
-    name:"Diana",
-    title:"Si putih",
-    borrow:"27-8-2026",
-    returned:"4-9-2026",
-    status:"Dikembalikan"
-  },
-
-  {
-    no:7,
-    name:"Meta",
-    title:"Atlas dunia",
-    borrow:"27-8-2026",
-    returned:"31-8-2026",
-    status:"Dikembalikan"
-  },
-
-  {
-    no:8,
-    name:"Mutia",
-    title:"Dia adalah kakakku",
-    borrow:"27-8-2026",
-    returned:"3-9-2026",
-    status:"Dikembalikan"
-  },
-
-  {
-    no:9,
-    name:"Almira",
-    title:"Bibi Gill",
-    borrow:"28-8-2026",
-    returned:"3-9-2026",
-    status:"Dikembalikan"
-  },
-
-  {
-    no:10,
-    name:"Aulia",
-    title:"Bumi",
-    borrow:"28-8-2026",
-    returned:"3-9-2026",
-    status:"Dikembalikan"
-  },
-
-  {
-    no:11,
-    name:"Medina",
-    title:"Pulang - Pergi",
-    borrow:"28-8-2026",
-    returned:"4-9-2026",
-    status:"Dikembalikan"
-  },
-
-  {
-    no:12,
-    name:"Aina",
-    title:"Pulang",
-    borrow:"2-8-2026",
-    returned:"7-8-2026",
-    status:"Dikembalikan"
-  },
-
-  {
-    no:13,
-    name:"Alita",
-    title:"Berdamai dengan masa lalu",
-    borrow:"3-9-2026",
-    returned:"11-9-2026",
-    status:"Dikembalikan"
-  },
-
-  {
-    no:14,
-    name:"Almira",
-    title:"Bibi Gill",
-    borrow:"3-9-2026",
-    returned:"11/9/2026",
-    status:"Dikembalikan"
-  },
-
-  {
-    no:15,
-    name:"Mutia",
-    title:"Rumah untuk Alie",
-    borrow:"3-9-2026",
-    returned:"9-9-2026",
-    status:"Dikembalikan"
-  },
-
-  {
-    no:16,
-    name:"Khodijah",
-    title:"Tiga malam bersama penghuni surga",
-    borrow:"4-9-2026",
-    returned:"11-9-2026",
-    status:"Dikembalikan"
-  },
-
-  {
-    no:17,
-    name:"Aulia",
-    title:"Bumi",
-    borrow:"4-9-2026",
-    returned:"11-9-2026",
-    status:"Dikembalikan"
-  },
-
-  {
-    no:18,
-    name:"Meta",
-    title:"Ensiklopedia Saintis Junior Teknologi",
-    borrow:"4-9-2026",
-    returned:"11-9-2026",
-    status:"Dikembalikan"
-  },
-
-  {
-    no:19,
-    name:"Diana",
-    title:"Kisah teladan para nabi",
-    borrow:"4-9-2026",
-    returned:"9/9/2026",
-    status:"Dikembalikan"
-  },
-
-  {
-    no:20,
-    name:"Mutia",
-    title:"Pulang",
-    borrow:"9-9-2026",
-    returned:"11-9-2026",
-    status:"Dikembalikan"
-  },
-
-  {
-    no:21,
-    name:"Sausan",
-    title:"Rumah untuk Alie",
-    borrow:"11-9-2026",
-    returned:"-",
-    status:"Dipinjam"
-  },
-
-  {
-    no:22,
-    name:"Salwah",
-    title:"Kado terbaik",
-    borrow:"11-9-2026",
-    returned:"-",
-    status:"Dipinjam"
-  },
-
-  {
-    no:23,
-    name:"Meta",
-    title:"Kepribadian MBTI",
-    borrow:"11-9-2026",
-    returned:"-",
-    status:"Dipinjam"
-  },
-
-  {
-    no:24,
-    name:"Prita",
-    title:"Bandara - Stasiun dan tahun setelahnya",
-    borrow:"11-9-2026",
-    returned:"-",
-    status:"Dipinjam"
-  }
+{no:"",title:"muhammad al fatih 1-3",qty:3,author:"Handri Satria",building:"Gedung 3"},
+{no:"",title:"RPAL-RPUL",qty:4,author:"DRS.prayitno darmanto dan ninik setyawati S.Pd",building:"Gedung 3"},
+{no:"",title:"ATLAS LENGKAP",qty:4,author:"palito media",building:"Gedung 3"},
+{no:"",title:"KAMUS BAHASA INDONESIA",qty:1,author:"Manda Putri E,S.PD",building:"Gedung 3"},
+{no:"",title:"fiqih islam wa adillatuhu",qty:10,author:"Proft,Doctor Wahba Atobali",building:"Gedung 3"},
+{no:"",title:"ath Thabari",qty:25,author:"",building:"Gedung 3"},
+{no:"",title:"SHAHIH BUKHARI MUSLIM",qty:1,author:"Muhammad Fu'ad Abdul Baqi",building:"Gedung 3"},
+{no:"",title:"semua orang butuh curhat",qty:1,author:"Lori gottlieb",building:"Gedung 3"},
+{no:"",title:"21 WANITA PERKASA YANG DI TEMPA OLEH BUDAYA ACEH",qty:1,author:"Qismullah Yusuf",building:"Gedung 3"},
+{no:"",title:"TOP FOKUS ULANGAN DAN UJIAN",qty:1,author:"tim maestro eduka",building:"Gedung 3"},
+{no:"",title:"DISCOVERING MYSELF",qty:1,author:"yohana nessy",building:"Gedung 3"},
+{no:"",title:"Mekkah dan Madinah",qty:1,author:"Dr.ahmad Ibrahim asy -Syarif",building:"Gedung 3"},
+{no:"",title:"kitab tauhid",qty:1,author:"DR.shalih bin fauzan",building:"Gedung 3"},
+{no:"",title:"RAJIN SHALAT TAPI MASIH KELIRU",qty:1,author:"Dr. Mahmud Abdurrahman Abdul Mun'im",building:"Gedung 3"},
+{no:"",title:"Fithrah",qty:1,author:"yayasan nidaul fithrah",building:"Gedung 3"},
+{no:"",title:"tafsir al fatihah",qty:1,author:"muhammad rasyid ridha",building:"Gedung 3"},
+{no:"",title:"fiqih islam dari alkitab dan assunnah 1 - 4",qty:4,author:"syaikh shiddiq",building:"Gedung 3"},
+{no:"",title:"dunia ditanganku akherat dihatiku",qty:1,author:"ustadz abdullah amim",building:"Gedung 3"},
+{no:"",title:"pengobatan,perawatan dan kecantikan",qty:1,author:"Agus ibnu IBAD",building:"Gedung 3"},
+{no:"",title:"manajemen mareketing sekolah",qty:1,author:"jamal ma'mur Asmani",building:"Gedung 3"},
+{no:"",title:"belajar ilmu waris praktis",qty:1,author:"Ustadz Muhammad Nur Yasin Zain",building:"Gedung 3"},
+{no:"",title:"125 PAHLAWAN DAN PEJUANG NUSANTARA",qty:1,author:"GAMAL KOMANDOKO",building:"Gedung 3"},
+{no:"",title:"KIAT SHOLAT KHUSYU",qty:1,author:"MUHAMMAD AL-MUNAJJID",building:"Gedung 3"},
+{no:"",title:"ARAB INDONESIA",qty:1,author:"PROF.DR.H,.MAHMUD YUNUS",building:"Gedung 3"},
+{no:"",title:"TUNTUNAN KURBAN",qty:"",author:"",building:"Gedung 3"},
+{no:"",title:"risalah qow aidul fikih",qty:"",author:"",building:"Gedung 3"},
+{no:"",title:"KAMUS INGGRIS INDONESIA",qty:"",author:"",building:"Gedung 3"},
+{no:"",title:"kultum kuliah 7 menit",qty:"",author:"",building:"Gedung 3"},
+{no:"",title:"BELAJAR DARI ILMU FARAIDH 1-12",qty:12,author:"",building:"Gedung 3"},
+{no:"",title:"majalah as sunnah",qty:10,author:"",building:"Gedung 3"},
+{no:"",title:"amalan sunnah setahun",qty:"",author:"",building:"Gedung 3"},
+{no:"",title:"SUKSES MENDIDIK ANAK",qty:"",author:"",building:"Gedung 3"},
+{no:"",title:"PALESTINA YG TERLUPAKAN",qty:"",author:"",building:"Gedung 3"},
+{no:"",title:"STUDI KELAYAKAN BISNIS",qty:"",author:"",building:"Gedung 3"}
 
 ];
 
 
 /* =====================================================
-DATA BUKU
+   DATA PEMINJAMAN
+   SESUAI DATA YANG DIBERIKAN
 ===================================================== */
 
-let books = [];
+let loans = [
+
+{no:1,name:"Aina",title:"Pulang",borrow:"21-8-2026",returned:"1-9-2026",due:"1-9-2026",building:"Gedung 2"},
+{no:2,name:"Khodijah",title:"The midnight library",borrow:"21-8-2026",returned:"26-8-2026",due:"26-8-2026",building:"Gedung 2"},
+{no:3,name:"Khodijah",title:"Tiga malam bersama penghuni surga",borrow:"28-8-2026",returned:"3-9-2026",due:"3-9-2026",building:"Gedung 2"},
+{no:4,name:"Sausan",title:"Loneliness",borrow:"27-8-2026",returned:"2-8-2026",due:"2-9-2026",building:"Gedung 2"},
+{no:5,name:"Aulia",title:"Rumah untuk Alie",borrow:"27-8-2026",returned:"28-8-2026",due:"28-8-2026",building:"Gedung 2"},
+{no:6,name:"Diana",title:"Si putih",borrow:"27-8-2026",returned:"4-9-2026",due:"4-9-2026",building:"Gedung 2"},
+{no:7,name:"Meta",title:"Atlas dunia",borrow:"27-8-2026",returned:"31-8-2026",due:"31-8-2026",building:"Gedung 2"},
+{no:8,name:"Mutia",title:"Dia adalah kakakku",borrow:"27-8-2026",returned:"3-9-2026",due:"3-9-2026",building:"Gedung 2"},
+{no:9,name:"Almira",title:"Bibi Gill",borrow:"28-8-2026",returned:"3-9-2026",due:"3-9-2026",building:"Gedung 2"},
+{no:10,name:"Aulia",title:"Bumi",borrow:"28-8-2026",returned:"3-9-2026",due:"3-9-2026",building:"Gedung 2"},
+{no:11,name:"Medina",title:"Pulang - Pergi",borrow:"28-8-2026",returned:"4-9-2026",due:"4-9-2026",building:"Gedung 2"},
+{no:12,name:"Aina",title:"Pulang",borrow:"2-8-2026",returned:"7-8-2026",due:"7-8-2026",building:"Gedung 2"},
+{no:13,name:"Alita",title:"Berdamai dengan masa lalu",borrow:"3-9-2026",returned:"11-9-2026",due:"11-9-2026",building:"Gedung 2"},
+{no:14,name:"Almira",title:"Bibi Gill",borrow:"3-9-2026",returned:"11/9/2026",due:"11-9-2026",building:"Gedung 2"},
+{no:15,name:"Mutia",title:"Rumah untuk Alie",borrow:"3-9-2026",returned:"9-9-2026",due:"9-9-2026",building:"Gedung 2"},
+{no:16,name:"Khodijah",title:"Tiga malam bersama penghuni surga",borrow:"4-9-2026",returned:"11-9-2026",due:"11-9-2026",building:"Gedung 2"},
+{no:17,name:"Aulia",title:"Bumi",borrow:"4-9-2026",returned:"11-9-2026",due:"11-9-2026",building:"Gedung 2"},
+{no:18,name:"Meta",title:"Ensiklopedia Saintis Junior Teknologi",borrow:"4-9-2026",returned:"11-9-2026",due:"11-9-2026",building:"Gedung 2"},
+{no:19,name:"Diana",title:"Kisah Teladan para Nabi",borrow:"4-9-2026",returned:"9/9/2026",due:"9-9-2026",building:"Gedung 2"},
+{no:20,name:"Mutia",title:"Pulang",borrow:"9-9-2026",returned:"11-9-2026",due:"11-9-2026",building:"Gedung 2"},
+{no:21,name:"Sausan",title:"Rumah untuk Alie",borrow:"11-9-2026",returned:"",due:"18-9-2026",building:"Gedung 2"},
+{no:22,name:"Salwah",title:"Kado terbaik",borrow:"11-9-2026",returned:"",due:"18-9-2026",building:"Gedung 2"},
+{no:23,name:"Meta",title:"Kepribadian MBTI",borrow:"11-9-2026",returned:"",due:"18-9-2026",building:"Gedung 2"},
+{no:24,name:"Prita",title:"Bandara - Stasiun dan tahun setelahnya",borrow:"11-9-2026",returned:"",due:"18-9-2026",building:"Gedung 2"}
+
+];
 
 
 /* =====================================================
-NAVIGASI
+   NAVIGASI
 ===================================================== */
 
 function showPage(page){
 
   document.querySelectorAll(".page")
-    .forEach(el => el.classList.remove("active"));
+    .forEach(el=>el.classList.remove("active"));
 
+  const target=document.getElementById("page-"+page);
 
-  const target =
-    document.getElementById("page-" + page);
+  if(target) target.classList.add("active");
 
-  if(target){
-    target.classList.add("active");
-  }
+  document.querySelectorAll(".nav-btn")
+    .forEach(el=>el.classList.remove("active"));
 
+  const nav=document.getElementById("nav-"+page);
 
-  document.querySelectorAll(".nav-item")
-    .forEach(el => {
+  if(nav) nav.classList.add("active");
 
-      el.classList.remove("nav-active");
-      el.classList.add("text-gray-500");
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 
-    });
-
-
-  const active =
-    document.getElementById("nav-" + page);
-
-  if(active){
-
-    active.classList.add("nav-active");
-    active.classList.remove("text-gray-500");
-
-  }
-
-
-  document
-    .getElementById("mobileNav")
-    ?.classList.add("hidden");
-
-
-  if(page === "buku"){
-    renderBooks();
-  }
-
-  if(page === "peminjaman"){
-    renderLoans();
-  }
-
+  if(page==="buku") renderBooks();
+  if(page==="peminjaman") renderLoans();
 }
 
 
-function toggleMobile(){
+/* =====================================================
+   MOBILE MENU
+===================================================== */
 
-  document
-    .getElementById("mobileNav")
+function toggleMobileMenu(){
+
+  document.getElementById("mobileNav")
     .classList.toggle("hidden");
+
+}
+
+function closeMobileMenu(){
+
+  document.getElementById("mobileNav")
+    .classList.add("hidden");
 
 }
 
 
 /* =====================================================
-MODAL
+   MODAL PEMINJAMAN
 ===================================================== */
 
 function openBorrowModal(){
 
-  const modal =
-    document.getElementById("borrowModal");
+  const modal=document.getElementById("borrowModal");
 
-  modal.classList.remove("hidden");
+  modal.classList.remove("modal-hidden");
+  modal.classList.add("show");
 
   document.body.style.overflow="hidden";
-
-
-  const today =
-    new Date().toISOString().slice(0,10);
-
-  document.getElementById("newBorrowDate").value=today;
 
   populateBookSelect();
 
 }
 
-
 function closeBorrowModal(){
 
-  document
-    .getElementById("borrowModal")
-    .classList.add("hidden");
+  const modal=document.getElementById("borrowModal");
+
+  modal.classList.remove("show");
+  modal.classList.add("modal-hidden");
 
   document.body.style.overflow="";
 
 }
 
 
-function modalOutside(event){
-
-  if(event.target.id === "borrowModal"){
-    closeBorrowModal();
-  }
-
-}
-
-
-document.addEventListener("keydown",function(event){
-
-  if(event.key === "Escape"){
-    closeBorrowModal();
-  }
-
-});
-
-
 /* =====================================================
-RENDER PEMINJAMAN
+   MODAL BUKU
 ===================================================== */
 
-function renderLoans(){
+function openBookModal(){
 
-  const table =
-    document.getElementById("loanTable");
+  const modal=document.getElementById("bookModal");
 
-  if(!table)return;
+  modal.classList.remove("modal-hidden");
+  modal.classList.add("flex");
 
+}
 
-  const input =
-    document.getElementById("loanSearch");
+function closeBookModal(){
 
-  const search =
-    (input?.value || "").toLowerCase();
+  const modal=document.getElementById("bookModal");
 
-
-  const filtered =
-    loans.filter(item =>
-
-      (
-        item.name +
-        " " +
-        item.title
-      )
-      .toLowerCase()
-      .includes(search)
-
-    );
-
-
-  table.innerHTML =
-    filtered.map(item => `
-
-      <tr>
-
-        <td>
-          ${item.no}
-        </td>
-
-        <td class="font-bold">
-          ${escapeHTML(item.name)}
-        </td>
-
-        <td>
-          ${escapeHTML(item.title)}
-        </td>
-
-        <td>
-          ${escapeHTML(item.borrow)}
-        </td>
-
-        <td>
-          ${escapeHTML(item.returned)}
-        </td>
-
-        <td>
-
-          <span class="status
-            ${
-              item.status === "Dikembalikan"
-              ? "status-return"
-              : "status-borrow"
-            }">
-
-            ${item.status}
-
-          </span>
-
-        </td>
-
-      </tr>
-
-    `).join("");
+  modal.classList.add("modal-hidden");
+  modal.classList.remove("flex");
 
 }
 
 
 /* =====================================================
-AKTIVITAS BERANDA
-===================================================== */
-
-function renderRecent(){
-
-  const box =
-    document.getElementById("recentLoans");
-
-  if(!box)return;
-
-
-  box.innerHTML =
-    loans.slice(0,6).map(item => `
-
-      <div class="
-        flex items-center justify-between
-        gap-4 p-4 mb-2
-        bg-gray-50
-        border border-gray-100
-        rounded-xl
-      ">
-
-        <div class="min-w-0">
-
-          <p class="font-bold">
-            ${escapeHTML(item.name)}
-          </p>
-
-          <p class="text-sm text-gray-500 truncate">
-            ${escapeHTML(item.title)}
-          </p>
-
-        </div>
-
-
-        <span class="status
-          ${
-            item.status === "Dikembalikan"
-            ? "status-return"
-            : "status-borrow"
-          }">
-
-          ${item.status}
-
-        </span>
-
-      </div>
-
-    `).join("");
-
-}
-
-
-/* =====================================================
-BUKU
-===================================================== */
-
-async function loadBooks(){
-
-  /*
-    Jika DATA BUKU.pdf tersedia di repository,
-    browser akan mencoba membacanya.
-
-    File:
-    DATA BUKU.pdf
-  */
-
-  try{
-
-    const response =
-      await fetch("DATA%20BUKU.pdf");
-
-    if(!response.ok){
-      throw new Error("DATA BUKU.pdf tidak ditemukan");
-    }
-
-
-    const buffer =
-      await response.arrayBuffer();
-
-
-    const pdfjs =
-      await import(
-        "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs"
-      );
-
-
-    pdfjs.GlobalWorkerOptions.workerSrc =
-      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs";
-
-
-    const pdf =
-      await pdfjs.getDocument({
-        data:buffer
-      }).promise;
-
-
-    const rows=[];
-
-
-    for(let pageNo=1;
-        pageNo<=pdf.numPages;
-        pageNo++){
-
-      const page =
-        await pdf.getPage(pageNo);
-
-
-      const content =
-        await page.getTextContent();
-
-
-      const groups={};
-
-
-      content.items.forEach(item => {
-
-        const y =
-          Math.round(
-            item.transform[5]/3
-          )*3;
-
-
-        if(!groups[y]){
-          groups[y]=[];
-        }
-
-
-        groups[y].push({
-          x:item.transform[4],
-          text:item.str
-        });
-
-      });
-
-
-      Object.keys(groups)
-        .sort((a,b)=>b-a)
-        .forEach(y=>{
-
-          const line =
-            groups[y]
-              .sort((a,b)=>a.x-b.x)
-              .map(item=>item.text)
-              .join(" ")
-              .replace(/\s+/g," ")
-              .trim();
-
-
-          if(line){
-            rows.push(line);
-          }
-
-        });
-
-    }
-
-
-    books =
-      parseBookRows(rows);
-
-
-    renderBooks();
-
-    populateBookSelect();
-
-
-  }catch(error){
-
-    console.error(error);
-
-
-    document.getElementById("bookResultCount")
-      .textContent=
-      "DATA BUKU.pdf belum dapat dibaca";
-
-
-    document.getElementById("bookTable")
-      .innerHTML=`
-
-      <tr>
-
-        <td colspan="6"
-            class="text-center py-12 text-gray-400">
-
-          Pastikan file
-          <b>DATA BUKU.pdf</b>
-          sudah berada di repository
-          yang sama dengan index.html.
-
-        </td>
-
-      </tr>
-
-      `;
-
-  }
-
-}
-
-
-/* =====================================================
-PARSER
-===================================================== */
-
-function parseBookRows(rows){
-
-  const result=[];
-
-  let building="Gedung 2";
-
-
-  rows.forEach(line=>{
-
-    if(
-      /Perpustakaan Gedung 3/i.test(line) ||
-      /^B\./i.test(line)
-    ){
-
-      building="Gedung 3";
-      return;
-
-    }
-
-
-    if(
-      /PKBM IBADURRAHMAN/i.test(line) ||
-      /Tahun 2025\/2026/i.test(line) ||
-      /NO\.?\s*BUKU/i.test(line) ||
-      /JUDUL BUKU/i.test(line)
-    ){
-      return;
-    }
-
-
-    const match =
-      line.match(
-        /^(\d+)\s+(?:(\d{3}(?:-\d+)?)\s+)?(.+)$/
-      );
-
-
-    if(!match)return;
-
-
-    const no=match[1];
-    const code=match[2] || "";
-    let rest=match[3].trim();
-
-    let qty="";
-    let author="";
-
-
-    const qtyMatch =
-      rest.match(
-        /(?:^|\s)(\d+)\s+(.+)$/
-      );
-
-
-    if(qtyMatch){
-
-      const number=
-        parseInt(qtyMatch[1],10);
-
-
-      if(number>=1 && number<=100){
-
-        qty=String(number);
-
-        const before =
-          rest.substring(
-            0,
-            qtyMatch.index
-          ).trim();
-
-        const after =
-          qtyMatch[2].trim();
-
-
-        rest=before;
-        author=after;
-
-      }
-
-    }
-
-
-    result.push({
-
-      no,
-      code,
-      title:rest || "-",
-      qty:qty || "-",
-      author:author || "-",
-      building
-
-    });
-
-  });
-
-
-  return result;
-
-}
-
-
-/* =====================================================
-RENDER BUKU
-===================================================== */
-
-function renderBooks(){
-
-  const table =
-    document.getElementById("bookTable");
-
-  if(!table)return;
-
-
-  const search =
-    (
-      document.getElementById("bookSearch")
-      ?.value || ""
-    ).toLowerCase();
-
-
-  const filtered =
-    books.filter(book =>
-
-      (
-        book.no +
-        " " +
-        book.code +
-        " " +
-        book.title +
-        " " +
-        book.author +
-        " " +
-        book.building
-      )
-      .toLowerCase()
-      .includes(search)
-
-    );
-
-
-  document.getElementById("bookResultCount")
-    .textContent =
-      `${filtered.length} data buku ditemukan`;
-
-
-  if(!filtered.length){
-
-    table.innerHTML=`
-
-      <tr>
-
-        <td colspan="6"
-            class="text-center py-12 text-gray-400">
-
-          ${
-            books.length
-            ? "Buku yang dicari tidak ditemukan."
-            : "Data buku sedang dimuat..."
-          }
-
-        </td>
-
-      </tr>
-
-    `;
-
-    return;
-
-  }
-
-
-  table.innerHTML =
-    filtered.map(book=>`
-
-      <tr>
-
-        <td>
-          ${escapeHTML(book.no)}
-        </td>
-
-        <td>
-          ${escapeHTML(book.code || "-")}
-        </td>
-
-        <td class="font-semibold">
-          ${escapeHTML(book.title)}
-        </td>
-
-        <td>
-          ${escapeHTML(book.qty)}
-        </td>
-
-        <td>
-          ${escapeHTML(book.author)}
-        </td>
-
-        <td>
-
-          <span class="
-            inline-flex
-            px-3 py-1
-            rounded-full
-            text-xs font-bold
-            ${
-              book.building === "Gedung 2"
-              ? "bg-emerald-100 text-emerald-700"
-              : "bg-blue-100 text-blue-700"
-            }
-          ">
-
-            ${book.building}
-
-          </span>
-
-        </td>
-
-      </tr>
-
-    `).join("");
-
-}
-
-
-/* =====================================================
-SELECT BUKU
+   SELECT BUKU
 ===================================================== */
 
 function populateBookSelect(){
 
-  const select =
-    document.getElementById("newBook");
+  const select=document.getElementById("borrowBook");
 
-  if(!select)return;
+  select.innerHTML='<option value="">Pilih buku</option>';
 
+  books.forEach((book,index)=>{
 
-  if(!books.length){
+    const option=document.createElement("option");
 
-    select.innerHTML=`
+    option.value=index;
 
-      <option value="">
-        Data buku belum dimuat
-      </option>
+    option.textContent=
+      `${book.title} — ${book.building}`;
 
-    `;
+    select.appendChild(option);
 
-    return;
-
-  }
-
-
-  select.innerHTML=
-    `<option value="">
-      Pilih buku...
-    </option>`+
-
-    books.map((book,index)=>`
-
-      <option value="${index}">
-
-        ${escapeHTML(book.title)}
-        — ${escapeHTML(book.building)}
-
-      </option>
-
-    `).join("");
+  });
 
 }
 
 
 /* =====================================================
-SIMPAN PEMINJAMAN
+   RENDER BUKU
+===================================================== */
+
+function renderBooks(){
+
+  const tbody=document.getElementById("bookTable");
+
+  const query=
+    (document.getElementById("bookSearch")?.value || "")
+    .toLowerCase();
+
+  const filtered=books.filter(book=>
+    String(book.no).toLowerCase().includes(query) ||
+    book.title.toLowerCase().includes(query) ||
+    book.author.toLowerCase().includes(query)
+  );
+
+  tbody.innerHTML="";
+
+  filtered.forEach(book=>{
+
+    tbody.innerHTML+=`
+
+      <tr>
+
+        <td class="font-bold text-emerald-700">
+          ${book.no || "—"}
+        </td>
+
+        <td class="font-semibold text-slate-700">
+          ${escapeHTML(book.title)}
+        </td>
+
+        <td>
+          ${escapeHTML(book.author || "—")}
+        </td>
+
+        <td>
+          ${book.qty || "—"}
+        </td>
+
+        <td>
+          <span class="badge ${
+            book.building==="Gedung 2"
+            ? "badge-active"
+            : "badge-return"
+          }">
+            ${book.building}
+          </span>
+        </td>
+
+      </tr>
+
+    `;
+
+  });
+
+}
+
+
+/* =====================================================
+   RENDER PEMINJAMAN
+===================================================== */
+
+function renderLoans(){
+
+  const tbody=document.getElementById("loanTable");
+
+  const query=
+    (document.getElementById("loanSearch")?.value || "")
+    .toLowerCase();
+
+  const filtered=loans.filter(loan=>
+    loan.name.toLowerCase().includes(query) ||
+    loan.title.toLowerCase().includes(query)
+  );
+
+  tbody.innerHTML="";
+
+  filtered.forEach(loan=>{
+
+    const active=!loan.returned;
+
+    tbody.innerHTML+=`
+
+      <tr>
+
+        <td class="font-bold">
+          ${loan.no}
+        </td>
+
+        <td class="font-bold text-slate-700">
+          ${escapeHTML(loan.name)}
+        </td>
+
+        <td>
+          ${escapeHTML(loan.title)}
+        </td>
+
+        <td>
+          ${loan.borrow}
+        </td>
+
+        <td>
+          ${loan.returned || "—"}
+        </td>
+
+        <td>
+          <span class="badge ${
+            active
+            ? "badge-active"
+            : "badge-return"
+          }">
+
+            ${active ? "Sedang Dipinjam" : "Dikembalikan"}
+
+          </span>
+        </td>
+
+        <td>
+
+          ${
+            active
+            ?
+            `<button
+              onclick="returnLoan(${loan.no})"
+              class="text-blue-600 font-bold text-xs">
+              Kembalikan
+            </button>`
+            :
+            `<span class="text-slate-400 text-xs">
+              Selesai
+            </span>`
+          }
+
+        </td>
+
+      </tr>
+
+    `;
+
+  });
+
+}
+
+
+/* =====================================================
+   AKTIVITAS BERANDA
+===================================================== */
+
+function renderHomeActivity(){
+
+  const container=
+    document.getElementById("homeActivity");
+
+  const latest=
+    [...loans]
+    .sort((a,b)=>b.no-a.no)
+    .slice(0,5);
+
+  container.innerHTML=latest.map(loan=>`
+
+    <div class="flex items-center justify-between
+      gap-4 py-4 border-b border-slate-100 last:border-0">
+
+      <div class="min-w-0">
+
+        <p class="font-bold text-slate-700">
+          ${escapeHTML(loan.name)}
+        </p>
+
+        <p class="text-sm text-slate-400 truncate">
+          ${escapeHTML(loan.title)}
+        </p>
+
+      </div>
+
+      <span class="badge ${
+        loan.returned
+        ? "badge-return"
+        : "badge-active"
+      }">
+
+        ${loan.returned ? "Dikembalikan" : "Dipinjam"}
+
+      </span>
+
+    </div>
+
+  `).join("");
+
+}
+
+
+/* =====================================================
+   SIMPAN PEMINJAMAN BARU
 ===================================================== */
 
 function saveLoan(event){
 
   event.preventDefault();
 
+  const name=
+    document.getElementById("borrowName").value.trim();
 
-  const name =
-    document.getElementById("newName")
-      .value.trim();
+  const bookIndex=
+    document.getElementById("borrowBook").value;
 
+  const building=
+    document.getElementById("borrowBuilding").value;
 
-  const bookIndex =
-    document.getElementById("newBook")
-      .value;
+  const borrow=
+    document.getElementById("borrowDate").value;
 
+  const due=
+    document.getElementById("dueDate").value;
 
-  const building =
-    document.getElementById("newBuilding")
-      .value;
+  if(!name || bookIndex==="") return;
 
+  const book=books[bookIndex];
 
-  const borrow =
-    document.getElementById("newBorrowDate")
-      .value;
-
-
-  if(!name || bookIndex===""){
-    return;
-  }
-
-
-  const book =
-    books[Number(bookIndex)];
-
-
-  loans.unshift({
+  loans.push({
 
     no:loans.length+1,
-
-    name,
-
-    title:
-      book?.title || "-",
-
-    borrow:
-      formatDate(borrow),
-
-    returned:"-",
-
-    status:"Dipinjam",
-
-    building
+    name:name,
+    title:book.title,
+    borrow:formatDate(borrow),
+    returned:"",
+    due:formatDate(due),
+    building:building
 
   });
 
-
-  renderLoans();
-
-  renderRecent();
+  document.getElementById("borrowForm").reset();
 
   closeBorrowModal();
 
-
-  document
-    .getElementById("borrowForm")
-    .reset();
-
+  renderLoans();
+  renderHomeActivity();
 
   alert("Peminjaman berhasil dicatat.");
 
@@ -2029,31 +1460,67 @@ function saveLoan(event){
 
 
 /* =====================================================
-UTILITAS
+   PENGEMBALIAN
 ===================================================== */
 
-function formatDate(date){
+function returnLoan(no){
 
-  if(!date)return "-";
+  const loan=
+    loans.find(item=>item.no===no);
 
+  if(!loan) return;
 
-  const parts=
-    date.split("-");
+  const today=new Date();
 
+  loan.returned=
+    `${String(today.getDate()).padStart(2,"0")}-${String(today.getMonth()+1).padStart(2,"0")}-${today.getFullYear()}`;
 
-  if(parts.length!==3){
-    return date;
-  }
-
-
-  return `${parts[2]}-${parts[1]}-${parts[0]}`;
+  renderLoans();
+  renderHomeActivity();
 
 }
 
 
+/* =====================================================
+   TAMBAH BUKU
+===================================================== */
+
+function addBook(event){
+
+  event.preventDefault();
+
+  books.push({
+
+    no:document.getElementById("newNo").value.trim(),
+
+    title:document.getElementById("newTitle").value.trim(),
+
+    author:document.getElementById("newAuthor").value.trim(),
+
+    qty:Number(document.getElementById("newQty").value) || 1,
+
+    building:document.getElementById("newBuilding").value
+
+  });
+
+  closeBookModal();
+
+  event.target.reset();
+
+  renderBooks();
+
+  alert("Buku berhasil ditambahkan.");
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
 function escapeHTML(value){
 
-  return String(value ?? "")
+  return String(value)
     .replaceAll("&","&amp;")
     .replaceAll("<","&lt;")
     .replaceAll(">","&gt;")
@@ -2064,1639 +1531,49 @@ function escapeHTML(value){
 
 
 /* =====================================================
-START
+   FORMAT TANGGAL
 ===================================================== */
 
-document.addEventListener(
-  "DOMContentLoaded",
-  function(){
+function formatDate(value){
 
-    showPage("home");
+  if(!value) return "";
 
-    renderLoans();
+  const [year,month,day]=value.split("-");
 
-    renderRecent();
-
-    loadBooks();
-
-  }
-);
-
-</script>
-
-</body>
-</html>      z-index: 0;
-    }
-
-    #borrowModal .modal-box {
-      position: relative;
-      z-index: 1;
-    }
-
-    .nav-btn.active {
-      background: rgba(34,197,94,.12);
-      color: #4ade80;
-    }
-
-    .scrollbar::-webkit-scrollbar {
-      width: 7px;
-      height: 7px;
-    }
-
-    .scrollbar::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .scrollbar::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,.12);
-      border-radius: 99px;
-    }
-
-    .table-row:hover {
-      background: rgba(255,255,255,.025);
-    }
-  </style>
-</head>
-
-<body>
-
-<!-- =========================================================
-     HEADER
-========================================================= -->
-
-<header class="sticky top-0 z-40 border-b border-white/10 bg-[#070b10]/90 backdrop-blur-xl">
-
-  <div class="max-w-[1500px] mx-auto px-4 sm:px-6">
-
-    <div class="h-20 flex items-center justify-between gap-4">
-
-      <div class="flex items-center gap-3 min-w-0">
-
-        <div class="w-11 h-11 rounded-2xl bg-emerald-500/10 border border-emerald-400/20 flex items-center justify-center shrink-0">
-          <span class="text-xl">📚</span>
-        </div>
-
-        <div class="min-w-0">
-          <div class="font-extrabold text-base sm:text-lg truncate">
-            Khizanah Al Hikmah Library
-          </div>
-
-          <div class="text-xs text-slate-400 truncate">
-            PKBM Ibadurrahman Sidoarjo
-          </div>
-        </div>
-
-      </div>
-
-      <div class="hidden md:flex items-center gap-1">
-
-        <button onclick="showPage('home')" class="nav-btn active px-4 py-2 rounded-xl text-sm font-semibold" data-page="home">
-          Beranda
-        </button>
-
-        <button onclick="showPage('buku')" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-400 hover:text-white" data-page="buku">
-          Buku
-        </button>
-
-        <button onclick="showPage('riwayat')" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-400 hover:text-white" data-page="riwayat">
-          Peminjaman
-        </button>
-
-        <button onclick="showPage('pengaturan')" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-400 hover:text-white" data-page="pengaturan">
-          Pengaturan
-        </button>
-
-      </div>
-
-      <button
-        onclick="toggleMobileMenu()"
-        class="md:hidden w-10 h-10 rounded-xl glass flex items-center justify-center"
-        aria-label="Buka menu">
-        ☰
-      </button>
-
-    </div>
-
-    <div id="mobileMenu" class="hidden md:hidden pb-4">
-
-      <div class="grid grid-cols-2 gap-2">
-
-        <button onclick="showPage('home'); toggleMobileMenu()" class="glass rounded-xl p-3 text-sm text-left">
-          🏠 Beranda
-        </button>
-
-        <button onclick="showPage('buku'); toggleMobileMenu()" class="glass rounded-xl p-3 text-sm text-left">
-          📚 Buku
-        </button>
-
-        <button onclick="showPage('riwayat'); toggleMobileMenu()" class="glass rounded-xl p-3 text-sm text-left">
-          🔄 Peminjaman
-        </button>
-
-        <button onclick="showPage('pengaturan'); toggleMobileMenu()" class="glass rounded-xl p-3 text-sm text-left">
-          ⚙️ Pengaturan
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</header>
-
-
-<main class="max-w-[1500px] mx-auto px-4 sm:px-6 py-6 sm:py-8">
-
-
-<!-- =========================================================
-     BERANDA
-========================================================= -->
-
-<section id="page-home" class="page active">
-
-  <div class="mb-8">
-
-    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5">
-
-      <div>
-
-        <div class="text-emerald-400 text-sm font-bold mb-2">
-          PERPUSTAKAAN DIGITAL
-        </div>
-
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
-          Selamat datang di
-          <span class="text-emerald-400">Khizanah Al Hikmah</span>
-        </h1>
-
-        <p class="text-slate-400 mt-3 max-w-2xl leading-relaxed">
-          Kelola koleksi buku, peminjaman, pengembalian, dan riwayat
-          perpustakaan dalam satu tempat.
-        </p>
-
-      </div>
-
-      <button
-        onclick="openBorrowModal()"
-        class="shrink-0 px-5 py-3 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold transition">
-        + Peminjaman Baru
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <!-- STATISTIK -->
-
-  <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
-
-    <div class="glass glow-green rounded-2xl p-5">
-      <div class="flex justify-between">
-        <span class="text-slate-400 text-sm">Total Buku</span>
-        <span>📚</span>
-      </div>
-      <div id="statBooks" class="text-3xl font-extrabold mt-3">0</div>
-      <div class="text-xs text-slate-500 mt-1">koleksi tercatat</div>
-    </div>
-
-    <div class="glass rounded-2xl p-5">
-      <div class="flex justify-between">
-        <span class="text-slate-400 text-sm">Total Eksemplar</span>
-        <span>📦</span>
-      </div>
-      <div id="statCopies" class="text-3xl font-extrabold mt-3">0</div>
-      <div class="text-xs text-slate-500 mt-1">jumlah buku</div>
-    </div>
-
-    <div class="glass rounded-2xl p-5">
-      <div class="flex justify-between">
-        <span class="text-slate-400 text-sm">Sedang Dipinjam</span>
-        <span>🔄</span>
-      </div>
-      <div id="statBorrowed" class="text-3xl font-extrabold mt-3">0</div>
-      <div class="text-xs text-slate-500 mt-1">transaksi aktif</div>
-    </div>
-
-    <div class="glass rounded-2xl p-5">
-      <div class="flex justify-between">
-        <span class="text-slate-400 text-sm">Terlambat</span>
-        <span>⚠️</span>
-      </div>
-      <div id="statLate" class="text-3xl font-extrabold mt-3">0</div>
-      <div class="text-xs text-slate-500 mt-1">perlu ditindaklanjuti</div>
-    </div>
-
-  </div>
-
-
-  <!-- AKSI CEPAT -->
-
-  <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
-
-    <button
-      onclick="openBorrowModal()"
-      class="glass rounded-2xl p-5 text-left hover:bg-white/[.07] transition">
-
-      <div class="w-11 h-11 rounded-xl bg-emerald-500/10 flex items-center justify-center mb-4">
-        📖
-      </div>
-
-      <div class="font-bold">Pinjam Buku</div>
-      <div class="text-xs text-slate-500 mt-1">
-        Catat peminjaman baru
-      </div>
-
-    </button>
-
-
-    <button
-      onclick="showPage('riwayat')"
-      class="glass rounded-2xl p-5 text-left hover:bg-white/[.07] transition">
-
-      <div class="w-11 h-11 rounded-xl bg-blue-500/10 flex items-center justify-center mb-4">
-        🔄
-      </div>
-
-      <div class="font-bold">Pengembalian</div>
-      <div class="text-xs text-slate-500 mt-1">
-        Kelola buku yang kembali
-      </div>
-
-    </button>
-
-
-    <button
-      onclick="showPage('buku')"
-      class="glass rounded-2xl p-5 text-left hover:bg-white/[.07] transition">
-
-      <div class="w-11 h-11 rounded-xl bg-purple-500/10 flex items-center justify-center mb-4">
-        📚
-      </div>
-
-      <div class="font-bold">Koleksi Buku</div>
-      <div class="text-xs text-slate-500 mt-1">
-        Cari dan lihat koleksi
-      </div>
-
-    </button>
-
-
-    <button
-      onclick="showPage('riwayat')"
-      class="glass rounded-2xl p-5 text-left hover:bg-white/[.07] transition">
-
-      <div class="w-11 h-11 rounded-xl bg-orange-500/10 flex items-center justify-center mb-4">
-        📊
-      </div>
-
-      <div class="font-bold">Riwayat</div>
-      <div class="text-xs text-slate-500 mt-1">
-        Lihat aktivitas perpustakaan
-      </div>
-
-    </button>
-
-  </div>
-
-
-  <!-- CONTENT GRID -->
-
-  <div class="grid lg:grid-cols-3 gap-5">
-
-    <div class="lg:col-span-2 glass rounded-2xl p-5">
-
-      <div class="flex items-center justify-between mb-5">
-
-        <div>
-          <h2 class="font-extrabold text-lg">
-            Aktivitas Peminjaman
-          </h2>
-
-          <p class="text-xs text-slate-500 mt-1">
-            Data terbaru dari sistem
-          </p>
-        </div>
-
-        <button
-          onclick="showPage('riwayat')"
-          class="text-xs font-bold text-emerald-400">
-          Lihat semua →
-        </button>
-
-      </div>
-
-      <div id="recentLoans" class="space-y-3"></div>
-
-    </div>
-
-
-    <div class="glass rounded-2xl p-5">
-
-      <div class="mb-5">
-        <h2 class="font-extrabold text-lg">
-          Koleksi per Gedung
-        </h2>
-
-        <p class="text-xs text-slate-500 mt-1">
-          Data buku dalam satu sistem
-        </p>
-      </div>
-
-      <div class="space-y-4">
-
-        <div>
-          <div class="flex justify-between text-sm mb-2">
-            <span>Gedung 2</span>
-            <span id="gedung2Count" class="text-emerald-400 font-bold">0</span>
-          </div>
-
-          <div class="h-2 rounded-full bg-white/5 overflow-hidden">
-            <div id="gedung2Bar" class="h-full bg-emerald-500 rounded-full" style="width:0%"></div>
-          </div>
-        </div>
-
-
-        <div>
-          <div class="flex justify-between text-sm mb-2">
-            <span>Gedung 3</span>
-            <span id="gedung3Count" class="text-blue-400 font-bold">0</span>
-          </div>
-
-          <div class="h-2 rounded-full bg-white/5 overflow-hidden">
-            <div id="gedung3Bar" class="h-full bg-blue-500 rounded-full" style="width:0%"></div>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="mt-8 p-4 rounded-2xl bg-white/[.025] border border-white/5">
-
-        <div class="text-xs text-slate-500">
-          Sumber data
-        </div>
-
-        <div class="font-semibold mt-1">
-          DATA BUKU
-        </div>
-
-        <div class="text-xs text-slate-500 mt-1">
-          PKBM Ibadurrahman Sidoarjo · 2025/2026
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-
-<!-- =========================================================
-     BUKU
-========================================================= -->
-
-<section id="page-buku" class="page">
-
-  <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-5 mb-6">
-
-    <div>
-      <div class="text-emerald-400 text-sm font-bold mb-2">
-        KOLEKSI
-      </div>
-
-      <h2 class="text-3xl font-extrabold">
-        Data Buku
-      </h2>
-
-      <p class="text-slate-400 mt-2">
-        Gedung 2 dan Gedung 3 berada dalam satu database.
-      </p>
-    </div>
-
-    <button
-      onclick="openAddBookModal()"
-      class="px-5 py-3 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold">
-      + Tambah Buku
-    </button>
-
-  </div>
-
-
-  <div class="glass rounded-2xl p-4 mb-5">
-
-    <div class="grid md:grid-cols-3 gap-3">
-
-      <input
-        id="bookSearch"
-        oninput="renderBooks()"
-        type="search"
-        placeholder="Cari judul, pengarang, nomor..."
-        class="w-full px-4 py-3 rounded-xl bg-black/20 border border-white/10 outline-none focus:border-emerald-400/40">
-
-      <select
-        id="buildingFilter"
-        onchange="renderBooks()"
-        class="px-4 py-3 rounded-xl bg-[#0d131b] border border-white/10 outline-none">
-
-        <option value="">Semua Gedung</option>
-        <option value="Gedung 2">Gedung 2</option>
-        <option value="Gedung 3">Gedung 3</option>
-
-      </select>
-
-      <div class="px-4 py-3 rounded-xl bg-white/[.03] border border-white/5 text-sm text-slate-400">
-        <span id="bookResultCount">0</span> data ditemukan
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="glass rounded-2xl overflow-hidden">
-
-    <div class="overflow-x-auto scrollbar">
-
-      <table class="w-full text-sm">
-
-        <thead class="bg-white/[.025] border-b border-white/10">
-
-          <tr class="text-left text-slate-400">
-
-            <th class="px-5 py-4 whitespace-nowrap">No.</th>
-            <th class="px-5 py-4 whitespace-nowrap">No. Buku</th>
-            <th class="px-5 py-4 min-w-[280px]">Judul Buku</th>
-            <th class="px-5 py-4 min-w-[220px]">Pengarang</th>
-            <th class="px-5 py-4 whitespace-nowrap">Jumlah</th>
-            <th class="px-5 py-4 whitespace-nowrap">Gedung</th>
-
-          </tr>
-
-        </thead>
-
-        <tbody id="bookTable"></tbody>
-
-      </table>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-
-<!-- =========================================================
-     RIWAYAT
-========================================================= -->
-
-<section id="page-riwayat" class="page">
-
-  <div class="mb-6">
-
-    <div class="text-emerald-400 text-sm font-bold mb-2">
-      TRANSAKSI
-    </div>
-
-    <h2 class="text-3xl font-extrabold">
-      Peminjaman & Pengembalian
-    </h2>
-
-    <p class="text-slate-400 mt-2">
-      Data peminjaman Paket C.
-    </p>
-
-  </div>
-
-
-  <div class="glass rounded-2xl p-4 mb-5">
-
-    <div class="grid md:grid-cols-2 gap-3">
-
-      <input
-        id="loanSearch"
-        oninput="renderLoans()"
-        type="search"
-        placeholder="Cari nama atau judul buku..."
-        class="px-4 py-3 rounded-xl bg-black/20 border border-white/10 outline-none">
-
-      <select
-        id="loanStatusFilter"
-        onchange="renderLoans()"
-        class="px-4 py-3 rounded-xl bg-[#0d131b] border border-white/10">
-
-        <option value="">Semua Status</option>
-        <option value="Dipinjam">Dipinjam</option>
-        <option value="Dikembalikan">Dikembalikan</option>
-        <option value="Terlambat">Terlambat</option>
-
-      </select>
-
-    </div>
-
-  </div>
-
-
-  <div class="glass rounded-2xl overflow-hidden">
-
-    <div class="overflow-x-auto scrollbar">
-
-      <table class="w-full text-sm">
-
-        <thead class="bg-white/[.025] border-b border-white/10">
-
-          <tr class="text-left text-slate-400">
-
-            <th class="px-5 py-4">Peminjam</th>
-            <th class="px-5 py-4 min-w-[260px]">Buku</th>
-            <th class="px-5 py-4">Tanggal Pinjam</th>
-            <th class="px-5 py-4">Jatuh Tempo</th>
-            <th class="px-5 py-4">Kembali</th>
-            <th class="px-5 py-4">Status</th>
-            <th class="px-5 py-4">Aksi</th>
-
-          </tr>
-
-        </thead>
-
-        <tbody id="loanTable"></tbody>
-
-      </table>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-
-<!-- =========================================================
-     PENGATURAN
-========================================================= -->
-
-<section id="page-pengaturan" class="page">
-
-  <div class="mb-6">
-
-    <div class="text-emerald-400 text-sm font-bold mb-2">
-      SISTEM
-    </div>
-
-    <h2 class="text-3xl font-extrabold">
-      Pengaturan
-    </h2>
-
-  </div>
-
-
-  <div class="grid lg:grid-cols-2 gap-5">
-
-    <div class="glass rounded-2xl p-6">
-
-      <h3 class="font-extrabold text-lg mb-5">
-        Informasi Perpustakaan
-      </h3>
-
-      <div class="space-y-4">
-
-        <div>
-          <label class="text-xs text-slate-500">
-            Nama perpustakaan
-          </label>
-
-          <input
-            value="Khizanah Al Hikmah Library"
-            class="mt-2 w-full px-4 py-3 rounded-xl bg-black/20 border border-white/10 outline-none">
-        </div>
-
-        <div>
-          <label class="text-xs text-slate-500">
-            Sekolah
-          </label>
-
-          <input
-            value="PKBM Ibadurrahman Sidoarjo"
-            class="mt-2 w-full px-4 py-3 rounded-xl bg-black/20 border border-white/10 outline-none">
-        </div>
-
-        <div>
-          <label class="text-xs text-slate-500">
-            Tahun data
-          </label>
-
-          <input
-            value="2025/2026"
-            class="mt-2 w-full px-4 py-3 rounded-xl bg-black/20 border border-white/10 outline-none">
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="glass rounded-2xl p-6">
-
-      <h3 class="font-extrabold text-lg mb-5">
-        Status Database
-      </h3>
-
-      <div class="space-y-3">
-
-        <div class="flex items-center justify-between p-4 rounded-xl bg-white/[.025]">
-          <span class="text-slate-400">Database buku</span>
-          <span class="text-emerald-400 font-bold">Aktif</span>
-        </div>
-
-        <div class="flex items-center justify-between p-4 rounded-xl bg-white/[.025]">
-          <span class="text-slate-400">Gedung 2</span>
-          <span class="text-emerald-400 font-bold">Terhubung</span>
-        </div>
-
-        <div class="flex items-center justify-between p-4 rounded-xl bg-white/[.025]">
-          <span class="text-slate-400">Gedung 3</span>
-          <span class="text-blue-400 font-bold">Terhubung</span>
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-</main>
-
-
-
-<!-- =========================================================
-     MODAL PEMINJAMAN
-========================================================= -->
-
-<div
-  id="borrowModal"
-  hidden
-  class="fixed inset-0 z-[100] items-center justify-center p-4">
-
-  <!-- AREA GELAP -->
-  <div
-    class="modal-backdrop"
-    onclick="closeBorrowModal()">
-  </div>
-
-
-  <!-- KOTAK MODAL -->
-  <div
-    class="modal-box glass rounded-3xl w-full max-w-xl p-6 shadow-2xl">
-
-    <div class="flex items-center justify-between mb-6">
-
-      <div>
-        <div class="text-emerald-400 text-xs font-bold mb-1">
-          TRANSAKSI BARU
-        </div>
-
-        <h2 class="text-xl font-extrabold">
-          Peminjaman Baru
-        </h2>
-      </div>
-
-
-      <button
-        type="button"
-        onclick="closeBorrowModal()"
-        class="w-10 h-10 rounded-xl bg-white/5 hover:bg-red-500/20 text-slate-300 hover:text-red-300 flex items-center justify-center text-xl">
-
-        ✕
-
-      </button>
-
-    </div>
-
-
-    <form onsubmit="saveBorrow(event)" class="space-y-4">
-
-      <div>
-
-        <label class="text-xs text-slate-400">
-          Nama Peminjam
-        </label>
-
-        <input
-          id="borrowerName"
-          required
-          class="mt-2 w-full px-4 py-3 rounded-xl bg-black/20 border border-white/10 outline-none focus:border-emerald-400/40"
-          placeholder="Masukkan nama">
-
-      </div>
-
-
-      <div>
-
-        <label class="text-xs text-slate-400">
-          Buku
-        </label>
-
-        <select
-          id="borrowBook"
-          required
-          class="mt-2 w-full px-4 py-3 rounded-xl bg-[#0d131b] border border-white/10 outline-none">
-        </select>
-
-      </div>
-
-
-      <div class="grid sm:grid-cols-2 gap-3">
-
-        <div>
-
-          <label class="text-xs text-slate-400">
-            Tanggal Pinjam
-          </label>
-
-          <input
-            id="borrowDate"
-            type="date"
-            required
-            class="mt-2 w-full px-4 py-3 rounded-xl bg-black/20 border border-white/10 outline-none">
-
-        </div>
-
-
-        <div>
-
-          <label class="text-xs text-slate-400">
-            Jatuh Tempo
-          </label>
-
-          <input
-            id="borrowDue"
-            type="date"
-            required
-            class="mt-2 w-full px-4 py-3 rounded-xl bg-black/20 border border-white/10 outline-none">
-
-        </div>
-
-      </div>
-
-
-      <div class="flex gap-3 pt-3">
-
-        <button
-          type="button"
-          onclick="closeBorrowModal()"
-          class="flex-1 px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 font-bold">
-
-          Batal
-
-        </button>
-
-        <button
-          type="submit"
-          class="flex-1 px-4 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold">
-
-          Simpan
-
-        </button>
-
-      </div>
-
-    </form>
-
-  </div>
-
-</div>
-
-
-
-<!-- =========================================================
-     MODAL TAMBAH BUKU
-========================================================= -->
-
-<div
-  id="bookModal"
-  hidden
-  class="fixed inset-0 z-[100] items-center justify-center p-4">
-
-  <div
-    class="absolute inset-0 bg-black/75"
-    onclick="closeAddBookModal()">
-  </div>
-
-
-  <div class="relative z-10 glass rounded-3xl w-full max-w-xl p-6">
-
-    <div class="flex justify-between items-center mb-6">
-
-      <h2 class="text-xl font-extrabold">
-        Tambah Buku
-      </h2>
-
-      <button
-        onclick="closeAddBookModal()"
-        type="button"
-        class="w-10 h-10 rounded-xl bg-white/5">
-        ✕
-      </button>
-
-    </div>
-
-
-    <form onsubmit="saveBook(event)" class="space-y-4">
-
-      <input
-        id="newBookNumber"
-        required
-        placeholder="No. Buku"
-        class="w-full px-4 py-3 rounded-xl bg-black/20 border border-white/10">
-
-      <input
-        id="newBookTitle"
-        required
-        placeholder="Judul Buku"
-        class="w-full px-4 py-3 rounded-xl bg-black/20 border border-white/10">
-
-      <input
-        id="newBookAuthor"
-        placeholder="Pengarang"
-        class="w-full px-4 py-3 rounded-xl bg-black/20 border border-white/10">
-
-      <input
-        id="newBookQty"
-        type="number"
-        min="0"
-        placeholder="Jumlah"
-        class="w-full px-4 py-3 rounded-xl bg-black/20 border border-white/10">
-
-      <select
-        id="newBookBuilding"
-        class="w-full px-4 py-3 rounded-xl bg-[#0d131b] border border-white/10">
-
-        <option value="Gedung 2">Gedung 2</option>
-        <option value="Gedung 3">Gedung 3</option>
-
-      </select>
-
-
-      <button
-        type="submit"
-        class="w-full px-4 py-3 rounded-xl bg-emerald-500 text-black font-bold">
-
-        Tambahkan Buku
-
-      </button>
-
-    </form>
-
-  </div>
-
-</div>
-
-
-
-<!-- =========================================================
-     JAVASCRIPT
-========================================================= -->
-
-<script>
-
-/* ============================================================
-   DATA BUKU
-   Sumber: DATA BUKU.pdf
-   Data kosong sengaja tidak diisi dengan tebakan.
-============================================================ */
-
-const books = [
-
-  /* GEDUNG 2 */
-
-  {no:"001", title:"Ighatsul lahfan", qty:1, author:"Ibnu Qayyim Al-Jauziyah", building:"Gedung 2"},
-  {no:"002", title:"Minhajul muslim", qty:1, author:"Abu Bakar Jabir", building:"Gedung 2"},
-  {no:"003", title:"Sirah nabawiyah", qty:1, author:"Syaikh shafiyyurrahman", building:"Gedung 2"},
-  {no:"004", title:"", qty:"", author:"", building:"Gedung 2"},
-  {no:"005", title:"Fikih jumhur (1)", qty:1, author:"Dr. Muhammad Na'im", building:"Gedung 2"},
-  {no:"006", title:"Fikih jumhur (2)", qty:1, author:"Dr. Muhammad Na'im", building:"Gedung 2"},
-  {no:"007", title:"Sejarah peradaban islam", qty:1, author:"Prof. Dr. H. J. Suyuthi Pulungan", building:"Gedung 2"},
-  {no:"008", title:"Mekkah dan madinah", qty:1, author:"Dr. Ahmad Ibrahim", building:"Gedung 2"},
-  {no:"009", title:"Dahsyatnya hari kiamat", qty:1, author:"Ibnu Kastir", building:"Gedung 2"},
-  {no:"010", title:"Ensiklopedia islam", qty:"", author:"Musdah Mulia", building:"Gedung 2"},
-  {no:"011", title:"The khalifah", qty:1, author:"Abdul Latip Thalib", building:"Gedung 2"},
-  {no:"012", title:"100 dosa yang diremehkan wanita", qty:2, author:"Abdul Lathif bin Hajis", building:"Gedung 2"},
-  {no:"013", title:"Wanita'' tangguh", qty:"", author:"Mahmud Mahdi Al-", building:"Gedung 2"},
-  {no:"014", title:"Kumpulan 101 kultum", qty:1, author:"", building:"Gedung 2"},
-  {no:"015", title:"Muhammad al-fatih", qty:1, author:"DR. Ali Ash Shallabi", building:"Gedung 2"},
-  {no:"016", title:"Majmu' syarif", qty:"", author:"", building:"Gedung 2"},
-  {no:"101", title:"Siroh Nabi Muhammad", qty:"", author:"M. Quraish Shihab", building:"Gedung 2"},
-  {no:"102", title:"Muhammad Sang Inspirator Dunia", qty:1, author:"Dr. Aidh Al-Qarni", building:"Gedung 2"},
-  {no:"103", title:"Muhammad The World Changer", qty:1, author:"Mohammad Jebara", building:"Gedung 2"},
-  {no:"104", title:"Sejarah Hidup Rasulullah", qty:1, author:"Syaikh Shafiyurrahman", building:"Gedung 2"},
-  {no:"105", title:"Biografi Istri, putri, cucu, dan pelayan nabi", qty:1, author:"Ahmad Khalil Jum'ah", building:"Gedung 2"},
-  {no:"106", title:"Biografi Umar", qty:1, author:"Prof. Dr. Ali Muhammad", building:"Gedung 2"},
-  {no:"107", title:"Biografi Abu Bakar", qty:1, author:"Prof. Dr. Ali Muhammad", building:"Gedung 2"},
-
-  {no:"201", title:"The ultimate guide dinosaurus", qty:1, author:"Rupert Matthews, Steve Parker", building:"Gedung 2"},
-  {no:"202", title:"The Ultimate Guide Hiu", qty:1, author:"Barbara Taylor", building:"Gedung 2"},
-  {no:"203", title:"The Ultimate Guide Antariksa", qty:1, author:"Rupert Matthews, Steve Parker", building:"Gedung 2"},
-  {no:"204", title:"Kamus bergambar tematik", qty:1, author:"Rudy Paryudi", building:"Gedung 2"},
-  {no:"205", title:"Ensiklopedia super seru halo bumi", qty:1, author:"Jean - Michel Bargard", building:"Gedung 2"},
-  {no:"206", title:"Ensiklopedia interaktif planet bumi", qty:"", author:"Marcus Johnson", building:"Gedung 2"},
-  {no:"207", title:"Ensiklopedia interaktif tubuh manusia", qty:"", author:"Marcus Johnson", building:"Gedung 2"},
-  {no:"208", title:"Tubuh Pedia", qty:1, author:"Christina Wilsdon", building:"Gedung 2"},
-  {no:"209", title:"Antariksa pedia", qty:1, author:"David A. Aguilar", building:"Gedung 2"},
-  {no:"210", title:"Mengapa tidak?", qty:1, author:"Crispin Boyer", building:"Gedung 2"},
-  {no:"211", title:"Atlas Dunia", qty:1, author:"Grace Hill", building:"Gedung 2"},
-  {no:"212", title:"Ensiklopedia Saintis Sains", qty:1, author:"Giles Sparrow", building:"Gedung 2"},
-  {no:"213", title:"Ensiklopedia Saintis Matematika", qty:1, author:"Tim Collins", building:"Gedung 2"},
-  {no:"214", title:"Ensiklopedia Saintis Eksperimen Sains", qty:1, author:"Thomas Canaran", building:"Gedung 2"},
-  {no:"215", title:"Ensiklopedi Sains Teknologi", qty:1, author:"Anita loughrey, Alex woolf", building:"Gedung 2"},
-  {no:"216", title:"Ensiklopedia Saintis Atlas Dunia", qty:1, author:"Claudia Martin", building:"Gedung 2"},
-  {no:"217", title:"Potret Pendoedok di Djawa tempoe doeloe", qty:1, author:"Oliver Johannes Raap", building:"Gedung 2"},
-  {no:"218", title:"Ensiklopedia Alam semesta& Luar angkasa", qty:1, author:"Taufik Hidayat", building:"Gedung 2"},
-  {no:"219", title:"Why?Aliens dan UFO", qty:1, author:"Lee Kwang Woong", building:"Gedung 2"},
-  {no:"220", title:"Why?Komputer", qty:1, author:"Youngsun CHD", building:"Gedung 2"},
-  {no:"221", title:"Why?Energi masa depan", qty:1, author:"Sangseon Yuun", building:"Gedung 2"},
-  {no:"222", title:"Why?Nuklir dan Energi", qty:1, author:"Lee Kwang Woong", building:"Gedung 2"},
-  {no:"223", title:"Why?Sains Sulap", qty:1, author:"PAPYRUS", building:"Gedung 2"},
-  {no:"224", title:"Why?Parasit", qty:1, author:"Yunkyeong CHEUN", building:"Gedung 2"},
-  {no:"225", title:"Why?tubuh kita", qty:1, author:"HEO, Suung Bong", building:"Gedung 2"},
-  {no:"226", title:"Why?binatang", qty:1, author:"Lee Kwang Woong", building:"Gedung 2"},
-  {no:"227", title:"Kesehatan,olahraga,dan kinerja", qty:1, author:"Prof. Dr. H. Y. S. Santoso Griwijoyo", building:"Gedung 2"},
-  {no:"228-233", title:"Atlas lengkap Indonesia&Dunia", qty:6, author:"Palito Media", building:"Gedung 2"},
-  {no:"234-238", title:"RPAL&RPUL Global", qty:5, author:"Drs. Prayitno Darmanto", building:"Gedung 2"},
-  {no:"239", title:"Kamus lengkap biologi", qty:1, author:"Santi Subrata", building:"Gedung 2"},
-  {no:"240", title:"Kamus sinonim antonim B.Indo", qty:1, author:"Drs. Nur Arifin Chaniago - Endang Sugriati", building:"Gedung 2"},
-  {no:"241", title:"Kamus Kimia Lengkap", qty:1, author:"Santi Subrata", building:"Gedung 2"},
-  {no:"242", title:"Eksperimen menakjubkan", qty:1, author:"Evita Swenesti", building:"Gedung 2"},
-  {no:"243-244", title:"Rumus Kimia", qty:2, author:"Evita Lievhie", building:"Gedung 2"},
-
-  {no:"301", title:"Ensiklopedia teknologi komputer", qty:1, author:"Purindaswari", building:"Gedung 2"},
-  {no:"302", title:"The magic Dr.Blender 3D Modeling", qty:1, author:"Hendi Hendramatwan", building:"Gedung 2"},
-  {no:"313", title:"Islamic enterpreneurship", qty:1, author:"Dr. Ika Yunia Fanzia, Lc.,M.E.I", building:"Gedung 2"},
-  {no:"304", title:"DIPO", qty:"", author:"Alam Nugroho Dewanto", building:"Gedung 2"},
-  {no:"305", title:"The Inteligent Investor", qty:1, author:"Benjamin Graham", building:"Gedung 2"},
-  {no:"306", title:"Jangan pernah bekerja sendirian", qty:1, author:"Keith Ferrazzi, Tahl Raz", building:"Gedung 2"},
-
-  {no:"401", title:"Ensiklopedia sejarah dunia", qty:"", author:"Lulu Fitri Rahman", building:"Gedung 2"},
-  {no:"402", title:"Ensiklopedi Akhir Zaman", qty:1, author:"Dr. Mahid Ahmad", building:"Gedung 2"},
-  {no:"403", title:"Ensiklopedi sejarah islam", qty:1, author:"Dr. Raghib As Sirjani", building:"Gedung 2"},
-  {no:"404", title:"Sang pangeran dan janissary", qty:"", author:"Salim A.Fillah", building:"Gedung 2"},
-  {no:"405", title:"Adab Penghafal Al Qur'an", qty:1, author:"Imam Abu Zakaria Yaya", building:"Gedung 2"},
-  {no:"406", title:"Nusantaria sejarah", qty:1, author:"Philip Bowring", building:"Gedung 2"},
-  {no:"407", title:"Cahaya dijantung kemiskinan", qty:1, author:"Herman Yoseph Sumanto", building:"Gedung 2"},
-  {no:"408", title:"Ya'juj&Ma'juj", qty:"", author:"Dr. As Syafii Al-Mahi", building:"Gedung 2"},
-  {no:"409", title:"Mudah menghafal 100 hadits", qty:1, author:"Said Yai bin Imanul", building:"Gedung 2"},
-  {no:"410", title:"Yang muda yang bekerja", qty:1, author:"Andika Hazrumi", building:"Gedung 2"},
-  {no:"411", title:"Kiat Hidup Sehat Rasulullah", qty:1, author:"Aba Ahmed Aga", building:"Gedung 2"},
-
-  {no:"503", title:"Rumus Produktif ala muslim", qty:1, author:"Zein Mukhlis", building:"Gedung 2"},
-  {no:"504", title:"Menjadi muslimah yang", qty:1, author:"Arum Faiza & Selizar", building:"Gedung 2"},
-  {no:"505", title:"Episode yang sempat hilang", qty:"", author:"Desti Anor", building:"Gedung 2"},
-  {no:"506", title:"Obat malas dosis tinggi", qty:"", author:"Khalifa Bisma Sanjaya", building:"Gedung 2"},
-  {no:"507", title:"Menjadi wanita tangguh", qty:1, author:"Sarah Ismi Kamilah", building:"Gedung 2"},
-
-  {no:"604", title:"OSN Matematika", qty:"", author:"Swah Sembiring, Sukino", building:"Gedung 2"},
-  {no:"605", title:"KSM Fisika", qty:"", author:"Marthen Kanginan", building:"Gedung 2"},
-  {no:"610", title:"Kamus lengkap bahasa jawa", qty:"", author:"Ani Santoso", building:"Gedung 2"},
-
-  {no:"801", title:"Atomic habits", qty:1, author:"James Clear", building:"Gedung 2"},
-  {no:"802", title:"Produktivitas sekolah", qty:"", author:"Dr. H. Pendi Susanto M.Pd", building:"Gedung 2"},
-  {no:"803", title:"59 detik", qty:"", author:"Richard Wiseman", building:"Gedung 2"},
-  {no:"804", title:"How to Win", qty:"", author:"Dale Carnegie", building:"Gedung 2"},
-  {no:"805", title:"Discovering my self", qty:"", author:"Yohana Nessy Christiana", building:"Gedung 2"},
-  {no:"806", title:"Public speaking for success", qty:1, author:"Dale Carnegie", building:"Gedung 2"},
-  {no:"807", title:"Semua orang butuh curhat", qty:1, author:"Lorri Gott Lieb", building:"Gedung 2"},
-  {no:"808", title:"Social Inteligence", qty:1, author:"Daniel Goleman", building:"Gedung 2"},
-  {no:"809", title:"Pahami Jenis otak anda", qty:1, author:"Daniel G. Amen", building:"Gedung 2"},
-  {no:"810", title:"The physicology of money", qty:1, author:"Morgan Housel", building:"Gedung 2"},
-  {no:"811", title:"Filosofi teras", qty:"", author:"", building:"Gedung 2"},
-  {no:"812", title:"Good vibes Good life", qty:1, author:"Vex King", building:"Gedung 2"},
-  {no:"813", title:"Cara tepat berdebat", qty:"", author:"Jonathan Herring", building:"Gedung 2"},
-  {no:"814", title:"Cara bersikap tegas", qty:1, author:"Sue Hadfield", building:"Gedung 2"},
-  {no:"815", title:"Berani tidak disukai", qty:1, author:"ICHIRO KISHIMI", building:"Gedung 2"},
-  {no:"817", title:"Great leaders have no rules", qty:1, author:"Kevin Kurse", building:"Gedung 2"},
-  {no:"826", title:"Berdamai dengan masa lalu", qty:1, author:"Asti Musman", building:"Gedung 2"},
-  {no:"830", title:"Setiap luka akan pulih", qty:1, author:"Halimah", building:"Gedung 2"},
-  {no:"831", title:"Bahagia sekarang", qty:1, author:"Ardhina Nugraheni", building:"Gedung 2"},
-  {no:"835", title:"365 jurus anti stres", qty:1, author:"Adam Gordon", building:"Gedung 2"},
-
-  {no:"903", title:"Dapur susie", qty:"", author:"Susie Agung", building:"Gedung 2"},
-  {no:"904", title:"Cooking at home", qty:"", author:"Linna ma", building:"Gedung 2"},
-  {no:"905", title:"Bekal Organik anak sekolah", qty:"", author:"Tuti Soenardi", building:"Gedung 2"},
-  {no:"906", title:"Resep sehat JSR", qty:1, author:"Dr. Zaidul Akbar", building:"Gedung 2"},
-  {no:"907", title:"Ramadhan JSR", qty:1, author:"Dr. Zaidul Akbar", building:"Gedung 2"},
-
-  {no:"1001", title:"Mamalyre", qty:"", author:"Rensia Sanvira", building:"Gedung 2"},
-  {no:"1004", title:"Seni memahami perasaan anak", qty:1, author:"Park Jae Yeon", building:"Gedung 2"},
-  {no:"2001", title:"Bulan", qty:1, author:"", building:"Gedung 2"},
-  {no:"2002", title:"Le petit prince", qty:1, author:"Amoine De Saint - Exupery", building:"Gedung 2"},
-  {no:"2003", title:"Dompet ayah sepatu Ibu", qty:1, author:"J.S. Khairen", building:"Gedung 2"},
-  {no:"2004", title:"Mantappu jiwa", qty:1, author:"Jerome Polin Sijabat", building:"Gedung 2"},
-  {no:"2005", title:"Seluas langit biru", qty:1, author:"Sitta Karina", building:"Gedung 2"},
-  {no:"2006", title:"Kiai penggerak", qty:1, author:"Haidar Musyafa", building:"Gedung 2"},
-
-
-  /* GEDUNG 3 */
-
-  {no:"1", title:"muhammad al fatih 1-3", qty:3, author:"Handri Satria", building:"Gedung 3"},
-  {no:"2", title:"RPAL-RPUL", qty:4, author:"DRS.prayitno darmanto dan ninik setyawati S.Pd", building:"Gedung 3"},
-  {no:"3", title:"ATLAS LENGKAP", qty:4, author:"palito media", building:"Gedung 3"},
-  {no:"4", title:"KAMUS BAHASA INDONESIA", qty:1, author:"Manda Putri E,S.PD", building:"Gedung 3"},
-  {no:"5", title:"fiqih islam wa adillatuhu", qty:10, author:"Proft,Doctor Wahba Atobali", building:"Gedung 3"},
-  {no:"6", title:"ath Thabari", qty:25, author:"", building:"Gedung 3"},
-  {no:"7", title:"SHAHIH BUKHARI MUSLIM", qty:1, author:"Muhammad Fu'ad Abdul Baqi", building:"Gedung 3"},
-  {no:"8", title:"semua orang butuh curhat", qty:1, author:"Lori gottlieb", building:"Gedung 3"},
-  {no:"9", title:"21 WANITA PERKASA YANG DI TEMPA OLEH BUDAYA ACEH", qty:1, author:"Qismullah Yusuf", building:"Gedung 3"},
-  {no:"10", title:"TOP FOKUS ULANGAN DAN UJIAN", qty:1, author:"tim maestro eduka", building:"Gedung 3"},
-  {no:"11", title:"DISCOVERING MYSELF", qty:1, author:"yohana nessy", building:"Gedung 3"},
-  {no:"12", title:"Mekkah dan Madinah", qty:1, author:"Dr.ahmad Ibrahim asy -Syarif", building:"Gedung 3"},
-  {no:"13", title:"kitab tauhid", qty:1, author:"DR.shalih bin fauzan", building:"Gedung 3"},
-  {no:"14", title:"RAJIN SHALAT TAPI MASIH KELIRU", qty:1, author:"Dr. Mahmud Abdurrahman Abdul Mun'im", building:"Gedung 3"},
-  {no:"15", title:"Fithrah", qty:1, author:"yayasan nidaul fithrah", building:"Gedung 3"},
-  {no:"16", title:"tafsir al fatihah", qty:1, author:"muhammad rasyid ridha", building:"Gedung 3"},
-  {no:"17", title:"fiqih islam dari alkitab dan assunnah 1 - 4", qty:4, author:"syaikh shiddiq", building:"Gedung 3"},
-  {no:"18", title:"dunia ditanganku akherat dihatiku", qty:1, author:"ustadz abdullah amim", building:"Gedung 3"},
-  {no:"19", title:"pengobatan,perawatan dan kecantikan", qty:1, author:"Agus ibnu IBAD", building:"Gedung 3"},
-  {no:"20", title:"manajemen mareketing sekolah", qty:1, author:"jamal ma'mur Asmani", building:"Gedung 3"},
-  {no:"21", title:"belajar ilmu waris praktis", qty:1, author:"Ustadz Muhammad Nur Yasin Zain", building:"Gedung 3"},
-  {no:"22", title:"125 PAHLAWAN DAN PEJUANG NUSANTARA", qty:1, author:"GAMAL KOMANDOKO", building:"Gedung 3"},
-  {no:"23", title:"KIAT SHOLAT KHUSYU", qty:1, author:"MUHAMMAD AL-MUNAJJID", building:"Gedung 3"},
-  {no:"24", title:"ARAB INDONESIA", qty:1, author:"PROF.DR.H,.MAHMUD YUNUS", building:"Gedung 3"},
-  {no:"25", title:"TUNTUNAN KURBAN", qty:1, author:"SYAIKH DR ABDULLAH BIN ABDURRAHMAN", building:"Gedung 3"},
-  {no:"26", title:"risalah qow aidul fikih", qty:1, author:"ustadz abdullah amim", building:"Gedung 3"},
-  {no:"27", title:"KAMUS INGGRIS INDONESIA", qty:1, author:"JOHN M. ECHOLS", building:"Gedung 3"},
-  {no:"28", title:"kultum kuliah 7 menit", qty:1, author:"ahmad sunarto", building:"Gedung 3"},
-  {no:"29", title:"BELAJAR DARI ILMU FARAIDH 1 - 12", qty:12, author:"ABU MALIK AMRIL FATONI AL FADHALI", building:"Gedung 3"},
-  {no:"30", title:"majalah as sunnah", qty:10, author:"yayasan lajnah istiqomah", building:"Gedung 3"},
-  {no:"31", title:"amalan sunnah setahun", qty:1, author:"YAZID BIN ABDUL QODIR JAWAS", building:"Gedung 3"},
-  {no:"32", title:"SUKSES MENDIDIK ANAK", qty:1, author:"KUSUMASTUTI risa", building:"Gedung 3"},
-  {no:"33", title:"PALESTINA YG TERLUPAKAN", qty:1, author:"USTADZ. KHALID BASALAMAH", building:"Gedung 3"},
-  {no:"34", title:"STUDI KELAYAKAN BISNIS", qty:1, author:"Dr. KASMIR S.E M.M & JAKFAR S.E M.M", building:"Gedung 3"},
-  {no:"35", title:"tbl top banget latihan", qty:1, author:"tim tentor anak bangsa", building:"Gedung 3"},
-  {no:"36", title:"KAIDAH MEMAHAMI TAUHID DAN SYIRIK", qty:1, author:"ABU MALIK AL FADHOLI", building:"Gedung 3"},
-  {no:"37", title:"QONITAH", qty:1, author:"MAJALAH KREATIF", building:"Gedung 3"},
-  {no:"38", title:"buku lengkap tes bakat sekolah skolastik", qty:1, author:"dwi sumar prasetyono", building:"Gedung 3"},
-  {no:"39", title:"160 AYAT HUKUM AL QURAN", qty:1, author:"Drs.FATCHUR ROCHMAN", building:"Gedung 3"},
-  {no:"40", title:"MUTIARA HADIST SHAHIH BUKHARI", qty:1, author:"Ust maftuh ahnan", building:"Gedung 3"},
-  {no:"41", title:"al-mawaddah", qty:4, author:"lajnah dakwah", building:"Gedung 3"},
-  {no:"42", title:"ulasan tuntas", qty:1, author:"syaikh muhammad bin shaleh al usaimin", building:"Gedung 3"},
-  {no:"43", title:"asal mula suku asmat", qty:1, author:"dian k.", building:"Gedung 3"},
-  {no:"44", title:"as-sunnah", qty:19, author:"yayasan lajnah istiqomah", building:"Gedung 3"},
-  {no:"45", title:"al furqan", qty:3, author:"lajnah mahad al furqan al islami", building:"Gedung 3"},
-  {no:"46", title:"sains", qty:1, author:"", building:"Gedung 3"},
-  {no:"47", title:"shalat yang menangis", qty:"", author:"khalid ibn muhamad al rasyid sholeh ahmad syami", building:"Gedung 3"},
-  {no:"48", title:"sifat shalat nabi", qty:1, author:"syaikh muhammad nashiruddin al bani", building:"Gedung 3"},
-  {no:"49", title:"kumpulan pribahasa majas dan ungkapan bahasa indonesia", qty:2, author:"yettik wulandari", building:"Gedung 3"},
-  {no:"50", title:"easy to love", qty:1, author:"PT gramedia pustaka utama", building:"Gedung 3"},
-  {no:"51", title:"metode penelitian", qty:1, author:"mohammad nazir", building:"Gedung 3"},
-  {no:"52", title:"resep sehat", qty:1, author:"dr zaidul akbar", building:"Gedung 3"},
-  {no:"53", title:"perjalanan haji nabi dan salafus shalih", qty:1, author:"dr badr bin nashir al badr", building:"Gedung 3"},
-  {no:"54", title:"bittersweet", qty:1, author:"PT gramedia pustaka utama", building:"Gedung 3"},
-  {no:"55", title:"mukjizat hadist lalat", qty:1, author:"ma`had ali al irsyad as salafiy", building:"Gedung 3"},
-  {no:"56", title:"burung besi monika", qty:1, author:"monika anggreini", building:"Gedung 3"},
-
-  {no:"601", title:"Muhammad the world changer", qty:1, author:"Mohamad Jebara", building:"Gedung 3"},
-  {no:"602", title:"Sang Inspirator dunia", qty:1, author:"Dr. Aidh Al Qarni", building:"Gedung 3"},
-  {no:"603", title:"Ensiklopedi Akhir Zaman", qty:1, author:"Dr. Mahir Ahmad", building:"Gedung 3"},
-  {no:"604", title:"OSN Matematika", qty:"", author:"Swah Sembiring, Sukino", building:"Gedung 3"},
-  {no:"605", title:"KSM Fisika", qty:"", author:"Marthen Kanginan", building:"Gedung 3"},
-  {no:"606", title:"Kamus bahsa indonesia", qty:"", author:"Manda Putri E", building:"Gedung 3"},
-  {no:"607", title:"KBBI kamus besar bahasa indonesia", qty:"", author:"Muliarman", building:"Gedung 3"},
-  {no:"608", title:"Biografi Istri, putri, cucu", qty:1, author:"Ahmad Kholil Jum'ah", building:"Gedung 3"},
-  {no:"609", title:"Biografi Umar bin al-Khattab", qty:1, author:"Prof.Dr. Ali Muhammad Ash Shallabi", building:"Gedung 3"},
-  {no:"610", title:"UNBK 2018", qty:1, author:"yusuf pranomo", building:"Gedung 3"},
-  {no:"611", title:"Sejarah Hidup Rasulullah", qty:30, author:"Syaikh Syafiruyurrahman Al Mubarakfuri", building:"Gedung 3"},
-  {no:"612", title:"Ensiklopedia Sejarah dunia", qty:1, author:"Marina Ariyani", building:"Gedung 3"},
-
-  {no:"260", title:"Kamus sinonim antonim", qty:1, author:"Drs. Nur Arifin Chaniago", building:"Gedung 3"},
-  {no:"", title:"rumah untuk alie", qty:1, author:"lenn liu", building:"Gedung 3"},
-  {no:"", title:"attitude is everything", qty:1, author:"jeff keller", building:"Gedung 3"},
-  {no:"", title:"30 Ilmuwan myslim yang hebat", qty:1, author:"Tim kitabah dhiyaul ilmi", building:"Gedung 3"},
-  {no:"", title:"Bagaimana bersikap pada anak", qty:1, author:"Sal Severe, Ph. D.", building:"Gedung 3"},
-  {no:"", title:"30 kisah teladan Abu Bakar Ash Shiddiq", qty:"", author:"Kak Faiz", building:"Gedung 3"},
-  {no:"", title:"Al Fatih vs vlad", qty:3, author:"Handri satria", building:"Gedung 3"},
-  {no:"510", title:"Tes Psikologi", qty:2, author:"Harfi Muthia Rahmi", building:"Gedung 3"},
-  {no:"", title:"nila tidak cuek", qty:1, author:"abunnada", building:"Gedung 3"},
-  {no:"", title:"Ensiklopedi Sejarah Islam", qty:1, author:"DR Raghib As Sirjani", building:"Gedung 3"},
-  {no:"", title:"3 Pemuda Shalih", qty:1, author:"Abdullah Mukhlis", building:"Gedung 3"},
-  {no:"", title:"10 sahabat yang dijamin masuk surga", qty:1, author:"Kak Faiz", building:"Gedung 3"},
-  {no:"", title:"Life reset", qty:1, author:"senja rindiani", building:"Gedung 3"},
-  {no:"", title:"17 Rahasia Sehat Rasulullah", qty:1, author:"Tim kitabah dhiaul Ilmi", building:"Gedung 3"},
-  {no:"", title:"Adab dan Akhlak", qty:"", author:"Majid sa'ud", building:"Gedung 3"},
-  {no:"", title:"Inilah kecerdasan para sahabat Rasulullah", qty:1, author:"Isti Awaningsih S.Psi,", building:"Gedung 3"},
-  {no:"", title:"ff tuntunan Tanya Jawab Akidah, Shalat, Zakat, Puasa, dan Haji", qty:1, author:"Syaikh Muhammad bin Shalih Al Utsaimin", building:"Gedung 3"},
-  {no:"", title:"andalusia", qty:1, author:"Dr. Abdurrahman Ali", building:"Gedung 3"},
-  {no:"", title:"ayah, Bunda, Bagaimana Engkau Tuntun Ananda?", qty:1, author:"abunnada", building:"Gedung 3"},
-  {no:"211", title:"xander's kitchen", qty:1, author:"Junita", building:"Gedung 3"},
-  {no:"212", title:"terima kasih momo", qty:2, author:"abunnada", building:"Gedung 3"},
-  {no:"213", title:"Law's kitchen", qty:"", author:"Law thomas", building:"Gedung 3"},
-  {no:"214", title:"nikmat persendian yang terLupakan", qty:1, author:"Abunnada", building:"Gedung 3"},
-  {no:"215", title:"Ashabul Kahfi", qty:1, author:"Abdullah Mukhlis", building:"Gedung 3"},
-  {no:"216", title:"Hikmah Matahari,Bulan, dan Gunung", qty:1, author:"abunnada", building:"Gedung 3"},
-  {no:"217", title:"kumpulan peribahasa majas", qty:1, author:"Yettik wulandari", building:"Gedung 3"},
-  {no:"218", title:"Kisah Ashabul Ukhdud", qty:1, author:"Dhiyaul Ilmi", building:"Gedung 3"},
-  {no:"219", title:"Jam dan Waktu", qty:1, author:"Bhuana Ilmu Populer", building:"Gedung 3"},
-  {no:"220", title:"Ensiklopedia 4D tubuh manusia", qty:1, author:"Ensiklopedia", building:"Gedung 3"},
-  {no:"221", title:"30 Kisah Teladan Ali bin Abi Thalib", qty:1, author:"Tere Liye", building:"Gedung 3"},
-  {no:"222", title:"Minhajul Muslim jilid 2", qty:"", author:"Syaikh Abu bakar jabir", building:"Gedung 3"},
-  {no:"223", title:"30 Kisah Teladan Umar bin Khattab", qty:1, author:"Kak Faiz", building:"Gedung 3"},
-  {no:"224", title:"Seni berhubungan dengan orang lain", qty:1, author:"Richard Templar", building:"Gedung 3"},
-  {no:"225", title:"Bintang", qty:1, author:"Tere Liye", building:"Gedung 3"},
-  {no:"226", title:"Kisah Indah Ibunda Khadijah", qty:1, author:"Irfan Abu Faris", building:"Gedung 3"},
-  {no:"228", title:"Komet minor", qty:1, author:"Tere Liye", building:"Gedung 3"},
-  {no:"229", title:"Bahagia Tanpa Tapi", qty:1, author:"Jeong Moon Jeong", building:"Gedung 3"},
-  {no:"230", title:"Selena", qty:1, author:"Tere Liye", building:"Gedung 3"},
-  {no:"231", title:"Ceros dan Batozar", qty:1, author:"Tere Liye", building:"Gedung 3"},
-  {no:"232", title:"Kisah Indah Ibunda Aisyah", qty:1, author:"Irfan Abu Faris", building:"Gedung 3"},
-  {no:"233", title:"Kisah teladan para nabi seri 1", qty:1, author:"kak Ari", building:"Gedung 3"},
-  {no:"234", title:"Si putih", qty:1, author:"Tere Liye", building:"Gedung 3"},
-  {no:"235", title:"Bumi", qty:1, author:"Tere Liye", building:"Gedung 3"},
-  {no:"236", title:"Tiga Malam Bersama Penghuni Surga", qty:1, author:"Fuad Abdurrahman", building:"Gedung 3"},
-  {no:"237", title:"Nebula", qty:1, author:"Tere Liye", building:"Gedung 3"},
-  {no:"238", title:"Lumpu", qty:1, author:"Tere Liye", building:"Gedung 3"},
-  {no:"239", title:"Kids picture dictionary", qty:"", author:"Dr. Esti junining", building:"Gedung 3"},
-  {no:"240", title:"ADHD pada lansia dan Cara Menanganinya", qty:1, author:"kathleen nadeau, PH.D.", building:"Gedung 3"},
-  {no:"241", title:"Si anak pemberani", qty:1, author:"Tere Liye", building:"Gedung 3"},
-  {no:"242", title:"Bibi Gill", qty:1, author:"Tere Liye", building:"Gedung 3"},
-  {no:"243", title:"kisah teladan para nabi seri 5", qty:"", author:"Kak Ari", building:"Gedung 3"},
-  {no:"244", title:"Tak Mungkin Membuat Semua Orang Senang", qty:1, author:"Jeong Moon Jeong", building:"Gedung 3"},
-  {no:"245", title:"kisah teladan para nabi 4", qty:"", author:"Kak Ari", building:"Gedung 3"},
-  {no:"246", title:"The Habit Journal", qty:1, author:"James Clear", building:"Gedung 3"},
-  {no:"247", title:"kisah teladan para nabi seri 3", qty:"", author:"Kak Ari", building:"Gedung 3"},
-  {no:"248", title:"toples air mata", qty:1, author:"Abunnada", building:"Gedung 3"},
-  {no:"249", title:"kisah teladan para nabi seri 2", qty:"", author:"Kak Ari", building:"Gedung 3"},
-  {no:"250", title:"Akhlak mulia", qty:2, author:"Abunnada", building:"Gedung 3"},
-  {no:"251", title:"How to win friends", qty:"", author:"Dale carnegie", building:"Gedung 3"},
-  {no:"252", title:"Si anak pemberani", qty:1, author:"Tere Liye", building:"Gedung 3"},
-  {no:"253", title:"Teruslah Bodoh Jangan Pintar", qty:1, author:"Tere Liye", building:"Gedung 3"},
-  {no:"254", title:"Pergi", qty:1, author:"Tere Liye", building:"Gedung 3"},
-  {no:"255", title:"Rumus Produktif ala muslim", qty:"", author:"Zein mukhlis", building:"Gedung 3"},
-  {no:"256", title:"Pulang Pergi", qty:1, author:"Tere Liye", building:"Gedung 3"},
-  {no:"257", title:"Sifat Shalat Nabi", qty:1, author:"syaikh Abdul Aziz bin Abdillah bin Baaz", building:"Gedung 3"},
-  {no:"258", title:"Para Tabi'in", qty:1, author:"Abdurrahman Ra' fat Al Basya", building:"Gedung 3"},
-  {no:"259", title:"Bimbingan Islam", qty:1, author:"syaikh muhammad bin jamil zainu", building:"Gedung 3"},
-  {no:"260", title:"sahabat sahabat nabi", qty:"", author:"Abdurrahman Ra' fat Al Basya", building:"Gedung 3"},
-  {no:"261", title:"Misteri akhir jaman", qty:1, author:"Shalahuddin Mahmud", building:"Gedung 3"},
-  {no:"262", title:"khutbah khutbah Rasulullah", qty:"", author:"Muhammad Khali Al Khatib", building:"Gedung 3"},
-  {no:"263", title:"asal usul kesyirikan di mekah", qty:"", author:"abunnada", building:"Gedung 3"},
-  {no:"264", title:"PCOS dan gangguan haidh", qty:1, author:"dr. Gita Pratama", building:"Gedung 3"},
-  {no:"265", title:"manhaj ahlus sunnah al jamaah dalam tazkiyatun nufus", qty:1, author:"yazid bin abdul qadir jawas", building:"Gedung 3"},
-  {no:"266", title:"jika kita tak pernah jatuh cinta", qty:1, author:"Alvi syahrin", building:"Gedung 3"},
-  {no:"267", title:"prinsip prinsip aqidah", qty:1, author:"yazid bin abdul qadir jawas", building:"Gedung 3"},
-  {no:"268", title:"Dunia lebih jelek daripada bangkai kambing", qty:1, author:"yazid bin abdul qadir jawas", building:"Gedung 3"},
-  {no:"269", title:"Hal hal yang wajib diketahui setiap muslim", qty:1, author:"Ibrahim bin asy syaikh shalih", building:"Gedung 3"},
-  {no:"270", title:"jalan golongan yang selamat", qty:1, author:"syaikh muhammad bin jamil zainu", building:"Gedung 3"},
-  {no:"271", title:"sukses sebelum usia 30", qty:"", author:"aneera Amba dan Marlina Nana", building:"Gedung 3"},
-  {no:"272", title:"Adab di atas ilmu Adabul 'Alim wal muta'alim", qty:"", author:"", building:"Gedung 3"},
-  {no:"273", title:"Sifat sholat nabi", qty:1, author:"Syaikh 'abdul 'aziz bin abdullah bin baaz", building:"Gedung 3"},
-  {no:"274", title:"the innovation book", qty:1, author:"max mckeown", building:"Gedung 3"},
-  {no:"275", title:"jangan membuat masalah kecil ditempat kerja jadi masalah besar", qty:1, author:"richard carlson, PH.D.", building:"Gedung 3"},
-  {no:"276", title:"Waktunya berkembang", qty:1, author:"Amy Newmmark", building:"Gedung 3"},
-  {no:"277", title:"Otodiak pintar bahasa inggris", qty:1, author:"Riskandia maharani", building:"Gedung 3"},
-  {no:"278", title:"Kimchi confessions", qty:1, author:"Xaviera Putri", building:"Gedung 3"},
-  {no:"279", title:"kepribadian berdasarkan MBTI", qty:2, author:"Kim Seona", building:"Gedung 3"},
-  {no:"280", title:"jika kita tak pernah baik baik saja", qty:1, author:"Alvi syahrin", building:"Gedung 3"},
-  {no:"281", title:"Nasihat Indah Agar Tak Terpedaya ''keindahan''Zina", qty:"", author:"Syaikh Sa'id Bin Musfir Al - Qahthani", building:"Gedung 3"},
-  {no:"282", title:"Top EYD ejaan yang disempurnakan", qty:"", author:"Utami Pratiwi S. Pd", building:"Gedung 3"},
-  {no:"283", title:"jangan dulu patah", qty:1, author:"nurunala", building:"Gedung 3"},
-  {no:"284", title:"Kartun statistik", qty:"", author:"larry gonick &woollcott smith", building:"Gedung 3"},
-  {no:"285", title:"", qty:"", author:"", building:"Gedung 3"},
-  {no:"286", title:"Memory is Easy seri 1", qty:1, author:"Muhammad wildan syaifulloh", building:"Gedung 3"},
-  {no:"287", title:"Berdamai dengan takdir", qty:1, author:"Sony Adams", building:"Gedung 3"},
-  {no:"288", title:"learning how to learn", qty:"", author:"barbara oakley, PH.D., terry sejnowski, PH.D.,", building:"Gedung 3"},
-  {no:"289", title:"Memory is Easy seri 2", qty:"", author:"Muhammad wildanres", building:"Gedung 3"},
-  {no:"290", title:"Hidup ini singkat jangan dibuat berat", qty:1, author:"Dale Carnegie", building:"Gedung 3"},
-  {no:"291", title:"Panduan sosok minimalis untuk kehidupan yang lebiih baik", qty:1, author:"Fumio Sasaki", building:"Gedung 3"},
-  {no:"292", title:"selembut kapas sekeras baja", qty:1, author:"ayu aida", building:"Gedung 3"},
-  {no:"293", title:"Keluar dari zona nyaman", qty:"", author:"Amy Newmark", building:"Gedung 3"},
-  {no:"294", title:"Mengenal lebih dekat manusia pilihan neraka", qty:"", author:"syaikh muhammad as shayin", building:"Gedung 3"},
-  {no:"295", title:"loneliness", qty:1, author:"alvi syahrin", building:"Gedung 3"},
-  {no:"296", title:"Asal usul kesyirikan di mekah", qty:1, author:"Abunada", building:"Gedung 3"},
-  {no:"297", title:"Wahai Perokok inilah Surgamu", qty:"", author:"Zainal Abidin bin Syamsuddin", building:"Gedung 3"},
-  {no:"298", title:"Amalan muslimah di masa haid dan nifas", qty:"", author:"Ummu ihsan dan abu ihsan al atsari", building:"Gedung 3"},
-  {no:"299", title:"menjadi pribadi yang memikat", qty:1, author:"marc reklau", building:"Gedung 3"},
-  {no:"300", title:"the power of sun tzu", qty:1, author:"kai tan", building:"Gedung 3"},
-  {no:"301", title:"Berdamai berperang dengan innerchild", qty:1, author:"Nadhira safa", building:"Gedung 3"},
-  {no:"302", title:"waktu takberkembang", qty:"", author:"amy newmark ss", building:"Gedung 3"},
-  {no:"303", title:"506 Obat malas dosisnya tinggi", qty:1, author:"Khalifah Bisma Sanjaya", building:"Gedung 3"},
-  {no:"304", title:"be proud my dear", qty:1, author:"bianca sparacino", building:"Gedung 3"},
-  {no:"305", title:"a gentle reminder", qty:1, author:"bianca sparacino", building:"Gedung 3"},
-  {no:"306", title:"mindfull is mindless", qty:1, author:"Hendrick Tanuwidjaja", building:"Gedung 3"},
-  {no:"307", title:"300 kesalahan sholat yang sering di remehkan", qty:1, author:"Abu Ubaidah Al Walid bin Muhammad bin Salamah", building:"Gedung 3"},
-  {no:"308", title:"Ikhlas paling serius", qty:1, author:"Fajar Sulaiman", building:"Gedung 3"},
-  {no:"309", title:"Succes Habits", qty:1, author:"Napoleon Hill", building:"Gedung 3"},
-  {no:"310", title:"Yang penting teruslah melangkah!", qty:1, author:"Iqro' Firdaus", building:"Gedung 3"},
-  {no:"311", title:"Karena menikah tak sebercanda itu", qty:"", author:"Amar ar-risalah", building:"Gedung 3"},
-  {no:"312", title:"Inspektur cilik 2", qty:1, author:"Esra avgoren", building:"Gedung 3"},
-  {no:"313", title:"Untuk kamu yang malas dan suka menunda", qty:1, author:"Noura", building:"Gedung 3"},
-  {no:"314", title:"Menjadi dewasa bukan tentang usia", qty:"", author:"Sofia fitriani", building:"Gedung 3"},
-  {no:"315", title:"", qty:"", author:"", building:"Gedung 3"},
-  {no:"316", title:"Pulang", qty:1, author:"Tereliye", building:"Gedung 3"},
-  {no:"317", title:"Si Anak Savana", qty:1, author:"Tereliye", building:"Gedung 3"},
-  {no:"318", title:"Rahasia parenting nabi muhammad", qty:1, author:"Abun nada", building:"Gedung 3"},
-  {no:"319", title:"Pulang pergi", qty:1, author:"Tereliye", building:"Gedung 3"},
-  {no:"320", title:"Hafalan sholat delisa", qty:1, author:"Tereliye", building:"Gedung 3"},
-  {no:"321", title:"Si anak pemberani", qty:1, author:"Tereliye", building:"Gedung 3"},
-  {no:"322", title:"Dia adalah kakakku", qty:1, author:"Tereliye", building:"Gedung 3"},
-  {no:"323", title:"Pergi", qty:1, author:"Tereliye", building:"Gedung 3"},
-  {no:"324", title:"Teruslah bodoh jangan pintar", qty:"", author:"Tereliye", building:"Gedung 3"},
-  {no:"325", title:"", qty:1, author:"Tereliye", building:"Gedung 3"},
-  {no:"326", title:"Nak, dengarkanlah bapak", qty:1, author:"Abunnada", building:"Gedung 3"},
-  {no:"328", title:"Jalan golongan yang selamat", qty:1, author:"Syaikh Muhammmad bin Jamil Zainu", building:"Gedung 3"},
-  {no:"329", title:"Bandara,station dan tahun-tahun setelahnya", qty:"", author:"Erina Delyere", building:"Gedung 3"},
-  {no:"330", title:"Creative Teaching", qty:1, author:"Robert Bala", building:"Gedung 3"},
-  {no:"331", title:"Si Anak Pelangi", qty:1, author:"Tereliye", building:"Gedung 3"},
-  {no:"332", title:"The midnight library", qty:"", author:"", building:"Gedung 3"},
-  {no:"333", title:"Understanding why children bully", qty:1, author:"Hanlie Muliani & Robert Pereira", building:"Gedung 3"},
-  {no:"334", title:"Mengapa harus beribadah", qty:1, author:"`Jeffrey Lang", building:"Gedung 3"},
-  {no:"335", title:"Kamus al Munawwir indonesia-arab terlengkap", qty:1, author:"AW. Munawwir", building:"Gedung 3"},
-  {no:"336", title:"Muhammad nabiku", qty:1, author:"Aminah Ummu Tazkiya", building:"Gedung 3"},
-  {no:"337", title:"Sebelum ayah tiada", qty:1, author:"Muhammad Yasir, Lc", building:"Gedung 3"},
-  {no:"338", title:"Ada surga di setiap wanita", qty:1, author:"Muhammad Yasir, Lc", building:"Gedung 3"},
-  {no:"339", title:"Sebelum bunda tiada", qty:1, author:"Muhammad Yasir, Lc", building:"Gedung 3"},
-  {no:"340", title:"Qaddarallah wa maasyaa-a fa'ala", qty:1, author:"Ustadz Gigih Surya Nugraha", building:"Gedung 3"},
-  {no:"341", title:"Fiqih sunnah wanita", qty:2, author:"", building:"Gedung 3"},
-  {no:"342", title:"Kamus arab-indonesia Al Azhar", qty:1, author:"S. Askar", building:"Gedung 3"},
-  {no:"343", title:"Toefl edisi lengkap 1890", qty:1, author:"Tim Master Eduka", building:"Gedung 3"}
-
-];
-
-
-
-/* ============================================================
-   DATA PEMINJAMAN
-   Nama file ditampilkan sebagai "Data Peminjaman Paket C".
-============================================================ */
-
-const loans = [
-
-  {
-    borrower:"Aina",
-    title:"Pulang",
-    borrowDate:"2026-08-21",
-    dueDate:"2026-09-01",
-    returnDate:"2026-09-01",
-    status:"Dikembalikan",
-    building:"Gedung 2"
-  },
-
-  {
-    borrower:"Sausan",
-    title:"Loneliness",
-    borrowDate:"2026-08-27",
-    dueDate:"2026-09-02",
-    returnDate:"2026-09-02",
-    status:"Dikembalikan",
-    building:"Gedung 2"
-  },
-
-  {
-    borrower:"Aulia",
-    title:"Rumah untuk Alie",
-    borrowDate:"2026-08-27",
-    dueDate:"2026-08-28",
-    returnDate:"2026-08-28",
-    status:"Dikembalikan",
-    building:"Gedung 2"
-  },
-
-  {
-    borrower:"Diana",
-    title:"Si putih",
-    borrowDate:"2026-08-27",
-    dueDate:"2026-09-04",
-    returnDate:"2026-09-04",
-    status:"Dikembalikan",
-    building:"Gedung 2"
-  },
-
-  {
-    borrower:"Meta",
-    title:"Atlas dunia",
-    borrowDate:"2026-08-27",
-    dueDate:"2026-08-31",
-    returnDate:"2026-08-31",
-    status:"Dikembalikan",
-    building:"Gedung 2"
-  },
-
-  {
-    borrower:"Mutia",
-    title:"Dia adalah kakakku",
-    borrowDate:"2026-08-27",
-    dueDate:"2026-09-03",
-    returnDate:"2026-09-03",
-    status:"Dikembalikan",
-    building:"Gedung 2"
-  },
-
-  {
-    borrower:"Almira",
-    title:"Bibi Gill",
-    borrowDate:"2026-08-28",
-    dueDate:"2026-09-03",
-    returnDate:"2026-09-03",
-    status:"Dikembalikan",
-    building:"Gedung 2"
-  },
-
-  {
-    borrower:"Aulia",
-    title:"Bumi",
-    borrowDate:"2026-08-28",
-    dueDate:"2026-09-03",
-    returnDate:"2026-09-03",
-    status:"Dikembalikan",
-    building:"Gedung 2"
-  },
-
-  {
-    borrower:"Medina",
-    title:"Pulang - Pergi",
-    borrowDate:"2026-08-28",
-    dueDate:"2026-09-04",
-    returnDate:"2026-09-04",
-    status:"Dikembalikan",
-    building:"Gedung 2"
-  },
-
-  {
-    borrower:"Aina",
-    title:"Pulang",
-    borrowDate:"2026-09-02",
-    dueDate:"2026-09-07",
-    returnDate:"2026-09-07",
-    status:"Dikembalikan",
-    building:"Gedung 2"
-  },
-
-  {
-    borrower:"Alita",
-    title:"Berdamai dengan masa lalu",
-    borrowDate:"2026-09-03",
-    dueDate:"2026-09-11",
-    returnDate:"2026-09-11",
-    status:"Dikembalikan",
-    building:"Gedung 2"
-  },
-
-  {
-    borrower:"Almira",
-    title:"Bibi Gill",
-    borrowDate:"2026-09-03",
-    dueDate:"2026-09-11",
-    returnDate:"2026-09-11",
-    status:"Dikembalikan",
-    building:"Gedung 2"
-  },
-
-  {
-    borrower:"Mutia",
-    title:"Rumah untuk Alie",
-    borrowDate:"2026-09-03",
-    dueDate:"2026-09-09",
-    returnDate:"2026-09-09",
-    status:"Dikembalikan",
-    building:"Gedung 2"
-  },
-
-  {
-    borrower:"Aulia",
-    title:"Bumi",
-    borrowDate:"2026-09-04",
-    dueDate:"2026-09-11",
-    returnDate:"2026-09-11",
-    status:"Dikembalikan",
-    building:"Gedung 2"
-  },
-
-  {
-    borrower:"Meta",
-    title:"Ensiklopedia Saintis Junior Teknologi",
-    borrowDate:"2026-09-04",
-    dueDate:"2026-09-11",
-    returnDate:"2026-09-11",
-    status:"Dikembalikan",
-    building:"Gedung 2"
-  },
-
-  {
-    borrower:"Diana",
-    title:"Kisah teladan para nabi",
-    borrowDate:"2026-09-04",
-    dueDate:"2026-09-09",
-    returnDate:"2026-09-09",
-    status:"Dikembalikan",
-    building:"Gedung 2"
-  },
-
-  {
-    borrower:"Mutia",
-    title:"Pulang",
-    borrowDate:"2026-09-09",
-    dueDate:"2026-09-11",
-    returnDate:"2026-09-11",
-    status:"Dikembalikan",
-    building:"Gedung 2"
-  },
-
-  {
-    borrower:"Sausan",
-    title:"Rumah untuk Alie",
-    borrowDate:"2026-09-11",
-    dueDate:"2026-09-18",
-    returnDate:"",
-    status:"Dipinjam",
-    building:"Gedung 2"
-  },
-
-  {
-    borrower:"Salwah",
-    title:"Kado terbaik",
-    borrowDate:"2026-09-11",
-    dueDate:"2026-09-18",
-    returnDate:"",
-    status:"Dipinjam",
-    building:"Gedung 2"
-  },
-
-  {
-    borrower:"Meta",
-    title:"Kepribadian MBTI",
-    borrowDate:"2026-09-11",
-    dueDate:"2026-09-18",
-    returnDate:"",
-    status:"Dipinjam",
-    building:"Gedung 2"
-  },
-
-  {
-    borrower:"Prita",
-    title:"Bandara - Stasiun dan tahun setelahnya",
-    borrowDate:"2026-09-11",
-    dueDate:"2026-09-18",
-    returnDate:"",
-    status:"Dipinjam",
-    building:"Gedung 2"
-  }
-
-];
-
-
-
-/* ============================================================
-   NAVIGASI
-============================================================ */
-
-function showPage(page){
-
-  document.querySelectorAll(".page").forEach(el=>{
-    el.classList.remove("active");
-  });
-
-  const target = document.getElementById("page-" + page);
-
-  if(target){
-    target.classList.add("active");
-  }
-
-  document.querySelectorAll(".nav-btn").forEach(btn=>{
-    btn.classList.toggle(
-      "active",
-      btn.dataset.page === page
-    );
-  });
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-  if(page === "buku"){
-    renderBooks();
-  }
-
-  if(page === "riwayat"){
-    renderLoans();
-  }
-}
-
-
-function toggleMobileMenu(){
-
-  const menu = document.getElementById("mobileMenu");
-
-  menu.classList.toggle("hidden");
+  return `${Number(day)}-${Number(month)}-${year}`;
 
 }
 
 
+/* =====================================================
+   TUTUP MODAL DENGAN ESC
+===================================================== */
 
-/* ============================================================
-   MODAL PEMINJAMAN
-============================================================ */
+document.addEventListener("keydown",function(event){
 
-function openBorrowModal(){
-
-  const modal = document.getElementById("borrowModal");
-
-  if(!modal) return;
-
-  populateBookSelect();
-
-  const today = new Date().toISOString().slice(0,10);
-
-  document.getElementById("borrowDate").value = today;
-
-  modal.hidden = false;
-
-  document.body.style.overflow = "hidden";
-
-}
-
-
-function closeBorrowModal(){
-
-  const modal = document.getElementById("borrowModal");
-
-  if(!modal) return;
-
-  modal.hidden = true;
-
-  document.body.style.overflow = "";
-
-}
-
-
-document.addEventListener("keydown", function(event){
-
-  if(event.key === "Escape"){
+  if(event.key==="Escape"){
 
     closeBorrowModal();
-    closeAddBookModal();
+    closeBookModal();
 
   }
 
 });
 
 
+/* =====================================================
+   DEFAULT
+===================================================== */
 
-/* ============================================================
-   TAMBAH BUKU MODAL
-============================================================ */
+document.addEventListener("DOMContentLoaded",function(){
 
-function openAddBookModal(){
+  renderBooks();
+  renderLoans();
+  renderHomeActivity();
 
-  const modal = document.getElementById("bookModal");
+});
 
-  modal.hidden = false;
+</script>
 
-  document.body.style.overflow = "hidden";
-
-}
-
-
-function closeAddBookModal(){
-
-  const modal = document.getElementById("bookModal");
-
-  modal.hidden = true;
-
-  document.body.style.overflow = "";
-
-}
-
-
-
-/* ============================================================
-   SELECT BUKU
-============================================================ */
-
-function populateBookSelect(){
-
-  const select = document.getElementById("borrowBook");
-
-  select.innerHTML = `
-    <option value="">Pilih buku...</option>
-    ${books
-      .filter(b => b.title)
-      .map((book,index)=>`
-        <option value="${index}">
-          ${escapeHtml(book.title)}
-          ${book.no ? " · No. " + escapeHtml(book.no) : ""}
-          · ${escapeHtml(book.building)}
-        </option>
-      `).join("")
-    }
-  `;
-
-}
-
-
-
-/* ============================================================
-   SIM
+</body>
+</html>
