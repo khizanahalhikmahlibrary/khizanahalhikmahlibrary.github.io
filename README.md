@@ -1,1 +1,1 @@
-# khizanahalhikmahlibraryibadurrahmansidoarjo.github.io
+# khizanahalhikmahlibrary.github.io
